@@ -1,0 +1,76 @@
+<div>
+ <div ng-if="vendor.vendorConstFirm=='Machinery'" ng-dropdown-multiselect="" options="machinerydata" selected-model="machinerymodel" extra-settings="machinerysettings"></div>
+  <div class="form-group"></div>
+ <div class="form-group">
+                           <div class="sec-block">
+                              <select  id="NatureofCompany" ng-model="vendor.companyNature" required>
+                                 <option value="">Select Nature of Company</option>
+                                 <option value="Large Scale">Large Scale</option>
+                                 <option value="Small Scale">Small Scale</option>
+                              </select>
+                           </div>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                           <p id="id6" class="help-block"></p>
+                        </div>
+   <!--Reg No-->
+   <div class="form-group" ng-class="{ 'has-error' : vendorForm.registrationNo.$invalid && !vendorForm.registrationNo.$pristine }">
+      <input type="text" id="F" name="registrationNo" class="form-control tin_box" ng-model="vendor.registrationNo" placeholder="Registration Number" ng-pattern-restrict="^[A-Za-z0-9]*$" >
+      <!--<p ng-show="vendorForm.vendorRegistrationNo.$invalid && !vendorForm.vendorRegistrationNo.$pristine" class="help-block"> Registration Number is required</p>-->
+      <p ng-show="vendorForm.registrationNo.$touched && vendorForm.registrationNo.$invalid" class="help-block">Registration Number is required</p>
+     
+   </div>
+   <!--GST No-->
+   <div class="form-group" ng-class="{ 'has-error' : vendorForm.gst.$invalid && !vendorForm.gst.$pristine }">
+      <input type="text" id="G"  name="gst" class="form-control tin_box" ng-model="vendor.gst" placeholder="GST Number " ng-pattern-restrict="^[A-Za-z0-9]*$" >
+      <!--<p ng-show="vendorForm.vatRegNo.$invalid && !vendorForm.vatRegNo.$pristine" class="help-block"> Vat  Number is required</p>-->
+      <p ng-show="vendorForm.gst.$touched && vendorForm.gst.$invalid" class="help-block">GST  Number is required</p>
+      
+   </div>
+   <!--Pan No-->
+   <div class="form-group" ng-class="{ 'has-error' : vendorForm.servicePAN.$invalid && !vendorForm.servicePAN.$pristine }">
+      <input type="text" id="H"    name="servicePAN" class="form-control tin_box" ng-model="vendor.servicePAN" placeholder="PAN Number " ng-pattern-restrict="^[A-Za-z0-9]*$" maxlength='10' >
+      <!-- <p ng-show="vendorForm.vendorPAN.$invalid && !vendorForm.vendorPAN.$pristine" class="help-block"> Pan Number is required</p>-->
+      <p ng-show="vendorForm.servicePAN.$touched && vendorForm.servicePAN.$invalid" class="help-block">PAN Number is required</p>
+      
+   </div>
+   <!--Tin number-->
+   <!--  <div class="form-group" ng-class="{ 'has-error' : vendorForm.serviceTIN.$invalid && !vendorForm.serviceTIN.$pristine }">
+      <input type="text"  name="serviceTIN" class="form-control tin_box" ng-model="vendor.serviceTIN" placeholder="TIN Number " ng-pattern-restrict="^[A-Za-z0-9]*$" required>
+      
+      <p ng-show="vendorForm.serviceTIN.$touched && vendorForm.serviceTIN.$invalid" class="help-block">Tin Number is required</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      </div>-->
+   <h6>Valid authorization of dealership certificate for supply of products</h6>
+   <div class="form-group">
+      <input name="file" id="file-1" upload-files class="inputfile inputfile-2" type="file" ng-model="vendor.vendorAuthCert">
+      <label for="file-1"> <span>Select Certificate</span></label>
+      <ul class="file-upload">
+         <li ng-repeat="file in files">{{file.name}}</li>
+      </ul>
+   </div>
+   <!-- FAX Number-->
+   <div class="form-group"  ng-class="{ 'has-error' : vendorForm.serviceFax.$invalid && !vendorForm.serviceFax.$pristine }">
+      <input type="text"  id="E" name="serviceFax" class="form-control" ng-model="vendor.serviceFax" placeholder="Fax Number " ng-pattern-restrict="^[A-Za-z0-9]*$" >
+      <!--<p ng-show="vendorForm.vendorFax.$invalid && !vendorForm.serviceFax.$pristine" class="help-block"> Fax Number is required</p>-->
+      <p ng-show="vendorForm.serviceFax.$touched && vendorForm.serviceFax.$invalid" class="help-block">Fax Number is required</p>
+   </div>
+   <!--Labour license number-->   
+   <div class="form-group" ng-class="{ 'has-error' : vendorForm.license.$invalid && !vendorForm.license.$pristine }">
+      <input type="text" id="I"  name="license" class="form-control tin_box" ng-model="vendor.license" placeholder="License Number " ng-pattern-restrict="^[A-Za-z0-9]*$" >
+      <!-- <p ng-show="vendorForm.vendorLicense.$invalid && !vendorForm.vendorLicense.$pristine" class="help-block"> License Number is required</p>-->
+      <p ng-show="vendorForm.license.$touched && vendorForm.license.$invalid" class="help-block">License Number is required</p>
+      <!--<i class="fa fa-star" aria-hidden="true"></i>-->
+   </div>
+   <!--Experience in the Industry-->
+   <div class="form-group" ng-class="{ 'has-error' : vendorForm.expLine.$invalid && !vendorForm.expLine.$pristine }">
+      <input type="text"   name="expLine" class="form-control" ng-model="vendor.expLine" placeholder="Experience in the Industry" >
+      <p ng-show="vendorForm.expLine.$touched && vendorForm.expLine.$invalid" class="help-block">Required</p>
+      <!--<i class="fa fa-star" aria-hidden="true"></i>-->
+   </div>
+   <!--Major Clients-->
+   <div class="form-group" ng-class="{ 'has-error' : vendorForm.majorCust.$invalid && !vendorForm.majorCust.$pristine }">
+      <input type="text" name="majorCust" class="form-control" ng-model="vendor.majorCust" placeholder="Major Clients" >
+      <p ng-show="vendorForm.majorCust.$touched && vendorForm.majorCust.$invalid" class="help-block">Required</p>
+      <!--<i class="fa fa-star" aria-hidden="true"></i>-->
+   </div>
+</div>

@@ -1,0 +1,428 @@
+<div class="wrap bg" >
+   <!-- Static navbar -->   
+   <section class="top" id="top-header">
+		  <div class="container">
+			 <div class="row">
+				<div class="col-xs-12 col-sm-6 shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+				<div class="col-xs-12 col-sm-6 links">
+				   <a href="#contact" class="right-links">Contact Us</a> <span ng-hide="userlogged"><a href="#/login" class="right-links">Login </a>  <a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+				   <!--=== LOGOUT SECTION ===-->
+				   <div class="myprofile-block">
+					  <div class="mypro-brdr">
+						 <div class="pro-top">
+							<!--<a href="#" class="pro-pic">
+							   <img src="img/tst-pic.jpg"/>
+							   <span>Change</span>
+							   </a>-->
+							<div class="pro-txt">
+							   <h3>{{loggedInUserName}}</h3>
+							   <h4>{{loggedInUser}}</h4>
+							</div>
+						 </div>
+						 <div class="pro-btm">
+							<span class="mypro-btn" ng-click="myProfile()"><a>My profile</a></span>
+							<span class="mypro-logout" ng-click="logout()"><a>Log Out</a></span>
+						 </div>
+					  </div>
+				   </div>
+				   <a href="#cart" class="cart">
+				   <!--<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> -->
+				   <img src="img/cart1.png">
+				   <span class="cart-value"> {{lengthofcart}}</span> </a>
+				</div>
+			 </div>
+		  </div>
+	   </section>
+	   <header class="header">
+		  <nav class="navbar navbar-default">
+			 <div class="container">
+				<div class="row">
+				   <div class="col-xs-12 ">
+					  <div class="navbar-header">
+						 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+						 <a class="navbar-brand" href="#/"></a>
+						 <figure> </figure>
+						 <div class="search mobile-search">
+							<div class="input">
+								<i class="fa fa-search"></i>
+								<input type="text" placeholder="Search">
+							</div>
+						</div>
+					  </div>
+					  <div id="navbar" class="navbar-collapse collapse">
+						 <ul class="nav navbar-nav">
+							<li><a href="#/todaydeals">Today's Deals</a></li>
+							<li><a>Buy/Sell</a></li>
+							<li><a href="#services">Services</a></li>
+							<li><a>About Us</a></li>
+							<li class="store"><a>Our Store</a></li>
+							<li><a href="#/myaccount">My Account</a></li>
+							<li class="menu-search">
+							<div class="search">
+							  <div class="input">
+								<i class="fa fa-search"></i>
+								  <div class="menu-in" ng-controller="TypeSearchCtrl">
+								  <div class="sec-block">
+									<select ng-init="searchType = typeOfSearch[0]"
+											ng-model="searchType"
+											ng-options="option.name for option in typeOfSearch">
+									</select>
+								  </div>
+                                    <input type="text" id="modalValue" ng-keypress="searchFunctions(searchSelected,$event,searchType.value,$model)" value="searchSelected" ng-model="searchSelected" autofocus="autofocus" placeholder="Search" uib-typeahead="item for item in getSearch($viewValue, searchType.value)" typeahead-focus-first="false" typeahead-wait-ms="1000" typeahead-min-length="3" typeahead-on-select="onSearchSelect(searchSelected, $item, $model, $label, $event, searchType.value, titleArray)" typeahead-no-results="noResults"/>
+									<span class="menu-in-search" ng-click="searchFunction(searchSelected, searchType.value)"><i class="fa fa-search"></i></span>
+									<span class="menu-in-clear" ng-click="clearString(searchSelected)"><i class="fa fa-times-circle"></i></span>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+							<li class="post" ><a href="#postrequire"><span>Post A Requirement</span></a></li>
+						 </ul>
+					  </div>
+					  <!--.nav-collapse -->
+				   </div>
+				</div>
+			 </div>
+			 <!--/.container-fluid -->
+		  </nav>
+		  <category-Directive></category-Directive>
+	   </header>
+   <div class="breadcrumbs"><a href="">Home</a> &gt; &nbsp; Cart &nbsp;  &gt; &nbsp; Shipment </div>
+   <section class="cart-top">
+      <div class="container">
+         <div class="home">
+            <ul class="cart-links">
+               <li class=" cart">       
+			   <a href="#/cart"><img src="img/cart.png"/>   
+			   Items<span>Step 1</span> </a>   
+			   </li>
+               <li class="active dvry">
+			   <a href="#/delivery"><img src="img/delivery-active.png"/>      
+			   Shipment<span>Step 2</span></a>         
+			   </li>
+               <li class="pay">
+			  <a href="#/payment"> <img src="img/payment.png"/>    
+               Payment<span>Step 3</span> </a>   
+			   </li>
+               <li class="btn-coupon"><a href="#"> Apply Coupon</a></li>
+            </ul>
+         </div>
+      </div>
+   </section>
+   <section class="cart">
+      <div class="container">
+	  <div class="pay-block">
+         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 left">
+            <div class="cart-block delivery">
+               <h5>Shipment Address</h5>
+                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 dvry-block one">
+				 <h4>{{customerName}}</h4>
+				  <div class="dvry-address" ng-repeat="d in deliverylist" >
+                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+					<div ng-if="d.preferenceOrder == 1">
+                       <input type="radio" name="address" id="address" value="{{d.preferenceOrder}}" checked="checked" ng-click="address(d.preferenceOrder)"/>
+					  </div>
+					  <div ng-if="d.preferenceOrder != 1">
+                       <input type="radio" name="address" id="address" value="{{d.preferenceOrder}}" ng-click="address(d.preferenceOrder)"/>
+					  </div>
+                        <p>{{d.address}}</p>
+						<p>{{d.city}}, {{d.area}}, {{d.state}}, {{d.postalCode}}</p>
+						<p>{{d.country}}</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                        <ul class="dvry-links" id="delevary_{{d.preferenceOrder}}">
+                         <li><a href="#payment" ng-click="useaddress()">Delivery To This Address </a></li>
+							 <li><a href="" ()>Edit</a></li>
+							<li><a href="" ng-click="deleteProd(d.preferenceOrder)">Delete</a></li>
+                          
+						</ul>
+                    </div>
+                  </div>
+                </div>
+               <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 dvry-block two" ng-show="hideAddress">
+                  <p><a class="add-form"><img src="img/location.png"/><br>Add New Address</a></p>
+				  <section class="login mid show-addform">
+					<form class="form-horizontal" name="addForm" novalidate>
+					<!-- address-->
+                   
+					<div class="form-group" ng-class="{ 'has-error' : addForm.address.$invalid && !addForm.address.$pristine }">
+                        <textarea name="address" class="form-control" placeholder="Address" id="addressInput" ng-model="user.address" required></textarea>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <!-- <p ng-show="regForm.address.$invalid && !regForm.address.$pristine" class="help-block">Address is required</p>-->
+                        <p ng-show="addForm.address.$touched && addForm.address.$invalid" class="help-block">Address is required</p>
+                    </div>
+					
+					<!-- Country -->
+					 <div class="form-group" ng-class="{ 'has-error' : addForm.country.$invalid &amp;&amp; !addForm.country.$pristine }">
+						<input type="text" id="F" name="country" class="form-control" value="India" placeholder="Country " >
+						<p ng-show="addForm.country.$touched &amp;&amp; addForm.country.$invalid" class="help-block ng-hide">Country is required</p>
+						<i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+					<!-- STATE-->
+					                  
+					    <div class="form-group">
+                        <div class="sec-block">
+                           <select id="state" ng-model="user.stateProvince" required>
+						    <option value="">Select State</option>
+                              <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                              <option value="Andhra Pradesh">Andhra Pradesh</option>
+                              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                              <option value="Assam">Assam</option>
+                              <option value="Bihar">Bihar</option>
+                              <option value="Chandigarh">Chandigarh</option>
+                              <option value="Chhattisgarh">Chhattisgarh</option>
+                              <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                              <option value="Daman and Diu">Daman and Diu</option>
+                              <option value="Delhi">Delhi</option>
+                              <option value="Goa">Goa</option>
+                              <option value="Gujarat">Gujarat</option>
+                              <option value="Haryana">Haryana</option>
+                              <option value="Himachal Pradesh">Himachal Pradesh</option>
+                              <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                              <option value="Jharkhand">Jharkhand</option>
+                              <option value="Karnataka">Karnataka</option>
+                              <option value="Kenmore">Kenmore</option>
+                              <option value="Kerala">Kerala</option>
+                              <option value="Lakshadweep">Lakshadweep</option>
+                              <option value="Madhya Pradesh">Madhya Pradesh</option>
+                              <option value="Maharashtra">Maharashtra</option>
+                              <option value="Manipur">Manipur</option>
+                              <option value="Meghalaya">Meghalaya</option>
+                              <option value="Mizoram">Mizoram</option>
+                              <option value="Nagaland">Nagaland</option>
+                              <option value="Narora">Narora</option>
+                              <option value="Natwar">Natwar</option>
+                              <option value="Odisha">Odisha</option>
+                              <option value="Paschim">Paschim Medinipur</option>
+                              <option value="Pondicherry">Pondicherry</option>
+                              <option value="Punjab">Punjab</option>
+                              <option value="Rajasthan">Rajasthan</option>
+                              <option value="Sikkim">Sikkim</option>
+                              <option value="Tamil Nadu">Tamil Nadu</option>
+                              <option value="Telangana">Telangana</option>
+                              <option value="Tripura">Tripura</option>
+                              <option value="Uttar Pradesh">Uttar Pradesh</option>
+                              <option value="Uttarakhand">Uttarakhand</option>
+                              <option value="Vaishali">Vaishali</option>
+                              <option value="West Bengal">West Bengal</option>
+                           </select>
+                        </div>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <p id="id2" class="help-block"></p>
+                     </div>
+					 <!-- city -->
+					 
+					 <div class="form-group" ng-class="{ 'has-error' : addForm.city.$invalid && !addForm.city.$pristine }">
+                           <input type="text" id="F" name="city" class="form-control" ng-model="user.city" placeholder="City " required>
+                           <p ng-show="addForm.city.$touched && addForm.city.$invalid" class="help-block">City is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+			
+					 <!-- area-->
+					  <div class="form-group" ng-class="{ 'has-error' : addForm.area.$invalid && !addForm.area.$pristine }">
+                           <input type="text" id="F" name="area" class="form-control" ng-model="user.area" placeholder="Area " required>
+                           <p ng-show="addForm.area.$touched && addForm.area.$invalid" class="help-block">Area is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+					
+					
+					<!--postal code-->
+					 <div class="form-group" ng-class="{ 'has-error' : addForm.postalCode.$invalid && !addForm.postalCode.$pristine }">
+                        <input type="text" name="postalCode" class="form-control" ng-model="user.postalCode"placeholder="Postal Code" id="m"  maxlength="6" required>
+                        <p ng-show="addForm.postalCode.$touched && addForm.postalCode.$invalid" class="help-block">Postal Code is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+					
+				
+				<div class="form-group">
+                        <button type="submit" class="btn btn-primary" ng-disabled="addForm.$invalid" ng-click="newaddress(user)" id="updateAddress"
+					>ADD</button>
+					</div>
+			</form>
+			</section>
+               </div>
+            </div>
+         </div>
+         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 right">
+            <div class="cart-block">
+               <h5>Order Summary</h5>
+               <div class="table-responsive">
+                   <table class="table order-summary">
+                     <tr>
+                        <td>Bag Total</td>
+                        <td><i class="fa fa-inr" aria-hidden="true"></i> {{totalprice}}</td>
+                     </tr>
+                     <tr>
+                        <td>Bag Discount</td>
+                        <td class="gray">- <i class="fa fa-inr" aria-hidden="true"></i> 000</td>
+                     </tr>
+                     <tr>
+                        <td>Estimated Tax</td>
+                        <td><i class="fa fa-inr" aria-hidden="true"></i> 000</td>
+                     </tr>
+                     <tr>
+                        <td>Coupon Discount</td>
+                        <td>Apply Coupon</td>
+                     </tr>
+                     <tr>
+                        <td>Delivery</td>
+                        <td class="gray">Free</td>
+                     </tr>
+                     <tr>
+                        <td>Order Total</td>
+                        <td><i class="fa fa-inr" aria-hidden="true"></i>{{totalprice}}</td>
+                     </tr>
+                  </table>
+                <button type="submit" ng-click="placeorder()"    class="btn-order">Place Order</button>               
+               </div>
+               <div class="right-btm">
+                  <div class="help-block estimated">
+                     <h6>Estimated Delivery</h6>
+                     <h6><span>AUG - 25 - 2017</span></h6>
+                  </div>
+                  <div class="help-block">
+                     <h6>Need Help</h6>
+                     <h6>
+                        Call                         
+                        <a href="#">
+                           040 - 235345</a>                     
+                     </h6>
+                  </div>
+                  <div class="cards">                  
+				  <ul>                  
+				  <li><a href="#"><img src="img/visa.png"/></a></li> 
+				  <li><a href="#"><img src="img/master-card.png"/></a></li>
+                  <li><a href="#"><img src="img/american-express.png"/></a></li> 
+				  <li><a href="#"><img src="img/cash-on-delivery.png"/></a></li>   
+				  </ul>                  
+				  </div>                  
+
+               </div>
+            </div>
+         </div>
+      </div>
+	  <div class="cart-terms">
+		<div class="col-xs-12 col-md-9 col-sm-9 col-lg-9">
+		<h6>Terms & Conditions</h6>
+		<p>This following sets out the terms and conditions on which you may use the content on bother digital publishing services www.osh.com owned by business standard content services.</p>
+		</div>
+	</div>
+	<div class="secure-links">
+          <ul>
+              <li><img src="img/secure.png"/>100% Secure	</li>
+             <li><img src="img/assured.png"/>Assured Quality	</li>
+            <li><img src="img/easy-returns.png"/>	Easy Returns</li>
+        </ul>
+   </div>
+      </div>
+   </section>
+   <div id="back-top">
+	<a href="javascript:" id="return-to-top"><i class="fa fa-arrow-circle-o-up"></i></a>
+</div>
+</div>
+</div>
+
+<script>
+$(".login-btn").click(function(){
+    $(".myprofile-block").toggle();
+});
+$(".mobile-search .fa-search").click(function(){
+	$(".mobile-search input").toggle();
+});
+</script>
+<script>
+$(".add-form").click(function(){
+    $(".show-addform").toggle();
+}); 
+$("#updateAddress").click(function(){
+    $(".show-addform").hide();
+	 $('.show-addform 	input[type="text"]').val('');
+	 $('#area').find('option:first').attr('selected', 'selected');
+	$('#state').find('option:first').attr('selected', 'selected');
+	$('#city').find('option:first').attr('selected', 'selected');
+	$('#country').find('option:first').attr('selected', 'selected');
+	$('#addressInput').val("");
+	//$("#address").val("")
+}); 
+
+</script>
+<script>
+   $('#state').on('change', function() {
+              var state = $('#state').val();
+      		 if(state==""){
+      		 var error="Please select state";
+        
+        
+        $("#id2").html(error);
+        $("#id2").show();
+      		 }
+      		 else{
+      		 $("#id2").hide();
+      		 }
+      });
+      $('#state').bind('blur', function() {
+        var state = $("#state").val();
+        if(state==""){
+        var error="Please select state";
+        $("#id2").html(error);
+        }
+      });
+      $('#city').on('change', function() {
+        var city = $('#city').val();
+      	if(city==""){
+      	var error="Please select city";
+		 $("#id3").html(error);
+			$("#id3").show();
+      	 }
+      	else{
+			$("#id3").hide();
+      	 }
+      });
+      $('#city').bind('blur', function() {
+        var city = $("#city").val();
+        if(city==""){
+        var error="Please select city";
+			$("#id3").html(error);
+        }
+       });
+       $('#country').on('change', function() {
+              var country = $('#country').val();
+      		 if(country==""){
+      		 var error="Please select country";
+       $("#id5").html(error);
+       $("#id5").show();
+			}
+		else{
+      		 $("#id5").hide();
+      		 }
+      });
+      $('#country').bind('blur', function() {
+        var country = $("#country").val();
+        if(country==""){
+        var error="Please select country";
+	$("#id5").html(error);
+       }
+      });
+	 $('#area').on('change', function() {
+                var area = $('#area').val();
+        		 if(area==""){
+        		 var error="Please select area";
+         $("#id4").html(error);
+         $("#id4").show();
+      }
+      else{
+        		 $("#id4").hide();
+        		 }
+        });
+        $('#area').bind('blur', function() {
+          var area = $("#area").val();
+          if(area==""){
+          var error="Please select area";
+      $("#id4").html(error);
+         }
+        });
+	   $("#m").keyup(function() {
+      var regex = /^[0-9]+$/;
+      if (regex.test(this.value) !== true)
+      this.value = this.value.replace(/[^0-9]+/, '');
+      });
+	  </script>

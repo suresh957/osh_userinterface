@@ -1,0 +1,165 @@
+<div id="content" class="row dealmgm-view">
+      <div class="col-md-12">
+         <!-- Update Product -->
+         <div class="row">
+            <div class="col-md-offset-4 col-sm-4">
+               <h2 class="main-title"><span>Discount Management</span></h2>
+               <form class="form-horizontal">
+                  <div class="form-group">
+                     <div class="sec-block">
+                        <select ng-change="catchange()" ng-model="catvalue">
+                           <option ng-repeat="category in menuitems">{{category.title}}</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <div class="sec-block">
+                        <select ng-change="subCatChange()" ng-model="subCatValue" ng-disabled="subCatValueEnb">
+                           <option ng-repeat="subCat in categorySub">{{subCat.title}}</option>
+                        </select>
+                     </div>
+                  </div>
+               </form>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12">
+               <div class="gridStyle"
+                  ui-grid="addnewdealgrid"  ui-grid-edit ui-grid-cellnav  ui-grid-auto-resize></div>
+               <div class="clearfix"></div>
+               <div class="text-center">
+                  <div paging
+                     page="1" 
+                     page-size="15" 
+                     total=addnewDtotalCount
+                     paging-action="UpPagingAct(page, pageSize, total)">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   <!-- Update Deal Dialog-->
+   <div class="modal fade" id="updateDiscModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">{{updateDiscmgm.prodname}} - {{updateDiscmgm.prodId}}</h4>
+            </div>
+            <div class="modal-body">
+               <form name="updateDiscMgmForm" novalidate>
+                  <div class="col-xs-12 col-sm-4">
+                     <!-- Product Name -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateDiscmgmForm.prodname.$invalid && !updateDiscmgmForm.prodname.$pristine }">
+                        <label>Product Name</label>
+						<input type="text" name="prodname" class="form-control" ng-model="updateDiscmgm.prodname" placeholder="Product Name" required ng-readonly="true">
+                        <p ng-show="updateDiscMgmForm.prodname.$touched && updateDiscMgmForm.prodname.$invalid" class="help-block">Product Name is required</p>
+                     </div>
+                     <!-- Product Title -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateDiscmgmForm.title.$invalid && !updateDiscmgmForm.title.$pristine }">
+                        <label>Product Title</label>
+						<input type="text" name="title" class="form-control" ng-model="updateDiscmgm.title" placeholder="Enter Product Name" required ng-readonly="true">
+                        <p ng-show="updateDiscMgmForm.title.$touched && updateDiscMgmForm.title.$invalid" class="help-block">Product Title is required</p>
+                     </div>
+                     <!-- Product Description -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateDiscmgmForm.description.$invalid && !updateDiscmgmForm.description.$pristine }">
+                        <label>Product Description</label>
+						<textarea name="description" class="form-control" ng-model="updateDiscmgm.description" placeholder="Product Description" required ng-readonly="true">
+						</textarea>
+                        <p ng-show="updateDiscMgmForm.description.$touched && updateDiscMgmForm.description.$invalid" class="help-block">Description is required</p>
+                     </div>
+					 <!-- Product Price -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateDiscmgmForm.productPrice.$invalid && !updateDiscmgmForm.productPrice.$pristine }">
+                        <label>Product Price</label>
+						<input type="text" name="productPrice" class="form-control" ng-model="updateDiscmgm.productPrice" placeholder="Enter Product Name" required ng-readonly="true">
+                        <p ng-show="updateDiscMgmForm.productPrice.$touched && updateDiscMgmForm.productPrice.$invalid" class="help-block">Product Price is required</p>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4">
+					 <!-- Start Date -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateDiscMgmForm.sdate.$invalid && !updateDiscMgmForm.sdate.$pristine }">
+                        <label>Start Date</label>
+						<input id="dealmgmsdate" type="text" name="sdate" class="form-control" ng-model="updateDiscmgm.sdate" placeholder="Start Date" required>
+                        <p ng-show="updateDiscMgmForm.sdate.$touched && updateDiscMgmForm.sdate.$invalid" class="help-block">Deal Start Date is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+					 <!-- End Date -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateDiscMgmForm.edate.$invalid && !updateDiscMgmForm.edate.$pristine }">
+                        <label>End Date</label>
+						<input id="dealmgmedate" type="text" name="edate" class="form-control" ng-model="updateDiscmgm.edate" placeholder="End Date" required>
+                        <p ng-show="updateDiscMgmForm.edate.$touched && updateDiscMgmForm.edate.$invalid" class="help-block">Deal End Date is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+					 <!-- Product Discount Price -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateDiscmgmForm.productDiscountPrice.$invalid && !updateDiscmgmForm.productDiscountPrice.$pristine }">
+                        <label>Discount Price</label>
+						<input type="text" name="productDiscountPrice" class="form-control" ng-model="updateDiscmgm.productDiscountPrice" placeholder="Discount Price" required >
+                        <p ng-show="updateDiscMgmForm.productDiscountPrice.$touched && updateDiscMgmForm.productDiscountPrice.$invalid" class="help-block">Discount Price is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+					 <!-- Discount Percentage -->
+					 <div class="form-group" ng-class="{ 'has-error' : updateDiscmgmForm.productDiscountPercentage.$invalid && !updateDiscmgmForm.productDiscountPercentage.$pristine }">
+                       <label> Discount Percentage</label>
+					   <input type="text" name="productDiscountPercentage" class="form-control" ng-model="updateDiscmgm.productDiscountPercentage" placeholder="Discount Percentage" required >
+                        <p ng-show="updateDiscMgmForm.productDiscountPercentage.$touched && updateDiscMgmForm.productDiscountPercentage.$invalid" class="help-block">Discount Percentage is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+					 <div class="form-group">
+                       <label>Calculate:</label>
+					 <button class="cal-btn" ng-click="getDiscountValue(updateDiscmgm)"><i class="fa fa-calculator" aria-hidden="true"></i></button>
+					 </div>
+                  </div>
+                  <div class="col-sm-4 text-center">
+                     <img src="{{prdImage}}" alt="Product Image"/>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="alert alert-warning col-md-12" ng-if="errmsg">
+                     <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span><strong>Error! </strong>{{errDateMessage}}
+                  </div>
+                  <div class="clearfix"></div>
+               </form>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary"  ng-disabled="updateDiscMgmForm.$invalid" ng-click="setDisc(updateDiscmgm)">Update</button>
+            </div>
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+   </div>
+   <!-- /.modal -->
+   <!-- Success Msg Dialog -->
+   <div class="modal fade" id="SuccessModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog  modal-sm" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="myModalLabel">Success</h4>
+            </div>
+            <div class="modal-body">
+               <p><i class="fa fa-check fa-3x"></i><span>{{dealsuccmsg}}</span></p>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Error Msg Dialog -->
+   <div class="modal fade" id="ErrdealModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog  modal-sm" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="myModalLabel">Error</h4>
+            </div>
+            <div class="modal-body">
+               <p><i class="fa fa-warning fa-3x"></i><span>{{dealerrmsg}}</span></p>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

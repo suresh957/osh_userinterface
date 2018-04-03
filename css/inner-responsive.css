@@ -1,0 +1,919 @@
+body {
+    font-family: arial, sans-serif;
+    min-height: 900px;
+}
+.services .col-xs-12 > p {
+    text-align: right;
+}
+
+@media screen and (min-width: 1400px) {
+	.login.registration .form-group .fa {
+		right:10px !important;
+	}
+	.alert .close {
+		line-height: 0;
+	}
+
+	.login.registration .form-group .fa, .login .form-group .fa.fa-star {
+		top:8px!important;
+	}
+	.login.mid.acc-profile i.fa.fa-star {
+		right: 38px;
+	}
+	.login.registration .login-mid-block .form-group .fa {
+		right: 40px !important;
+	}
+
+}
+
+@media screen and (min-device-width: 1200px) and (max-device-width: 1300px) {
+	.dis{
+		right:-80%;
+	}
+	.wal-Portfolio .Portfolio-section form {
+    width: 100%;
+    margin: 0px auto;
+}
+ .wal-Portfolio .Portfolio-section .login.registration .form-group .fa {
+    right: 10px;
+}
+}
+
+@media screen and (min-device-width: 900px) and (max-device-width: 1300px) {
+	.login-mid-block {
+		margin: 0 auto;
+		overflow: hidden;
+		width: 85%;
+	}
+	.login .right {
+		padding: 0 0 0 30px;
+	}
+	.login .left {
+		padding:0;
+	}
+	.login.registration .form-group .fa {
+		right: 35px;
+	}
+	.myaccount.inner .breadcrumbs {
+		margin-left: -100px;
+		top: -52px;
+	}
+	.pricing input, .pricing input:focus, .pricing input:hover{
+		width:104px;
+	}
+	.menu-search .fa-search {
+		margin: 24px 18px 17px;
+	}
+}
+
+@media screen and (min-device-width: 980px) and (max-device-width: 1100px) {
+	/** my account architects **/
+	.Portfolio.ArchPortfolio form {
+		padding: 15px 0;
+		width: 92%;
+	}
+	.mech-portfolio .acc-block, .ArchPortfolio .acc-block {
+		width: 75%;
+	}
+}
+
+@media screen and (min-device-width: 768px) and (max-device-width: 1100px) {
+	.myaccount.inner .tab-content{
+		padding:0 25px;
+	}
+	.my-acc-wishlist .wish-block {
+		padding: 0 0 0 10px;
+	}
+	.my-acc-wishlist figure {
+		min-height: 155px;
+	}
+	.my-acc-wishlist h3 {
+		height: 40px;
+		overflow: hidden;
+		font-size:13px;
+	}
+	.myaccount.inner .services li h2{
+		font-size:11px;
+	}
+	.wal-Portfolio .Portfolio-section form{
+		width:100%;
+	}
+	.login.vendor-reg .login-inner {
+		padding: 10px 0 0;
+		width: 95%;
+	}
+	.login input.form-control[type="text"], .login input.form-control[type="email"], .login select.form-control, .login input.form-control[type="password"], .login.mid .right form textarea, .login .sec-block {
+		width: 95%;
+	}
+	.login.vendor-reg .form-group .fa.fa-star {
+		right: 25px;
+		top: 9px;
+	}
+	.login .form-group .fa.fa-star {
+		 right: 30px;
+	}
+	.wal-Portfolio .Portfolio-section .login .form-group .fa.fa-star{
+		 right: 10px;
+	}
+	 .login.registration .form-group .fa, .login .form-group .fa.fa-star { 
+		 top:10px;
+	}
+	.login .login-inner {
+		width: 50%;
+	}
+	.login-mid-block {
+		width: 100%;
+	}
+	.login.mid.acc-profile .multiselect-parent i.fa.fa-star {
+		right: 13px;
+		top: 5px;
+	}
+	.title {
+		height: 330px;
+	}
+	.services-list .head {
+		padding: 15px 0;
+	}
+	.services-list .head strong {
+		line-height: 50px;
+	}
+	
+	
+	/** product detail **/
+	.prd {
+		margin-top: 50px;
+	}
+	.prd-detail .prd-lg img {
+		max-width: 100%;
+		padding: 20px 0 0;
+		width: auto;
+	}
+	.prd-detail  .col-xs-12.col-sm-6.col-md-6.col-lg-8{
+		padding:0;
+	}
+	.prds .slick-slider, #fp .slick-slider {
+		margin-bottom: 0;
+	}
+	#fp {
+		margin-bottom: 0;
+		margin-right: 0;
+	}
+	/** detailservices page **/
+	.services-list.dtlsrvce .head strong{
+		line-height:inherit;
+	}
+	.services-list.dtlsrvce .todaydeals figure .dis {
+		right: -74%;
+	}
+	.service-location, .service-location .form-group input{
+		width:100%;
+	}
+	.services-list .service-location{
+		width:auto;
+	}
+	.services-list .service-location .form-group input{
+		width:250px;
+	}
+	
+	/** today deals **/
+	.todaydeals figure .dis{
+		right: -77%;
+	}
+	
+	.myaccount {
+		margin-top: 8%;
+	}
+	.myaccount.inner .login-mid-block {
+		width: 100%;
+	}
+	#subcat-block {
+		margin-top: 6%;
+	}
+	.plist-blck{
+		padding:0;
+	}
+	.pricing input, .pricing input:focus, .pricing input:hover{
+		width:104px;
+		margin:0 0 5px;
+	}
+	.dis{
+		right:-78%;
+	}
+	
+	
+	
+
+}
+
+@media screen and (min-device-width: 768px) and (max-device-width: 1000px) {
+	.tabs-left > .nav-tabs{
+		max-width: 200px;
+	}
+	.tabs-left > .nav-tabs > li > a {
+		min-width: 100%;
+		width: 100%;
+	}
+	.con-block {
+		padding: 10px;
+	}
+	.con-block .fig {
+		margin: 0 15px 0 0;
+	}
+	.myaccount.inner .breadcrumbs {
+		margin-left: 50px;
+		top: -60px;
+	}
+	.myaccount.inner .tab-content {
+		padding: 0 20px;
+	}
+	.left-tab-process .tab-content {
+		margin-left: 200px;
+	}
+	.myaccount.inner .login-mid-block {
+		width: 100%;
+		padding:0;
+	}
+	.login.mid.acc-profile .multiselect-parent i.fa.fa-star {
+		right: 16px;
+		top: 5px;
+	}
+	.pricing input, .pricing input:focus, .pricing input:hover{
+		width:110px;
+	}
+	
+	
+	/** productdetail page **/
+	.services-list.dtlsrvce .head{
+		overflow:hidden;
+	}
+	.services-list.dtlsrvce .service-location .form-group input{
+		width:200px;
+	}
+	
+	/** cart **/
+	.cart-top {
+		margin-top: 50px;
+	}
+	/** delivery **/
+	.show-addform {
+		width: 80%;
+	}
+	
+}
+
+@media screen and (min-device-width:980px) and (max-device-width:1100px) {
+	.login .login-inner {
+		width: 40%;
+	}
+	.login-mid-block {
+		padding: 0 20px;
+		width: 100%;
+	}
+	.myaccount.inner .breadcrumbs {
+		top: -80px;
+	}
+	/** cart **/
+	.cart-links li:after {
+		width: 50%;
+	}
+	.cart-links li.dvry:after {
+		width: 30%;
+		right:10px;
+	}
+	.cart-form .form-group > button[type="submit"] {
+		margin: 10px 0 0;
+	}
+}
+
+@media screen and (min-device-width:980px) and (max-device-width:1000px) {
+	/** today deals **/
+	.todaydeals figure .dis{
+		right:-83%;
+	}
+	
+	/** product detail **/
+	.popuptext:after{
+		left:57%;
+	}
+	.prd-detail .prd-dlvry div.popuptext{
+		right:-165px;
+	}
+	
+	/** detailservices page **/
+	.services-list.dtlsrvce .head strong{
+		line-height:inherit;
+	}
+	.services-list.dtlsrvce .todaydeals figure .dis {
+		right: -81%;
+	}
+	
+	
+}
+
+@media screen and (min-device-width:768px) and (max-device-width:900px) {
+	.plist-blck .t-pro{
+		height:300px;
+	}
+	.plist .plist-blck figure{
+		min-height:auto;
+	}
+	.plist .plist-blck h3 {
+		margin: 5px 0 0;
+	}
+	.dis {
+		right: -67%;
+	}
+	/** my account architects **/
+	.Portfolio.ArchPortfolio form .form-group:first-child {
+		width: 100%;
+	}
+	.Portfolio.ArchPortfolio form .form-group {
+		display: block;
+		margin: 0 0 10px;
+	}
+	.Portfolio.ArchPortfolio .inputfile + label{
+		display:block;
+	}
+	.Portfolio.ArchPortfolio form .form-group:last-child{
+		float:none;
+		margin:0;
+	}
+	.mech-portfolio .acc-block, .ArchPortfolio .acc-block{
+		width:90%;
+	}
+	
+	/** product detail **/
+	.select-number{
+		width:65px;
+	}
+	.prd-detail .addtocart{
+		width:140px;
+	}
+	.popuptext:after{
+		right:-17%;
+		left:inherit;
+	}
+	.prd-detail .prd-dlvry div.popuptext{
+		right:-65px;
+	}
+	
+	/** cart **/
+	.cart-links li:after {
+		right: 15px;
+		top: 30%;
+		width: 65%;
+	}
+	.cart-links li.dvry:after {
+		width: 60%;
+	}
+	.cart-links li img {
+		display: block;
+		float: none;
+	}
+	.cart-form .form-group > button {
+		padding: 2px 6px;
+	}
+	.cart-form input.mat {
+		padding: 2px 6px;
+		width: 30px;
+	}
+	.cart-form .form-group > button[type="submit"] {
+		margin: 10px 0 0;
+		padding: 5px 10px;
+	}
+
+}
+
+@media screen and (min-device-width:768px) and (max-device-width:799px) {
+	/** product detail **/
+	.select-number{
+		width:60px;
+	}
+	.prd-detail .addtocart{
+		width:130px;
+	}
+	
+	
+}
+
+@media screen and (max-width:768px) {
+	.services .col-xs-12 > p {
+		text-align: center;
+	}
+	
+}
+
+@media screen and (min-device-width:500px) and (max-device-width:800px) {
+	.address-area aside:nth-child(1) {
+		padding-right: 30px;
+	}
+	.address-area aside {
+		display: block;
+		float: left;
+		width: 50%;
+	}
+	.address-area aside:nth-child(2) {
+		border-left: 1px solid hsl(0, 0%, 80%);
+		padding: 0 0 0 20px;
+	}
+	.secure-links ul li { 
+		width: 32%;
+	}
+
+}
+
+@media screen and (min-device-width:500px) and (max-device-width:640px) {
+	.address-area { 
+		height: 200px;
+	}
+	.login.registration .form-group .fa, .login.vendor-reg .form-group .fa.fa-star {
+		right: 40px;
+	}
+	.service-location {
+		float: left;
+		margin-top: 0;
+	}
+	.text-right {
+		margin-top: 2px;
+		text-align: right;
+	}
+	.booknow-popup .modal-dialog {
+		margin: 10px;
+		width: 95%;
+	}
+	.login .login-inner {
+		padding-top: 30px;
+		width: 70%;
+	}
+}
+
+@media screen and (max-width:767px) {
+	#subcat-block .blck { 
+		padding-bottom: 30px;
+	}
+	.services-list .head {  
+		margin-top: 0;
+	}
+	.services-list .head strong { 
+		line-height: 60px;
+	}
+	.services-slide h2.sec-title strong, h2.sec-title2 strong, h2.sec-title3 strong { 
+		font-size: 23px;
+	}
+	.prd {
+		margin-top: 0;
+	}
+	.prd-detail .prd-lg {
+		width: 100%;
+	}
+	.prds .slick-slider, #fp .slick-slider {
+		margin-bottom: 0;
+	}
+	.prd-mid{
+		padding:0 0 20px 0;
+	}
+	.prd-mid .left {
+		border-right: medium none;
+	}
+	.prd-mid h4 {
+		margin: 10px 0 15px;
+	}
+	#fp {
+		margin-bottom: 0;
+		margin-right: 0;
+	}
+	.breadcrumbs{
+		position:relative;
+		margin:30px 15px 20px;
+		top:inherit;
+	}
+	.breadcrumbs a:first-child{
+		margin:0 10px 0 0;
+	}
+	.myaccount {
+		margin-top: 50px;
+	}
+	.myaccount.inner .breadcrumbs{
+		position:relative;
+		margin:10px 15px 10px;
+		top:inherit;
+	}
+	.myaccount.inner .tab-content {
+		padding: 0;
+	}
+	.left-tab-process .tab-content {
+		margin-left: 0;
+	}
+	.tabs-left > .nav-tabs{
+		max-width:100%;
+		float:none;
+	}
+	.tabs-left > .nav-tabs > li > a{
+		width:100%
+	}
+	.myaccount .right {
+		padding: 0;
+		border: none;
+	}
+	.myaccount.inner .login.mid .right{
+		border: none;
+	}
+	.login.vendor-reg .right {
+		padding: 0;
+		border:none;
+	}
+	.login.mid.acc-profile .multiselect-parent i.fa.fa-star{
+		right:2px;
+	}
+	.acc-profile .home-top h5 { 
+		margin: 10px 0 15px 10px;
+	}
+	#subcat-block .col-lg-9 {
+		padding: 0;
+	}
+	#subcat-block .plist-blck{
+		padding: 0;
+	}
+	.mech-portfolio .Portfolio-section form, .wal-Portfolio .Portfolio-section form, .Portfolio-section form {
+     width: 100%;
+    }
+	.myaccount.inner .mech-portfolio .login.mid .left,
+	.myaccount.inner .mech-portfolio .login.mid .right{
+		border:none;
+	}
+	.myaccount.inner .login.mid.Portfolio-section .left{
+		padding:0;
+	}
+	.view-con {
+		padding: 0 10px 30px;
+	}
+	.wishlist .my-acc-wishlist .home-top {
+		padding: 0 10px;
+	}
+	.wishlist .my-acc-wishlist .wish-block{
+		padding: 0 10px;
+	}
+	/** my account architects **/
+	.Portfolio-section {
+		padding: 0;
+	}
+	.Portfolio.ArchPortfolio form {
+		margin: 0 auto;
+		padding: 0;
+		width: 90%;
+	}
+	.Portfolio.ArchPortfolio form .form-group:first-child{
+		width:40%;
+	}
+	.Portfolio.ArchPortfolio form .form-group:last-child{
+		margin:7px 0 0 0;
+	}
+	.mech-portfolio .acc-block, .ArchPortfolio .acc-block{
+		width:90%;
+	}
+	
+	
+	/** detailservice page **/
+	.services-list.dtlsrvce .head{
+		overflow:hidden;
+	}
+	.services-list.dtlsrvce .left, .services-list.dtlsrvce .right {
+		padding:0;
+	}
+	.services-list.dtlsrvce .service-location {
+		margin: 0 10px 0 0;
+	}
+	.services-list.dtlsrvce .service-location .form-group input{
+		width:200px;
+	}
+	.services-list.dtlsrvce .selectbox, .services-list.dtlsrvce .selectbox select{
+		width:110px;
+	}
+	
+	/** cart page **/
+	.cart-table h1 {
+		font-size: 21px;
+		padding: 6px;
+		text-align: center;
+	}
+	.pay-block .left {
+		padding: 0;
+	}
+	.cart-top{
+		border-bottom:none;
+	}
+	.cart-links li:after {
+		right: 10px;
+		top: 35%;
+		width: 50%;
+	}
+	.cart-links li {
+		font-size: 15px;
+		line-height: 24px;
+		width: 34%;
+	}
+	.cart-links li.dvry:after {
+		right: 10px;
+		top: 28%;
+		width: 50%;
+	}
+	.cart-links li img {
+		display: block;
+		float: none;
+	}
+	.cart-links li.btn-coupon {
+		display: block;
+		float: none;
+		margin: 10px auto;
+		width: 200px;
+	}
+	.pay-block .right {
+		padding: 0;
+	}
+	.pay-block .right .table-responsive{
+		border:none;
+	}
+	.cart-block .btn-order{
+		margin-bottom:20px;
+	}
+	/** delivery **/
+	.show-addform{
+		width:90%;
+	}
+	.login input.form-control[type="text"], .login input.form-control[type="number"], .login input.form-control[type="email"], .login select.form-control, .login input.form-control[type="password"] {
+		max-width: 100%;
+		width: 100%;
+	} 
+	.input-group.date,.login.mid .right textarea,.login .sec-block{
+		width: 100%;
+	}
+	.login.registration .form-group .fa {
+		right: 10px;
+	}
+	.my-acc-wishlist a.w-edit {
+		margin-right:10px;
+	}
+}
+
+@media screen and (min-device-width:501px) and (max-device-width:600px) {
+	.prd-select-list .head h3{
+		font-size:14px;
+	}
+	.prd-select-list .todaydeals-sort li.sec-block select{
+		width:80px;
+	}
+}
+
+@media screen and (max-width:500px) {
+	.title {
+		height: 290px;
+	}
+	.todaydeals .links a {
+		padding: 10px 0;
+		text-align: center;
+		width: 31%;
+	}
+	.todaydeals.mid .tdm-block {
+		padding: 0;
+		text-align: center;
+	}
+	.prd-select-list .head {
+		border-bottom: medium none;
+		padding: 0;
+	}
+	.prd-detail .prd-lg { 
+		width: auto;
+	}
+	.sort {
+		display: inline-block;
+		float: left;
+		margin: 0;
+		padding: 10px 0 0;
+	}
+	.prd-detail .prd-lg img, .prd-detail .prd-lg {
+		max-width: 100%;
+		padding: 0px;
+		width: auto;
+		float:left;
+	}
+	.popuptext:after{
+		left:68%;
+	}
+	.prd-detail .prd-dlvry div.popuptext{
+		right:-120px;
+	}
+	.prd-select-list .head ul {
+		width: 100%;
+		margin:7px 0 0;
+	}
+	.prd-select-list .todaydeals-sort li:first-child {
+		display: block;
+		margin: 0 0 10px;
+		padding: 0;
+		text-align: left;
+	}
+	.srch-pin, .srch-pin:focus, .srch-pin:hover{
+		width:100%;
+		height: 35px;
+	}
+	.srch-btn, .srch-btn:hover, .srch-btn:focus{
+		top:0;
+	}
+	.prd-select-list .todaydeals-sort li{
+		padding:0 3px 0 0;
+	}
+	.prd-select-list .todaydeals-sort li.sec-block:before {
+		font-size: 17px;
+		top: 0;
+	}
+	.tabs-left > .nav-tabs > li > a {
+		min-width: 100%;
+	}
+	.login.mid.acc-profile .multiselect-parent i.fa.fa-star{
+		right:8px;
+	}
+	
+	.list-view > ul > li .push-right{
+		margin-top:10px;
+	}
+	.list-view > ul > li figure {
+		float: none;
+		margin: 0 0 10px;
+		min-height: auto;
+	}
+	
+	/** detailservice page **/
+	.services-list.dtlsrvce .selectbox, .services-list.dtlsrvce .selectbox select{
+		width:90px;
+	}
+	/** my account architects **/
+	.Portfolio.ArchPortfolio form .form-group:first-child {
+		width: 100%;
+	}
+	.Portfolio.ArchPortfolio form .form-group {
+		display: block;
+		margin: 0 0 10px;
+	}
+	.Portfolio.ArchPortfolio .inputfile + label{
+		display:block;
+	}
+	.Portfolio.ArchPortfolio form .form-group:last-child{
+		float:none;
+		margin:0;
+	}
+	
+}
+
+@media screen and (min-device-width:400px) and (max-device-width:480px) {
+	.pricing input, .pricing input:focus, .pricing input:hover { 
+		width: 160px;
+	}
+	.secure-links ul li img {
+		margin-right: 6px;
+	}
+	.secure-links ul li{
+		width:auto;
+	}
+	.secure-links {
+		padding: 5px 0 0;
+	}
+	.srch-btn, .srch-btn:hover, .srch-btn:focus {
+		top: 7px;
+	}
+	.prd-select-list .todaydeals-sort li.sec-block select{
+		width:180px;
+	}
+
+}
+
+@media screen and (max-width:400px) {
+	.prd-detail .addtocart + small {
+		height: auto;
+		line-height: inherit;
+		margin-left: 0;
+		margin-top: 5px;
+		width: auto;
+	}
+	.prd-detail .prd-dlvry img {
+		margin-right: 0;
+	}
+	.prd-detail .prd-dlvry .estimate {
+		font-size: 13px;
+	}
+	.popuptext:after {
+		left: inherit;
+		right: 7%;
+	}
+	.prd-detail .prd-dlvry div.popuptext {
+		margin: 0 auto;
+		right: -20px;
+		width: 300px;
+	}
+	.prd-select-list .head ul {
+		float: left;
+		line-height: 39px;
+		margin: 10px 0 0;
+		padding: 0;
+	}
+	.booknow-popup .modal-dialog {
+		margin: 0;
+		width: 95%;
+	}
+	.secure-links ul li{
+		width:32%;
+		font-size: 12px;
+	}
+	.secure-links ul li img {
+		margin:0 auto 10px;
+		display:block;
+	}
+	
+	/** detailservice page **/
+	.services-list.dtlsrvce .text-right {
+		text-align: left;
+		clear:both;
+	}
+	.services-list.dtlsrvce .service-location,
+	.services-list.dtlsrvce .service-location .form-group input{
+		width:100%;
+		margin:0;
+	}
+	.services-list.dtlsrvce .sort {
+		display: block;
+	}
+	.services-list.dtlsrvce .selectbox, .services-list.dtlsrvce .selectbox select{
+		width:110px;
+	}
+	
+	/** cart page **/
+	.cart-links li.dvry:after {
+		right: 0;
+	}
+	.plist .va {
+		float: left;
+	}
+	.plist.mid .t-pro .va {
+		float: right;
+	}
+	.myaccount {
+		margin-top: 20%;
+	}
+	.my-acc-wishlist .home-top h5 {
+		margin: 10px 8px;
+	}
+	.login.mid.acc-profile .multiselect-parent i.fa.fa-star{
+		right:15px;
+	}
+	.prd-select-list .todaydeals-sort li.sec-block select{
+		width:100px;
+	}
+}
+
+@media screen and (max-width:350px) {
+	.todaydeals h2.sec-title strong {
+		font-size: 20px;
+		margin-bottom: 10px;
+		padding: 10px 0;
+	}
+	.prd-detail .prd-dlvry div {
+		font-size: 11px;
+		padding-top: 10px;
+	}
+	.prd-detail .prd-dlvry span {
+		font-size: 11px;
+	}
+	.popuptext:after {
+		right: 13%;
+	}
+	.prd-detail .prd-dlvry div.popuptext {
+		right: -40px;
+	}
+	.prd-detail .prd-dlvry .qtn {
+		font-size: 10px;
+		height: 12px;
+		line-height: 12px;
+		width: 12px;
+	}
+	.prd-select-list .head ul {
+		float: left;
+		line-height: 39px;
+		margin: 10px 0 0;
+		padding: 0;
+	}
+	.pricing input, .pricing input:focus, .pricing input:hover {
+		width: 83px;
+	}
+	.services-list .sort label { 
+		width: 50px;
+	}
+	.sort {
+		display: inline-flex; 
+		float: none;
+	}
+	
+	.myaccount .text-right {
+		padding: 16px 3px;
+	}
+}
+
+

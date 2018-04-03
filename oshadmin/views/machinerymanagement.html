@@ -1,0 +1,312 @@
+<div class="catalogue-view">
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="cataloguetabs" role="tablist">
+   <li role="presentation" class="active"><a href="" data-target="#approvals" aria-controls="home" role="tab" data-toggle="tab" >Portfolio Approvals</a></li>
+   <li role="presentation"><a href="" data-target="#bookings" aria-controls="home" role="tab" data-toggle="tab" >Bookings</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content">
+   <!-- Pending Approvals Tab Starts -->
+   <div role="tabpanel" class="tab-pane active" id="approvals">
+      <div id="content">
+         <div class="col-md-12">
+            <div class="row">
+               <h2 class="main-title"><span>Portfolio Approvals</span></h2>
+			   <div class="rv-top">
+               <div class="selectDropdown">
+                  <div class="selectedValueClass">
+                     <select ng-init="selectedValue = options[0]" 
+                        ng-model="selectedValue" 
+                        ng-options="option.name for option in options" ng-change="selectToFilter(selectedValue)">
+                     </select>
+                  </div>
+               </div>
+               <p class="ar-para" ng-show="pending"> Showing all <b>Pending for Approval</b> Machinery Equipment Details</p>
+               <p class="ar-para" ng-show="approved"> Showing all <b>Approved</b> Machinery Equipment Details</p>
+               <p class="ar-para" ng-show="allPortfolio">Showing <b>All</b> Machinery Equipment Details</p>
+               </div>
+			   <div class="gridStyle"
+                  ui-grid="machineryApprovalsGrid" ui-grid-cellnav  ui-grid-auto-resize>
+               </div>
+               <div class="clearfix"></div>
+               <div class="text-center">
+                  <div paging
+                     page="1" 
+                     page-size="10"
+                     total=machineryApprovalsCount
+                     paging-action="machineryApprovePaging(page, pageSize, total)">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Pending Approvals Tab Ends -->
+   
+   <!-- Booking Status Tab Starts -->
+   <div role="tabpanel" class="tab-pane" id="bookings">
+      <div id="content">
+         <div class="col-md-12">
+            <div class="row">
+               <h2 class="main-title"><span>Bookings</span></h2>
+			   <div class="rv-top">
+			   <div class="selectDropdown">
+                  <div class="selectedValueClass">
+                     <select ng-init="selectedStatus = filterOptions[0]" 
+                        ng-model="selectedStatus" 
+                        ng-options="option.name for option in filterOptions" ng-change="selectOptionToFilter(selectedStatus)">
+                     </select>
+                  </div>
+               </div>
+               <p class="ar-para" ng-show="pendResponse">Showing all <b>Pending to Respond</b> bookings</p>
+               <p class="ar-para" ng-show="responded"> Showing all <b>Responded</b> bookings</p>
+               <p class="ar-para" ng-show="allbookings">Showing <b>All</b> bookings</p>
+			   </div>
+			   <div class="gridStyle"
+                  ui-grid="machineryBookingsGrid" ui-grid-cellnav  ui-grid-auto-resize>
+               </div>
+			   <div class="text-center">
+                  <div paging
+                     page="1" 
+                     page-size="10"
+                     total=machineryBookingsCount
+                     paging-action="machineryBookingsPaging(page, pageSize, total, selectedStatus.status)">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Booking Status Tab Ends -->
+</div>
+<!-- Approvals Details Popup View -->
+<div class="modal fade equipmentApprovalsPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">{{machineryDetails.vendorName}}</h4>
+         </div>
+         <div class="modal-body">
+            <form name="machineryPortfolioForm" novalidate>
+               <div class="modal-top">
+                  <div class="col-xs-12 col-sm-6 pull-left">
+                     <!--Portfolio Image -->
+                     <figure class="dealpimg text-center">
+                        <img class="img-responsive" src="{{machineryDetails.imageURL}}" alt="Portfolio Image"/>
+                     </figure>
+                  </div>
+                  <div class="col-xs-12 col-sm-6  pull-right">
+                     <!-- Equipment Name -->
+                     <div class="form-group" ng-class="{ 'has-error' : machineryPortfolioForm.equipmentName.$invalid &amp;&amp; !machineryPortfolioForm.equipmentName.$pristine }">
+                        <label>Equipment Name</label>
+                        <input type="text" name="equipmentName" class="form-control" ng-model="machineryDetails.equipmentName" placeholder="Equipment Name" required="" ng-readonly="true" readonly="readonly">
+                        <p ng-show="machineryPortfolioForm.equipmentName.$touched &amp;&amp; machineryPortfolioForm.equipmentName.$invalid" class="help-block ng-hide">Equipment Name is required</p>
+                     </div>
+                     <!-- Equipment Price -->
+                     <div class="form-group" ng-class="{ 'has-error' : machineryPortfolioForm.equipmentPrice.$invalid &amp;&amp; !machineryPortfolioForm.equipmentPrice.$pristine }">
+                        <label>Equipment Price</label>
+                        <input type="text" name="equipmentPrice" class="form-control" ng-model="machineryDetails.equipmentPrice" placeholder="Equipment Price" required="" ng-readonly="true" readonly="readonly">
+                        <p ng-show="machineryPortfolioForm.equipmentPrice.$touched &amp;&amp; machineryPortfolioForm.equipmentPrice.$invalid" class="help-block ng-hide">Equipment Price is required</p>
+                     </div>
+					 <!-- Hiring Type -->
+                     <div class="form-group" ng-class="{ 'has-error' : machineryPortfolioForm.hiringType.$invalid &amp;&amp; !machineryPortfolioForm.equipmentPrice.$pristine }">
+                        <label>Hiring Type</label>
+                        <input type="text" name="hiringType" class="form-control" ng-model="machineryDetails.hiringType" placeholder="Hiring Type" required="" ng-readonly="true" readonly="readonly">
+                        <p ng-show="machineryPortfolioForm.hiringType.$touched &amp;&amp; machineryPortfolioForm.hiringType.$invalid" class="help-block ng-hide">Hiring Type is required</p>
+                     </div>
+                     <!-- Created Date-->
+                     <div class="form-group" ng-class="{ 'has-error' : machineryPortfolioForm.createdate.$invalid &amp;&amp; !machineryPortfolioForm.createdate.$pristine }">
+                        <label>Date</label>
+                        <input type="text" name="createdate" class="form-control" ng-model="machineryDetails.createdate" placeholder="Created Date" required="" ng-readonly="true" readonly="readonly">
+                        <p ng-show="machineryPortfolioForm.createdate.$touched &amp;&amp; machineryPortfolioForm.createdate.$invalid" class="help-block ng-hide">Created Date is required</p>
+                     </div>
+                  </div>
+               </div>
+               <div class="clearfix"></div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" title="Approve" class="btn btn-primary" ng-show="showApprove" ng-click="approveMachinery(machineryDetails, selectedValue)">Approve</button>
+            <button type="button" title="Decline" class="btn btn-danger" ng-click="declineMachinery(machineryDetails)">Decline</button>
+            <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+      <!-- /.modal-content -->
+   </div>
+   <!-- /.modal-dialog -->
+</div>
+
+<!-- Bookings Details Popup View -->
+<div class="modal fade bookingPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">{{bookingInfo.equipmentName}}</h4>
+         </div>
+         <div class="modal-body">
+            <form name="machineryBookingForm" novalidate>
+               <div class="modal-top">
+				<div class="col-xs-12 col-sm-6 pull-left">
+                  <!--Equipment Image -->
+                  <figure class="dealpimg text-center">
+					<img class="img-responsive" src="{{bookingInfo.imagePath}}" alt="Equipment Image"/>
+                  </figure>
+                </div>
+                <div class="col-xs-12 col-sm-6  pull-right">
+                  <!-- Equipment Description -->
+                  <div class="form-group">
+                    <p>{{bookingInfo.description}}</p>
+                   </div>
+                  </div>
+				  <hr>
+				  </div>
+                  <div class="col-xs-12 col-sm-6 pull-left">
+                     <!-- Customer Name -->
+                     <div class="form-group">
+                        <label>Customer</label>
+                        <input type="text" name="vendorName" class="form-control" ng-model="bookingInfo.customerName" placeholder="Customer Name" ng-readonly="true" readonly="readonly">
+                     </div>
+					 <!-- Email Id -->
+					 <div class="form-group">
+                        <label>Email Id</label>
+                        <input type="text" name="customerEmailId" class="form-control" ng-model="bookingInfo.customerEmailId" placeholder="Customer Email Id" ng-readonly="true" readonly="readonly">
+                     </div>
+					 <!-- Mobile Number -->
+					 <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="text" name="customerMobileNumber" class="form-control" ng-model="bookingInfo.customerMobileNumber" placeholder="Customer Mobile Number" ng-readonly="true" readonly="readonly">
+                     </div>
+					 <!-- Booking Date -->
+					 <div class="form-group">
+                        <label>Booking Date</label>
+                        <input type="text" name="bookingDate" class="form-control" ng-model="bookingInfo.bookingDate" placeholder="Booking Date" ng-readonly="true" readonly="readonly">
+                     </div>
+					 <!-- Equipment Price -->
+					 <div class="form-group">
+                        <label>Equipment Price</label>
+                        <input type="text" name="equipmentPrice" class="form-control" ng-model="bookingInfo.equipmentPrice" placeholder="Equipment Price" ng-readonly="true" readonly="readonly">
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6  pull-right">
+                     <!-- Vendor Name -->
+					 <div class="form-group">
+                        <label>Vendor</label>
+                        <input type="text" name="vendorName" class="form-control" ng-model="bookingInfo.vendorName" placeholder="Vendor" ng-readonly="true" readonly="readonly">
+                     </div>
+					 <!-- Vendor Email Id -->
+					 <div class="form-group">
+                        <label>Vendor Email Id</label>
+                        <input type="text" name="vendorEmailId" class="form-control" ng-model="bookingInfo.vendorEmailId" placeholder="Vendor Email Id" ng-readonly="true" readonly="readonly">
+                     </div>
+					 <!-- Vendor Telephone -->
+					 <div class="form-group">
+                        <label>Vendor Telephone</label>
+                        <input type="text" name="vendorMobileNumber" class="form-control" ng-model="bookingInfo.vendorMobileNumber" placeholder="Vendor Telephone" ng-readonly="true" readonly="readonly">
+                     </div>
+					 <!-- Appointment Date -->
+					 <div class="form-group">
+                        <label>Appointment Date</label>
+                        <input type="text" name="appointmentDate" class="form-control" ng-model="bookingInfo.appointmentDate" placeholder="Appointment Date" ng-readonly="true" readonly="readonly">
+                     </div>
+					 <!-- Hiring Type -->
+					 <div class="form-group">
+                        <label>Unit</label>
+                        <input type="text" name="hiringtype" class="form-control" ng-model="bookingInfo.hiringtype" placeholder="Unit" ng-readonly="true" readonly="readonly">
+                     </div>
+                  </div>
+					 <!-- Comments By Admin -->
+				  <div class="col-xs-12 col-sm-12" ng-show="showOpened">
+                   <div class="form-group" ng-class="{ 'has-error' : machineryBookingForm.comment.$invalid &amp;&amp; !machineryBookingForm.comment.$pristine }">
+					 <label>Comments</label>
+                     <input type="text" name="comment" class="form-control" ng-model="bookingInfo.comment" placeholder="Comments over booking" required="">
+					 <p ng-show="machineryBookingForm.comment.$touched &amp;&amp; machineryBookingForm.comment.$invalid" class="help-block ng-hide">Comments required</p>
+				   </div>
+                  </div>
+               </div>
+               <div class="clearfix"></div>
+         <div class="modal-footer">
+            <button type="button" title="Close" class="btn btn-primary" ng-disabled="machineryBookingForm.$invalid" ng-click="closeBooking(bookingInfo, selectedStatus.status)">Close</button>
+            <button type="button" title="Decline" class="btn btn-danger" ng-click="deleteBooking(bookingInfo)">Delete</button>
+            <button type="button" title="Cancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+         </div>
+		 </form>
+		 </div>
+      </div>
+      <!-- /.modal-content -->
+   </div>
+   <!-- /.modal-dialog -->
+</div>
+
+<!-- Success Message Popup -->
+<div class="modal fade successPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Success</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Error Message Popup -->
+<div class="modal fade ErrdealModal" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Error</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Confirmation To Delete or Decline Popup -->
+<div class="modal fade confirmPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Decline Portfolio</h4>
+         </div>
+         <div class="modal-body">
+            Are you sure to decline Portfolio?
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-danger" ng-click="confirmDecline(machineryDetails, selectedValue)">Yes</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Confirm Delete Booking Popup -->
+<div class="modal fade delBookConfPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Delete Booking</h4>
+         </div>
+         <div class="modal-body">
+            Are you sure to delete booking?
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-danger" ng-click="confirmDeleteBooking(bookingInfo.id, selectedStatus.status)">Yes</button>
+         </div>
+      </div>
+   </div>
+</div>

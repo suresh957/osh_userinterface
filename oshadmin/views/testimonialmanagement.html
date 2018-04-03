@@ -1,0 +1,131 @@
+<div class="body-bg">
+   <div class="container-fluid-full">
+      <div class="row-fluid">
+         <div class="content-box add-product">
+            <h2 class="main-title"><span>Testimonial Management</span></h2>
+            <div class="selectDropdown">
+               <div class="selectedValueClass">
+                  <select ng-init="selectedValue = options[0]" 
+                     ng-model="selectedValue" 
+                     ng-options="option.name for option in options" ng-change="selectToFilter(selectedValue)">
+                  </select>
+               </div>
+            </div>
+            <div class="gridStyle"
+               ui-grid="testimonialgrid" ui-grid-cellnav  ui-grid-auto-resize>
+            </div>
+            <div class="clearfix"></div>
+            <div class="text-center">
+               <div paging
+                  page="1" 
+                  page-size="15"
+                  total=testmonialCount
+                  paging-action="testmonPagingAct(page, pageSize, total)">
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="testimonPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Testimonial ID : {{testmonInfo.testmonId}}</h4>
+         </div>
+         <div class="modal-body">
+            <form name="testmonialForm" novalidate>
+               <div class="row">
+                  <div class="form-group">
+                     <p class="testmonialForm">{{testmonInfo.description}}</p>
+                  </div>
+               </div>
+               <hr>
+               <div class="col-xs-12 col-sm-6 pull-left">
+                  <!-- Testimonial Id -->
+                  <div class="form-group" ng-class="{ 'has-error' : testmonialForm.custName.$invalid &amp;&amp; !testmonialForm.custName.$pristine }">
+                     <label>Customer Name</label>
+                     <input type="text" name="custName" class="form-control" ng-model="testmonInfo.custName" placeholder="Customer Name" required="" ng-readonly="true" readonly="readonly">
+                     <p ng-show="testmonialForm.custName.$touched &amp;&amp; testmonialForm.custName.$invalid" class="help-block ng-hide">Customer Name is required</p>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error' : testmonialForm.custId.$invalid &amp;&amp; !testmonialForm.custId.$pristine }">
+                     <label>Customer Id</label>
+                     <input type="text" name="custId" class="form-control" ng-model="testmonInfo.custId" placeholder="Customer Id" required="" ng-readonly="true" readonly="readonly">
+                     <p ng-show="testmonialForm.custId.$touched &amp;&amp; testmonialForm.custId.$invalid" class="help-block ng-hide">Customer Id is required</p>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-6 pull-right">
+                  <!-- Email Address -->
+                  <div class="form-group" ng-class="{ 'has-error' : testmonialForm.emailId.$invalid &amp;&amp; !testmonialForm.emailId.$pristine }">
+                     <label>Email Id</label>
+                     <input type="text" name="emailId" class="form-control" ng-model="testmonInfo.emailId" placeholder="Email Id" required="" ng-readonly="true" readonly="readonly">
+                     <p ng-show="testmonialForm.emailId.$touched &amp;&amp; testmonialForm.emailId.$invalid" class="help-block ng-hide">Email Id is required</p>
+                  </div>
+               </div>
+               <div class="clearfix"></div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" title="Enable" class="btn btn-primary" ng-show="enableShow" ng-click="enableTestmon(testmonInfo)">Enable</button>
+            <button type="button" title="Disable" class="btn btn-danger" ng-show="disableShow" ng-click="disableTestmon(testmonInfo)">Disable</button>
+            <button type="button" title="Delete" class="btn btn-danger" ng-click="deleteTestmon(testmonInfo)">Delete</button>
+         </div>
+      </div>
+      <!-- /.modal-content -->
+   </div>
+   <!-- /.modal-dialog -->
+</div>
+<!-- Success Msg Dialog -->
+<div class="modal fade" id="SuccessModal" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Success</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-check fa-3x"></i><span>{{testSuccMsg}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Error Msg Dialog -->
+<div class="modal fade" id="ErrdealModal" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Error</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-warning fa-3x"></i><span>{{testFailMsg}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Confirm Delete Popup -->
+<div class="modal fade" id="confirmPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Delete Testimonial</h4>
+         </div>
+         <div class="modal-body">
+            Do you want to delete testimonial?
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-danger" ng-click="confirmDelete(testmonInfo)">Yes</button>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="body-bg">
+<div class="container-fluid-full">
+    <div class="row-fluid">
+      <div class="content-box profile">             
+		<h2 class="main-title"><span>Edit Admin</span></h2>                         
+		<form class="prof form-login" method="post" enctype="multipart/form-data"> 
+		<fieldset>  
+       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">		
+		<div class="input" title="Admin Name">  
+		<input type="text" class="input-large span12" value="" ng-model="setAdmin.adminName" placeholder="Admin name" id="user_name" name="user_name" readonly>                  
+		</div>       
+		<div class="input" title="Merchant Store">      
+		<input type="text" class="input-large span12" value="" ng-model="setAdmin.storeCode" placeholder="Merchant Code" id="merchant_code" name="merchant_code" readonly>       
+		</div>      
+		<div class="input" title="emailAddress/ Email">     
+		<input type="email" class="input-large span12" value="" ng-model="setAdmin.email" placeholder="Email" id="email" name="email" readonly>        
+		</div>        
+		<div class="input" title="First Name">   
+		<input type="text" class="input-large span12" value="" ng-model="setAdmin.firstName" placeholder="First Name" id="first_name" name="first_name">
+		<i class="fa fa-star" aria-hidden="true"></i>
+		</div>
+		
+	   </div>
+	   
+	   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
+		<div class="input" title="Last Name">
+		<input type="text" class="input-large span12" value="" ng-model="setAdmin.lastName" placeholder="Last Name" id="last_name" name="last_name"> 
+		<i class="fa fa-star" aria-hidden="true"></i>
+		</div>
+		<div class="input" title="Group">  
+		<h6>Groups</h6>
+		<div class="check-blocks">    
+		<input id="admin" type="checkbox">       
+		<label for="admin">Admin</label>         
+		<input id="admin_order" type="checkbox"> 
+		<label for="admin_order">Admin_Order</label>
+		<input id="admin_catalogue" type="checkbox">      
+		<label for="admin_catalogue">Admin_Catalogue</label> 
+		<input id="admin_content" type="checkbox">                 
+		<label for="admin_content">Admin_Content</label>           
+		</div>                   
+		</div> 
+	   </div>		
+		<div class="button-login">      
+		<button id="submit" type="submit" class="btn btn-primary" ng-click="updateAdmin(setAdmin)">Submit</button>  
+		</div>					
+		<div class="alert alert-warning col-md-6 col-md-offset-3" ng-if="errmsg">						
+		<span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>{{errmessage}}	
+		</div>             
+        </fieldset>        
+		</form>       
+		</div>    
+		</div>  
+		</div>  
+		</div>	  		
+<script>
+$('.dropmenu').click(function(){
+	$(this).parent().find('ul').slideToggle();  
+});
+</script>

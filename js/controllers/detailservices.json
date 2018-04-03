@@ -1,0 +1,68 @@
+{
+  "serviceCompanies": [
+    {
+      "id": 1,
+      "companyName": "S.K Plumbers&Sanitory Company",
+      "houseNumber": "9-8-466",
+      "street": "Chota Bazar",
+      "area": "Golconda",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pinCode": "500008",
+      "country": null,
+      "websiteName": null,
+      "contactNumber": "9949567239",
+      "imageUrl": "img/vdr1.jpg",
+      "avgRating": 3,
+	  "votes":"401 Votes"
+    },
+    {
+      "id": 2,
+      "companyName": "S.K Plumbers&Sanitory Company",
+      "houseNumber": "9-8-466",
+      "street": "Indra Nagar",
+      "area": "GachiBowli",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pinCode": "500008",
+      "country": null,
+      "websiteName": null,
+      "contactNumber": "9949567238",
+      "imageUrl": "img/vdr2.jpg",
+      "avgRating": 0,
+	  "votes":"301 Votes"
+    },
+	{
+      "id": 3,
+      "companyName": "S.K Plumbers&Sanitory Company",
+      "houseNumber": "9-8-466",
+      "street": "Chanda Nagar",
+      "area": "LingamPally",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pinCode": "500008",
+      "country": null,
+      "websiteName": null,
+      "contactNumber": "9949567237",
+      "imageUrl": "img/vdr3.jpg",
+      "avgRating": 0,
+	  "votes":"401 Votes"
+    },
+	{
+      "id": 3,
+      "companyName": "S.K Plumbers&Sanitory Company",
+      "houseNumber": "9-8-466",
+      "street": "Chanda Nagar",
+      "area": "LingamPally",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pinCode": "500008",
+      "country": null,
+      "websiteName": null,
+      "contactNumber": "9949567237",
+      "imageUrl": "img/vdr4.jpg",
+      "avgRating": 0,
+	  "votes":"401 Votes"
+    }
+  ]
+}

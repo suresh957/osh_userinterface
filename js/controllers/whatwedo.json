@@ -1,0 +1,76 @@
+{
+  "whatWeDoResponse": [
+    {
+      "id": 100,
+      "serviceType": "Plumbers",
+      "imageURL1": "img/whatwedo_plumbing.jpg",
+      "description": "Plumbing"
+    },
+    {
+      "id": 101,
+      "serviceType": "Carpenters",
+      "imageURL1": "img/whatwedo_carpenter.jpg",
+      "description": "Carpenting"
+    },
+    {
+      "id": 102,
+      "serviceType": "Ceiling",
+      "imageURL1": "img/whatwedo_ceiling.jpg",
+      "description": "Ceiling"
+    },
+    {
+      "id": 103,
+      "serviceType": "Electricians",
+      "imageURL1": "img/whatwedo_electricians.jpg",
+      "description": "Electricians"
+    },
+    {
+      "id": 104,
+      "serviceType": "Flooring",
+      "imageURL1": "img/whatwedo_flooring.jpg",
+      "description": "Flooring"
+    },
+    {
+      "id": 105,
+      "serviceType": "Glass Fitting",
+      "imageURL1": "img/whatwedo_glass_fittings.jpg",
+      "description": "Glass Fitting"
+    },
+    {
+      "id": 106,
+      "serviceType": "Packers & Movers",
+      "imageURL1": "img/whatwedo_packers-movers.jpg",
+      "description": "Packers & Movers"
+    },
+    {
+      "id": 107,
+      "serviceType": "Painters",
+      "imageURL1": "img/whatwedo_painter.jpg",
+      "description": "Painting"
+    },
+    {
+      "id": 108,
+      "serviceType": "Purifier",
+      "imageURL1": "img/whatwedo_heater_purifier_services.jpg",
+      "description": "Water Purifier"
+    },
+    {
+      "id": 109,
+      "serviceType": "Furniture",
+      "imageURL1": "img/whatwedo_furniture_repair.jpg",
+      "description": "Furniture"
+    },
+    {
+      "id": 110,
+      "serviceType": "TV & AC Installation",
+      "imageURL1": "img/whatwedo_AC_TV_instalation.jpg",
+      "description": "TV & AC Installation"
+    },
+    {
+      "id": 111,
+      "serviceType": "Civil",
+      "imageURL1": "img/whatwedo_civil_services.jpg",
+      "description": "Civil"
+    }
+  ]
+}

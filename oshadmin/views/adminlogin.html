@@ -1,0 +1,38 @@
+<div class="body-bg">
+<div class="container-fluid-full">
+   <div class="row-fluid">
+      <div class="login-box">
+			<h2 class="main-title"><span>Login</span></h2>
+		 <form class="form-login" ng-submit="redirect(admin)" name="adminloginForm" novalidate>
+            <fieldset>
+               <div class="clearfix"></div>
+               <div class="input" title="emailAddress/ Email">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+				  <input class="input-large span10" name="emailAddress" id="emailAddress" ng-model="admin.emailAddress" type="email" placeholder="Email"  pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                  <p class="help-block" ng-show="adminloginForm.emailAddress.$touched && adminloginForm.emailAddress.$error.required">Email is required</p>
+                  <p class="help-block" ng-show="adminloginForm.emailAddress.$error.pattern">Invalid Email</p>
+               </div>
+               <div class="clearfix"></div>
+               <div class="input" title="Password">
+                  <i class="fa fa-lock" aria-hidden="true"></i>
+				  <input class="input-large span10" name="password" id="password" ng-model="admin.password" type="password" placeholder="Password" required>
+                  <p ng-show="adminloginForm.password.$touched && adminloginForm.password.$error.required" class="help-block">Password is required</p>
+               </div>
+               <div class="clearfix"></div>
+			   <div class="button-login">
+                  <button type="submit" class="btn btn-primary" ng-disabled="adminloginForm.$invalid" value="Login" title="Login" ng-click="redirect(admin)">
+                  <span>Login</span> </button>
+               </div>
+               <div class="clearfix"></div>
+            </fieldset>
+         </form>
+      </div>
+      <div class="alert alert-warning col-md-6 col-md-offset-3" ng-if="errmsg">
+				<span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>			 <strong>Error! </strong>{{errmessage}}
+			</div>
+	  
+	  
+	   
+   </div>
+</div>
+</div>

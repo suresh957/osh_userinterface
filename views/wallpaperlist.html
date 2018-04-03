@@ -1,0 +1,357 @@
+<div class="wrap">
+<!-- Static navbar -->
+<section class="top" id="top-header">
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-12 col-sm-6 shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+         <div class="col-xs-12 col-sm-6 links"> 
+		 <a href="#contact" class="right-links">Contact Us</a>
+		 <span ng-hide="userlogged">
+		 <a href="#/login" class="right-links">Login </a>
+		<a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+			
+			<!--=== LOGOUT SECTION ===-->
+			
+		<div class="myprofile-block">
+		<div class="mypro-brdr">
+			<div class="pro-top">
+				<!--<a href="#" class="pro-pic">
+					<img src="img/tst-pic.jpg"/>
+					<span>Change</span>
+				</a>-->
+				<div class="pro-txt">
+					<h3>{{loggedInUserName}}</h3>
+					<h4>{{loggedInUser}}</h4>
+				</div>
+			</div>
+			<div class="pro-btm">
+				<span class="mypro-btn" ng-click="myProfile()"><a>My Profile</a></span>
+				<span class="mypro-logout" ng-click="logout()"><a>Logout</a></span>
+			</div>
+		</div>
+		</div>
+			 <a href="#cart" class="cart">
+			<!--<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> -->
+			   <img src="img/cart1.png">
+				   <span class="cart-value"> {{lengthofcart}}</span> </a>
+			
+			</div>
+			</div>
+			</div>
+
+</section>
+<header class="header">
+   <nav class="navbar navbar-default">
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 ">
+               <div class="navbar-header">
+			    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                  
+            <a class="navbar-brand" href="#/"></a>
+						 <figure> </figure>
+						 <div class="search mobile-search">
+							<div class="input">
+							<i class="fa fa-search"></i>
+								<input type="text" placeholder="Search">
+							</div>
+						 </div>
+					  </div>
+              <div id="navbar" class="navbar-collapse collapse">
+						 <ul class="nav navbar-nav">
+							<li><a href="#/todaydeals">Today's Deals</a></li>
+							<li><a>Buy/Sell</a></li>
+							<li><a href="#services">Services</a></li>
+							<li><a>About Us</a></li>
+							<li class="store"><a>Our Store</a></li>
+							<li><a href="#/myaccount">My Account</a></li>
+							<li class="menu-search">
+							<div class="search">
+							  <div class="input">
+								<i class="fa fa-search"></i>
+								  <div class="menu-in" ng-controller="TypeSearchCtrl">
+								  <div class="sec-block">
+									<select ng-init="searchType = typeOfSearch[0]"
+											ng-model="searchType"
+											ng-options="option.name for option in typeOfSearch">
+									</select>
+								  </div>
+                                    <input type="text" id="modalValue" ng-keypress="searchFunctions(searchSelected,$event,searchType.value,$model)" value="searchSelected" ng-model="searchSelected" autofocus="autofocus" placeholder="Search" uib-typeahead="item for item in getSearch($viewValue, searchType.value)" typeahead-focus-first="false" typeahead-wait-ms="1000" typeahead-min-length="3" typeahead-on-select="onSearchSelect(searchSelected, $item, $model, $label, $event, searchType.value, titleArray)" typeahead-no-results="noResults"/>
+									<span class="menu-in-search" ng-click="searchFunction(searchSelected, searchType.value)"><i class="fa fa-search"></i></span>
+									<span class="menu-in-clear" ng-click="clearString(searchSelected)"><i class="fa fa-times-circle"></i></span>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+							<li class="post" ><a href="#postrequire"><span>Post A Requirement</span></a></li>
+						 </ul>
+					  </div>
+               <!--.nav-collapse -->
+            </div>
+         </div>
+      </div>
+      <!--/.container-fluid -->
+   </nav>
+   <category-Directive></category-Directive>
+</header>
+<div class="container">
+   <div class="breadcrumbs"><a href="#/">Home</a>    >    <a href="">{{vendorName}}</a>  </div>
+</div>
+
+<div class="prd">
+<section class="prd-detail">
+   <div class="container">
+      <div class="row" >
+         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" >
+            <div class="prd-lg" id="screen1" >
+               <a><img ng-src="{{imageUrl}}"></a>
+            </div>
+           
+            
+            
+         </div>
+         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
+            
+            <h2>{{vendorName}}</h2>
+            <p>{{Description}}</p>
+                             <div class="price" ng-show="showPrice"><i class="fa fa-inr" aria-hidden="true"></i>  {{walrecently.price}}</div>
+                 <!-- <div class="price" ><i class="fa fa-inr" aria-hidden="true"></i>  {{walrecently.price}}</div>-->
+                  <div class="price-off" ng-show="showPrice"> <span><i class="fa fa-inr" aria-hidden="true"></i> {{price}} </span> <b class="dis_off">{{ppage.discountPercentage}}% OFF</b> </div>
+            <!-- <div class="prd-add"> -->
+               <!-- <input class="select-number" ng-init="quantity = 1" name="quantity" id="quantity" type="text" ng-model="quantity" ng-pattern="/^[0-9]+$/" required> -->
+               <!-- <button class="addtocart" ng-click="addcart(quantity)"  >Add to Cart</button><small>* Please select a vendor</small> -->
+			   <!-- <div ng-show="form.$submitted"> -->
+					<!-- <p class="help-block">Please agree and sign.</p> -->
+			   <!-- </div> -->
+			   <!-- </div> -->
+          <div class="rating">
+			   	<ion-content>
+			  <ion-list>
+				<ion-item ng-repeat="rating in ratings">
+				  <span class="stars">
+					<span ng-style="{ 'width': getStars(rating.number) }"></span>
+				  </span>
+			    </ion-item>
+			  </ion-list>
+			</ion-content>
+			<p>{{averagereview}}/5 ({{totalreview}} Reviews)</p>
+            </div>
+            <div class="prd-dlvry">
+               <img src="img/prddelivery-icon.jpg">
+               <div class="estimate">Estimated delivery in 12 to 24 Hours
+               </div>
+			   </div>
+            <div class="prd-dlvry">
+               <img src="img/prddelivery-icon.jpg">
+               <div >
+                  Standard Delivery charges applicable 
+                  <span class="popup">
+                     <b class="qtn">?</b>
+                     <div class="cart-terms popuptext">
+                        <h6>Terms & Conditions</h6>
+                        <p>This following sets out the terms and conditions on which you may use the content on bother digital publishing services www.osh.com owned by business standard content services.</p>
+                     </div>
+                  </span>
+                  <span><a href="">Check your location for product availability</a></span>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<section class="prd-select-list">
+   <div class="container">
+   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tdm-block">
+         
+		   
+		 
+   </div>
+   </div>
+</section>
+<section class="todaydeals rview architects" >
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-12">
+            <h2 class="sec-title"><strong>WallPaper Portfolio</strong></h2>
+            <ul class="all">
+               <slick settings="slickrecentbroughtConfig" ng-if="RecentlyLoaded">
+                  <li ng-repeat="brought in walrecently">
+                     <div class="t-pro">
+                        <figure>
+						<a href="#/wallpaperdetails/{{brought.vendorId}}/{{brought.portfolioId}}"><img ng-src="{{brought.imageURL}}"></a>
+                          
+                           <!--<span class="dis">{{brought.discountPercentage}}% OFF</span>-->
+                        </figure>
+                        <h3>{{brought.portfolioName}}</h3>
+                        <!--<h4><i class="fa fa-inr" aria-hidden="true"></i> {{brought.productDiscountPrice}}</h4>-->
+                      <!--  <a href="" class="va">View Details</a>-->
+                     </div>
+                  </li>
+               </slick>
+            </ul>
+         </div>
+      </div>
+   </div>
+</section>
+<section class="prd-mid">
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
+            <h4>Description</h4>
+            <p>{{ShortDescription}}</p>
+			<h4 ng-show="showDescPoints">Technical Description</h4>
+			<table class="des-table" border="0" ng-show="showDescPoints">
+				<tr ng-repeat="x in array">
+					<td class="lbl">{{x.title}}</td>
+					<td class="val">{{x.value}}</td>
+				</tr>
+			</table>
+         </div>
+         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
+            <h4>Quality Promise</h4>
+            <p>We ensure the best quality products are provided to our customers by meticulously selecting the vendors and continuously evaluating them to ensure minimal defects. Our team of industry experts and domain specialist ensure the products delivered are of best in class quality. Prior mystery visits are made to vendor sites and delivery locations to ensure superior quality.</p>
+         </div>
+      </div>
+   </div>
+</section>
+
+<section class="prd-mid btm">
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
+            <h3>Reviews</h3>
+            <div class="prd-rvw" ng-repeat="reviews in userRatings">
+               <div class="rating">
+                   	<ion-content>
+			  <ion-list>
+				<ion-item>
+				  <span class="stars">
+					<span ng-style="{ 'width': getStars(reviews.reviewRating) }"></span>
+				  </span>
+			    </ion-item>
+			  </ion-list>
+			</ion-content> 
+			<span class="prd-review"><b>{{reviews.description}}</b></span>
+               </div>
+               
+			   By <h5> {{reviews.name}}</h5> On 
+              <h6> {{reviews.reviewDate | date:'dd-MMM-yyyy'}}</h6>
+            </div>
+            <div paging
+			page="1" 
+			page-size="5" 
+			total=uptotalCount
+			paging-action="PagingAct(page, pageSize, total)">
+		</div>
+         </div>
+        
+		 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right" ng-show="showReview">
+            <h3>Add a Review</h3>
+           <div class="rating">
+               <h4>Rating <span class="red">*</span></h4>
+              <jk-rating-stars 
+        max-rating="5" 
+        rating="secondRate" 
+        on-rating="onItemRating(rating)">
+      </jk-rating-stars>
+         </div>
+            <form class="prd-form">
+               <div class="form-group">
+                  <textarea name="review" ng-model="giveReview.description" placeholder="Review *"></textarea>
+               </div>
+               <div class="form-group">
+                  <button type="submit" class="btn btn-default" ng-click="submitReview(giveReview)">Submit</button>
+               </div>
+			   <div class="clearfix"></div>
+                           <div class="alert alert-warning " ng-if="errmsg"> 
+                              <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>
+                              <strong> </strong>{{errmessage}}
+                           </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</section>
+<div id="back-top">
+	<a href="javascript:" id="return-to-top"><i class="fa fa-arrow-circle-o-up"></i></a>
+</div>
+
+
+</div>
+</div>
+
+<script>
+   jQuery(".popup .qtn").click(function(){
+      jQuery(".popuptext").toggle();
+   });
+   $(".login-btn").click(function(){
+   	$(".myprofile-block").toggle();
+   });
+</script>
+<script>
+   jQuery("#img-1").click(function(){
+      jQuery("#screen1").show();
+   jQuery("#screen2").hide();
+   jQuery("#screen3").hide();
+   jQuery("#screen4").hide();
+   
+   });
+   jQuery("#img-2").click(function(){
+      jQuery("#screen2").show();
+   jQuery("#screen1").hide();
+   jQuery("#screen3").hide();
+   jQuery("#screen4").hide();
+   
+   });
+   jQuery("#img-3").click(function(){
+      jQuery("#screen3").show();
+   jQuery("#screen1").hide();
+   jQuery("#screen2").hide();
+   jQuery("#screen4").hide();
+   
+   });
+   jQuery("#img-4").click(function(){
+      jQuery("#screen4").show();
+   jQuery("#screen2").hide();
+   jQuery("#screen3").hide();
+   jQuery("#screen1").hide();
+   });
+</script>
+<script>
+   $("#quantity").keyup(function() {
+     var regex = /^[0-9]+$/;
+   if (regex.test(this.value) !== true)
+     this.value = this.value.replace(/[^0-9]+/, '');
+   });
+</script>
+<script>
+   $('input').on('input propertychange paste', function (e) {
+    var val = $(this).val()
+    var reg = /^0/gi;
+    if (val.match(reg)) {
+        $(this).val(val.replace(reg, ''));
+    }
+   });
+</script>
+<script>
+	$(".mobile-search .fa-search").click(function(){
+		$(".mobile-search input").toggle();
+	});
+</script>
+
+<div class="modal fade successPopup" id="SuccessModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog  modal-sm" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Success</h4>
+                  </div>
+                  <div class="modal-body">
+                     <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>

@@ -1,0 +1,130 @@
+{
+	"myacc": [
+	{
+		"title": "Novels",
+       "imgurl1": "img/bricks.png",
+	    "imgurl2": "img/bricks.png"
+
+
+	},
+	{
+		"title": "Business",
+       "imgurl1": "img/adhesive.png",
+	    "imgurl2": "img/adhesive.png"
+
+
+	},
+	
+	{
+		"title": "Kitchen",
+       "imgurl1": "img/cement.png",
+	    "imgurl2": "img/cement.png"
+
+
+	},
+	{
+		"title": "Architects",
+       "imgurl1": "img/faucets.png",
+	    "imgurl2": "img/faucets.png"
+
+
+	},
+	{
+		"title": "Building Materials",
+       "imgurl1": "img/hardware.png",
+	    "imgurl2": "img/hardware.png"
+
+
+	},
+	{
+		"title": "Doors/Windows and Joinery",
+       "imgurl1": "img/jacuzzibath.png",
+	    "imgurl2": "img/jacuzzibath.png"
+
+
+	},
+	{
+		"title": "Plumbing",
+       "imgurl1": "img/shower-w.png",
+	    "imgurl2": "img/shower-w.png"
+
+
+	},
+	{
+		"title": "Electrical",
+       "imgurl1": "img/spray.png",
+	    "imgurl2": "img/spray.png"
+
+
+	},
+	{
+		"title": "Electronics",
+       "imgurl1": "img/spray.png",
+	    "imgurl2": "img/spray.png"
+
+
+	},{
+		"title": "Bathroom & Sanitary",
+       "imgurl1": "img/bricks.png",
+	    "imgurl2": "img/bricks.png"
+
+
+	},
+	{
+		"title": "Timber/wood sheets & hardware",
+       "imgurl1": "img/faucets.png",
+	    "imgurl2": "img/faucets.png"
+
+
+	},
+	{
+		"title": "Fixings & Adhesives",
+       "imgurl1": "img/hardware.png",
+	    "imgurl2": "img/hardware.png"
+
+
+	},
+	{
+		"title": "Ceiling",
+       "imgurl1": "img/bricks.png",
+	    "imgurl2": "img/bricks.png"
+
+
+	},{
+		"title": "paints",
+       "imgurl1": "img/adhesive.png",
+	    "imgurl2": "img/adhesive.png"
+
+
+	},
+	{
+		"title": "Wallpapers & accessories",
+       "imgurl1": "img/adhesive.png",
+	    "imgurl2": "img/adhesive.png"
+
+
+	},
+	{
+		"title": "Glass & fittings",
+       "imgurl1": "img/faucets.png",
+	    "imgurl2": "img/faucets.png"
+
+
+	},
+	{
+		"title": "Landscaping",
+       "imgurl1": "img/hardware.png",
+	    "imgurl2": "img/hardware.png"
+
+
+	},
+	{
+		"title": "Home Furniture",
+       "imgurl1": "img/jacuzzibath.png",
+	    "imgurl2": "img/jacuzzibath.png"
+
+
+	}
+	
+	]
+}

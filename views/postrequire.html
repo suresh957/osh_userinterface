@@ -1,0 +1,244 @@
+<div class="wrap">
+   <!-- Static navbar -->
+   <section class="top" id="top-header">
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-12 col-sm-6 shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+         <div class="col-xs-12 col-sm-6 links"> 
+		 <a href="#contact" class="right-links">Contact Us</a>
+		 <span ng-hide="userlogged">
+		 <a href="#/login" class="right-links">Login </a>
+		<a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+			
+			<!--=== LOGOUT SECTION ===-->
+			
+		<div class="myprofile-block">
+		<div class="mypro-brdr">
+			<div class="pro-top">
+				<!--<a href="#" class="pro-pic">
+					<img src="img/tst-pic.jpg"/>
+					<span>Change</span>
+				</a>-->
+				<div class="pro-txt">
+					<h3>{{loggedInUserName}}</h3>
+					<h4>{{loggedInUser}}</h4>
+				</div>
+			</div>
+			<div class="pro-btm">
+				<span class="mypro-btn" ng-click="myProfile()"><a>My Profile</a></span>
+				<span class="mypro-logout" ng-click="logout()"><a>Logout</a></span>
+			</div>
+		</div>
+		</div>
+			 <a href="#cart" class="cart">
+			<!--<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> -->
+			   <img src="img/cart1.png">
+				   <span class="cart-value"> {{lengthofcart}}</span> </a>
+			
+			</div>
+			</div>
+			</div>
+
+</section>
+<header class="header">
+   <nav class="navbar navbar-default">
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 ">
+               <div class="navbar-header">
+			    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                  
+            <a class="navbar-brand" href="#/"></a>
+						 <figure> </figure>
+						 <div class="search mobile-search">
+							<div class="input">
+							<i class="fa fa-search"></i>
+								<input type="text" placeholder="Search">
+							</div>
+						 </div>
+					  </div>
+              <div id="navbar" class="navbar-collapse collapse">
+						 <ul class="nav navbar-nav">
+							<li><a href="#/todaydeals">Today's Deals</a></li>
+							<li><a>Buy/Sell</a></li>
+							<li><a href="#services">Services</a></li>
+							<li><a>About Us</a></li>
+							<li class="store"><a>Our Store</a></li>
+							<li><a href="#/myaccount">My Account</a></li>
+							<li class="menu-search">
+							<div class="search">
+							  <div class="input">
+								<i class="fa fa-search"></i>
+								  <div class="menu-in" ng-controller="TypeSearchCtrl">
+								  <div class="sec-block">
+									<select ng-init="searchType = typeOfSearch[0]"
+											ng-model="searchType"
+											ng-options="option.name for option in typeOfSearch">
+									</select>
+								  </div>
+                                    <input type="text" id="modalValue" ng-keypress="searchFunctions(searchSelected,$event,searchType.value,$model)" value="searchSelected" ng-model="searchSelected" autofocus="autofocus" placeholder="Search" uib-typeahead="item for item in getSearch($viewValue, searchType.value)" typeahead-focus-first="false" typeahead-wait-ms="1000" typeahead-min-length="3" typeahead-on-select="onSearchSelect(searchSelected, $item, $model, $label, $event, searchType.value, titleArray)" typeahead-no-results="noResults"/>
+									<span class="menu-in-search" ng-click="searchFunction(searchSelected, searchType.value)"><i class="fa fa-search"></i></span>
+									<span class="menu-in-clear" ng-click="clearString(searchSelected)"><i class="fa fa-times-circle"></i></span>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+							<li class="post" ><a><span>Post A Requirement</span></a></li>
+						 </ul>
+					  </div>
+               <!--.nav-collapse -->
+            </div>
+         </div>
+      </div>
+      <!--/.container-fluid -->
+   </nav>
+   <category-Directive></category-Directive>
+</header>
+   <div id="post-requirement">
+      <div class="container">
+         <div class="row">
+            <div class="post-block">
+               <!-- post-banner start -->
+               <div class="post-banner">
+                  <figure>
+                     <img src="img/post-bg.jpg"/>
+                  </figure>
+                  <figcaption>
+                     <b>Post</b> A Requirement
+                  </figcaption>
+               </div>
+               <!-- post-banner end -->
+               <div class="post-content">
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
+                     <form name="postForm" novalidate>
+                        <div class="form-group">
+                           <input type="text" name="firstName" ng-model="userprofile.firstName" placeholder="First Name" readonly>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group" ng-show="displayLastName">
+                           <input type="text" name="lastName"   ng-model="userprofile.lastName" placeholder="Last Name" readonly>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group">
+                           <input type="email" name="email"  ng-model="userprofile.email" placeholder="Email (Your User Id)"  pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" readonly>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group">
+                           <input type="text" name="phone" ng-model="userprofile.phone"  placeholder="Mobile Number" ng-pattern="/^[0-9]{1,10}$/" maxlength="10" readonly >
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+						<div class="form-group">
+                           <input type="text"  name="state" ng-model="userprofile.stateProvince" placeholder="state" readonly>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group">
+                           <input type="text"  name="city" ng-model="userprofile.city" placeholder="city" readonly>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group">
+                           <input type="text" name="address"  placeholder="Address" ng-model="userprofile.address " readonly></textarea>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group">
+                           <div class="sec-block">
+                              <select id="looking" ng-model="userprofile.item" ng-options="item as item.title for item in menuitem" required>
+                          <option value="">I am looking for</option> 
+                                 
+                              </select>
+                           </div>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group query-block">
+                           <textarea name="query" class="add-form" ng-model="userprofile.query" id="addressInput" placeholder="Query" required></textarea>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="form-group send-btn">
+                           <button type="submit" class="btn btn-primary" ng-disabled="postForm.$invalid" value="Post" title="Post" ng-click="postreq(userprofile)" id="updateAddress">Send Now <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>
+                        </div>
+						 <div class="clearfix"></div>
+                           <div class="alert alert-warning " ng-if="errmsg"> 
+                              <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>
+                              <strong> </strong>{{errmessage}}
+                           </div>
+                     </form>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
+                     <h3>Post your requirements with us and rest assured, as we find the best solution for your construction.</h3>
+                     <p>When you Post Your Requirements, we ensure that our referred solution match the expectations.</p>
+                  </div>
+               </div>
+            </div>
+            <!-- post-block end -->
+            <div id="top-brands">
+               <h2>Top Brands</h2>
+               <ul class="brand-logos">
+                  <li><img src="img/tb1.jpg"/></li>
+                  <li><img src="img/tb2.jpg"/></li>
+                  <li><img src="img/tb3.jpg"/></li>
+                  <li><img src="img/tb4.jpg"/></li>
+                  <li><img src="img/tb5.jpg"/></li>
+                  <li><img src="img/tb6.jpg"/></li>
+                  <li><img src="img/tb7.jpg"/></li>
+                  <li><img src="img/tb8.jpg"/></li>
+                  <li><img src="img/tb9.jpg"/></li>
+                  <li><img src="img/tb10.jpg"/></li>
+               </ul>
+            </div>
+			<div id="back-top">
+	<a href="javascript:" id="return-to-top"><i class="fa fa-arrow-circle-o-up"></i></a>
+</div>
+         </div>
+      </div>
+   </div>
+   <!-- #post-requirement -->
+   
+</div>
+<!-- Booking Success Popup -->
+<div class="modal fade successPopup" id="SuccessModal" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Success</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Failure Popup -->
+<div class="modal fade errorPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Error</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+$(".add-form").click(function(){
+    $(".show-addform").toggle();
+}); 
+$("#updateAddress").click(function(){
+  $(".show-addform").hide();
+   $('#looking option').prop('selected', function() {
+        return this.defaultSelected;
+    });
+  $('#addressInput').val("");
+});
+$(".mobile-search .fa-search").click(function(){
+    $(".mobile-search input").toggle();
+});
+</script>

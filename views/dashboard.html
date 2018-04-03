@@ -1,0 +1,682 @@
+<div class="wrap">
+   <!-- Static navbar -->
+   <section class="top" id="top-header">
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 col-sm-6 shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+            <div class="col-xs-12 col-sm-6 links">
+               <a href="#contact" class="right-links">Contact Us</a> <span ng-hide="userlogged"><a href="#/login" class="right-links">Login </a>  <a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+               <!--=== LOGOUT SECTION ===-->
+               <div class="myprofile-block">
+                  <div class="mypro-brdr">
+                     <div class="pro-top">
+                        <!--<a href="#" class="pro-pic">
+                           <img src="img/tst-pic.jpg"/>
+                           <span>Change</span>
+                           </a>-->
+                        <div class="pro-txt">
+                           <h3>{{loggedInUserName}}</h3>
+                           <h4>{{loggedInUser}}</h4>
+                        </div>
+                     </div>
+                     <div class="pro-btm">
+                        <span class="mypro-btn" ng-click="myProfile()"><a>My profile</a></span>
+                        <span class="mypro-logout" ng-click="logout()"><a>Log Out</a></span>
+                     </div>
+                  </div>
+               </div>
+               <a href="#cart" class="cart">
+                  <!--<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> -->
+                  <img src="img/cart1.png">
+                  <span class="cart-value"> {{lengthofcart}}</span> 
+               </a>
+            </div>
+         </div>
+      </div>
+   </section>
+   <header class="header">
+      <nav class="navbar navbar-default">
+         <div class="container">
+            <div class="row">
+               <div class="col-xs-12 ">
+                  <div class="navbar-header">
+                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                     <a class="navbar-brand" href="#/"></a>
+                     <figure> </figure>
+                     <div class="search mobile-search">
+                        <div class="input">
+                           <i class="fa fa-search"></i>
+                           <input type="text" placeholder="Search">
+                        </div>
+                     </div>
+                  </div>
+                  <div id="navbar" class="navbar-collapse collapse">
+                     <ul class="nav navbar-nav">
+                        <li><a href="#/todaydeals">Today's Deals</a></li>
+                        <li><a>Buy/Sell</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a>About Us</a></li>
+                        <li class="store"><a>Our Store</a></li>
+                        <li><a href="#/myaccount">My Account</a></li>
+                        <li class="menu-search">
+                           <div class="search">
+                              <div class="input">
+                                 <i class="fa fa-search"></i>
+                                 <div class="menu-in" ng-controller="TypeSearchCtrl">
+                                    <div class="sec-block">
+                                       <select ng-init="searchType = typeOfSearch[0]"
+                                          ng-model="searchType"
+                                          ng-options="option.name for option in typeOfSearch">
+                                       </select>
+                                    </div>
+                                    <input type="text" id="modalValue" ng-keypress="searchFunctions(searchSelected,$event,searchType.value,$model)" value="searchSelected" ng-model="searchSelected" autofocus="autofocus" placeholder="Search" uib-typeahead="item for item in getSearch($viewValue, searchType.value)" typeahead-focus-first="false" typeahead-wait-ms="1000" typeahead-min-length="3" typeahead-on-select="onSearchSelect(searchSelected, $item, $model, $label, $event, searchType.value, titleArray)" typeahead-no-results="noResults"/>
+                                    <span class="menu-in-search" ng-click="searchFunction(searchSelected, searchType.value)"><i class="fa fa-search"></i></span>
+                                    <span class="menu-in-clear" ng-click="clearString(searchSelected)"><i class="fa fa-times-circle"></i></span>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+                        <li class="post"><a href="#postrequire"><span>Post A Requirement</span></a></li>
+                     </ul>
+                  </div>
+                  <!--.nav-collapse -->
+               </div>
+            </div>
+         </div>
+         <!--/.container-fluid -->
+      </nav>
+      <category-Directive></category-Directive>
+   </header>
+   <section id="banner">
+      <div class="container" role="toolbar">
+         <div class="row">
+            <div class="home-slide">
+               <div class="inner">
+                  <div class="hbanner-inner">
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 banner-left">
+                        <figure><a href=""><img src="img/Hero-Banners-Hall-530x922_1.jpg" class="img-responsive imgfullwidth"></a></figure>
+                     </div>
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 banner-right">
+                        <figure><a href=""><img src="img/Hero-Banners-kitchen-265x926_1.jpg"  class="img-responsive  imgfullwidth banner-topimg"></a></figure>
+                        <figure><a href=""><img src="img/Hero-Banners-bedroom-265x926_1.jpg"  class="img-responsive  imgfullwidth banner-botimg"></a></figure>
+                     </div>
+                  </div>
+                  <div class="block">
+                     <div class="block-txt">
+                        <h3>Onestop solution for your complete house</h3>
+                     </div>
+                     <p class="phone"><a class="btn-call-to-action"  tabindex="0">
+                        <img src="img/bph.png"/>
+                        9966033317</a>
+                     </p>
+                     <p class="phone info"><a href="#contact" class="btn-call-to-action"  tabindex="0">MORE INFO</a></p>
+                  </div>
+               </div>
+               <div class="inner">
+                  <div class="hbanner-inner">
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 banner-left">
+                        <figure><a href=""><img src="img/Hero-Banners-Hall-530x922_2.jpg" class="img-responsive imgfullwidth"></a></figure>
+                     </div>
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 banner-right">
+                        <figure><a href=""><img src="img/Hero-Banners-kitchen-265x926_2.jpg"  class="img-responsive  imgfullwidth banner-topimg"></a></figure>
+                        <figure><a href=""><img src="img/Hero-Banners-bedroom-265x926_2.jpg"  class="img-responsive  imgfullwidth banner-botimg"></a></figure>
+                     </div>
+                  </div>
+                  <div class="block">
+                     <div class="block-txt">
+                        <h3>Onestop solution for your complete house</h3>
+                     </div>
+                     <p class="phone"><a class="btn-call-to-action" tabindex="0">
+                        <img src="img/bph.png"/>
+                        9966033317</a>
+                     </p>
+                     <p class="phone info"><a href="#contact" class="btn-call-to-action" tabindex="0">MORE INFO</a></p>
+                  </div>
+               </div>
+               <div class="inner">
+                  <div class="hbanner-inner">
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 banner-left">
+                        <figure><a href=""><img src="img/Hero-Banners-Hall-530x922_3.jpg" class="img-responsive imgfullwidth"></a></figure>
+                     </div>
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 banner-right">
+                        <figure><a href=""><img src="img/Hero-Banners-kitchen-265x926_3.jpg"  class="img-responsive  imgfullwidth banner-topimg"></a></figure>
+                        <figure><a href=""><img src="img/Hero-Banners-bedroom-265x926_3.jpg"  class="img-responsive  imgfullwidth banner-botimg"></a></figure>
+                     </div>
+                  </div>
+                  <div class="block">
+                     <div class="block-txt">
+                        <h3>Onestop solution for your complete house</h3>
+                     </div>
+                     <p class="phone"><a class="btn-call-to-action" tabindex="0">
+                        <img src="img/bph.png"/>
+                        9966033317</a>
+                     </p>
+                     <p class="phone info"><a href="#contact"  class="btn-call-to-action" tabindex="0">MORE INFO</a></p>
+                  </div>
+               </div>
+               <div class="inner">
+                  <div class="hbanner-inner">
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 banner-left">
+                        <figure><a href=""><img src="img/Hero-Banners-Hall-530x922_4.jpg" class="img-responsive imgfullwidth"></a></figure>
+                     </div>
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 banner-right">
+                        <figure><a href=""><img src="img/Hero-Banners-kitchen-265x926_4.jpg"  class="img-responsive  imgfullwidth banner-topimg"></a></figure>
+                        <figure><a href=""><img src="img/Hero-Banners-bedroom-265x926_4.jpg"  class="img-responsive  imgfullwidth banner-botimg"></a></figure>
+                     </div>
+                  </div>
+                  <div class="block">
+                     <div class="block-txt">
+                        <h3>Onestop solution for your complete house</h3>
+                     </div>
+                     <p class="phone"><a class="btn-call-to-action" tabindex="0">
+                        <img src="img/bph.png"/>
+                        9966033317</a>
+                     </p>
+                     <p class="phone info"><a href="#contact"  class="btn-call-to-action" tabindex="0">MORE INFO</a></p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <!-- Sub category Slider -->
+   <section class="sec-b">
+      <div class="container" role="toolbar">
+         <slick settings="slickSubCatConfig" ng-if="subCatagoryImgsLoaded">
+            <div ng-repeat="(key, value) in catImageData">
+               <h2 class="a-spacing-mini acswidget-carousel__header">
+                  <span class="acswidget-carousel__title">{{key}}</span>
+                  <hr class="a-spacing-base a-spacing-top-mini a-divider-normal acswidget-carousel__divider">
+               </h2>
+               <div class="slider-post" ng-repeat="item in value">
+                  <figure> <img ng-src="{{item.subCategoryImageURL||'img/no-image.jpg'}}" ng-click="getSubCatPage( key, item)" role="button"/> </figure>
+                  <div class="description">
+                     <span>{{item.subCategoryName}}</span>
+                  </div>
+               </div>
+            </div>
+         </slick>
+      </div>
+   </section>
+   <section id="banner1">
+      <div class="container" role="toolbar">
+         <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 banner-left" ng-if="offersData[0].sectionName == 'section1'">
+               <figure><a href=""><img src="{{offersData[0].categoryImageURL}}" class="img-responsive imgfullwidth"></a></figure>
+               <div class="top-right">
+                  <strong>{{offersData[0].discount}}% off </strong>
+                  <p>{{offersData[0].description}} {{offersData[0].categoryTitle}}</p>
+               </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 banner-right">
+               <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 banner-right" ng-if="offersData[1].sectionName == 'section2'">
+                  <figure><a href=""><img src="{{offersData[1].categoryImageURL}}" class="img-responsive imgfullwidth banner-topimg"></a></figure>
+                  <div class="top-right1">
+                     <strong>{{offersData[1].categoryName}}</strong>
+                     <p>{{offersData[1].discount}}% {{offersData[1].description}}  {{offersData[1].categoryTitle}}</p>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 banner-right"  ng-if="offersData[2].sectionName == 'section3'">
+                  <figure><a href=""><img src="{{offersData[2].categoryImageURL}}"  class="img-responsive imgfullwidth banner-botimg"></a></figure>
+                  <div class="top-right2">
+                     <strong>{{offersData[2].discount}}% Off</strong>
+                     <p>{{offersData[2].description}} {{offersData[2].categoryTitle}}</p>
+                  </div>
+               </div>
+               <div  class="col-xs-12 col-sm-12 col-md-12 col-lg-12 right-search"  ng-if="offersData[3].sectionName == 'section4'">
+                  <figure>
+                     <img src="{{offersData[3].categoryImageURL}}">
+                  </figure>
+                  <p>{{offersData[3].description}}<b> {{offersData[3].discount}}%</b> Off on<b> {{offersData[3].categoryTitle}}</b></p>
+                  </figure>
+               </div>
+            </div>
+         </div>
+   </section>
+   <section class="sec_d">
+   <div class="container" role="toolbar">
+   <div class="row">
+   <div class="deals">
+   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+   <div class="col-md-2">
+   <div class="thumbnail">
+   <img src="img/hdeal-person.png" alt="FREE SHIPPING">
+   <div class="caption">
+   <h3>FAST DELIVERY PRODUCT</h3>
+   <p>National wide <br>free shipping</p>
+   </div>
+   </div>
+   </div>
+   <div class="col-md-2">
+   <div class="thumbnail">
+   <img src="img/hdeal-clock.png" alt="FAST DELIVERY">
+   <div class="caption">
+   <h3>100% ASSURED VENDORS</h3>
+   <p>Fast national wide <br>delivery</p>
+   </div>
+   </div>
+   </div>
+   <div class="col-md-2">
+   <div class="thumbnail">
+   <img src="img/hdeal-moneyback.png" alt="MONEY BACK">
+   <div class="caption">
+   <h3>100% QUALITY PRODUCTS</h3>
+   <p>30 Days return <br>policy</p>
+   </div>
+   </div>
+   </div>
+   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right-deal">
+   <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 hdeal-title" >
+   <span ng-click="getDealDayPage(dealday.productId)">
+   <h4 ng-if="dealday.productName"><br>
+   <b>{{dealday.productName}}</b>
+   </h4>
+   <!-- <h4 class="hd-offer"><i class="fa fa-inr" aria-hidden="true"></i> {{dealday.productDiscountPrice}} ({{dealday.discountPercentage}}% OFF) <br> <span> <i class="fa fa-inr" aria-hidden="true"></i> {{dealday.productPrice}} </span> -->
+   <!-- </h4> -->
+   <!-- <h6 class="no-disc" ng-hide="display{{$index}}"><span> <i class="fa fa-inr" aria-hidden="true"></i> {{dealday.productPrice}} </span></h6> -->
+   <h6 class="disc-prd" ng-show="display{{$index}}"><span> <i class="fa fa-inr" aria-hidden="true"></i> {{dealday.productPrice}} </span></h6>
+   <h4   class="dis1" ng-show="display{{$index}}"> <i class="fa fa-inr" aria-hidden="true"></i> {{dealday.productDiscountPrice}} </h4>
+   <!--<h4 ng-if="!dealday.productName">Today No  <br>
+      Deal
+      </h4>-->
+   </span>
+   </div>
+   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 hdeal-img" ng-click="getDealDayPage(dealday.productId)"> <img ng-src="{{dealday.imageURL||'img/no-deal.jpg'}}"/> 
+   </div>
+   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 hdeal-des" ng-click="getDealDayPage(dealday.productId)">
+   <ul id="time-count">
+   <li><span>{{hours>0?hours:'00'||'00'}} <b>:</b></span> Hours</li>
+   <li><span>{{minutes>0?minutes:'00'||'00'}}<b>:</b></span> Minutes</li>
+   <li><span>{{seconds>0?seconds:'00'||'00'}} </span> Seconds</li>
+   </ul>
+   </div>
+   <div class="blink"><span>OFFER ENDS IN</span></div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </section>
+   <div class="wedo-list">
+   <div class="container">
+   <div class="col-xs-12 col-sm-12 col-md-12 whatwe">
+   <div class="col-xs-12 col-sm-3 col-md-3 list-item">
+   <div class="wedo-list-content">
+   <img ng-src="{{getProdImgPath?getProdImgPath:'getProdImgPath'}}">
+   </div>
+   </div>
+   <div class="col-xs-12 col-sm-4 col-md-4 list-item">
+   <div class="wedo-list-content">
+   <h3>WHAT WE DO</h3>
+   <p>{{serviceDescription}}</p>
+   </div>
+   </div>
+   <div class="col-xs-12 col-sm-5 col-md-5 list-item">
+   <div class="wedo-list-content">
+   <ul class="wlist">
+   <li ng-repeat="item in whatWeDoResp" ng-mouseover="getProductImage(item)"><a href="#/detailservices/{{item.serviceType}}/{{item.id}}">{{item.serviceType}}</a></li>
+   </ul>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   <!--
+      <section class="sec-f">
+         <div class="container">
+            <div class="row">
+               <figure><img ng-src="{{getProdImgPath?getProdImgPath:'img/layer70.jpg'}}"></figure>
+               <div class="what-we">
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                     <h3>WHAT WE DO</h3>
+                     <p>Lorem Ipsum sit amet, consectetur adipiscing elit, sed do elusmod tempor incidunt ut labore et dolore magna alqua.Utenium ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum  dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                     <ul>
+                        <!-- <li ng-repeat="item in deal"> <a href="#/detailservices/{{item.serviceType}}/{{item.id}}" ng-click="getProductServicePage(item,false)" role="button" ng-mouseover="getProductImage(item)">{{item.serviceType}}</a></li> -->
+   <!--<li ng-repeat="item in deal" ng-click="getProductServicePage(item,false)" role="button" ng-mouseover="getProductImage(item)">{{item.serviceType}}</li>
+      </ul>
+      </div>
+      </div>
+      </div>
+      </div>
+      </section>
+      -->
+   <section class="sec-pp">
+   <div class="container">
+   <div>
+   <h2 class="a-spacing-mini acswidget-carousel__header">
+   <span class="acswidget-carousel__title">Recommended</span>
+   <hr class="a-spacing-base a-spacing-top-mini a-divider-normal acswidget-carousel__divider">
+   </h2>
+   </div>
+   <section id="">
+   <slick settings="slickrecommendedprocutsConfig" ng-if="RecomendLoaded">
+   <li class="block" ng-repeat="image in recommend">
+   <div class="t-pro">
+   <figure>
+   <a href="#/productpage/{{image.productId}}"><img data-lazy="{{image.imageURL}}"></a>
+   <span class="hspace20"></span>
+   </figure>
+   <h3> {{image.productName}}</h3>
+   <h4 ng-show="produdsctprice"><i class="fa fa-inr" aria-hidden="true"></i> {{image.productDiscountPrice}}</h4>
+   <h4 ng-show = "productprce" ><i class="fa fa-inr" aria-hidden="true"></i> {{image.productPrice}}</h4>
+   <a href="#/productpage/{{image.productId}}" class="va">View Details</a>
+   </div>
+   </li>
+   </slick>
+   </section>
+   </div>
+   </section>
+   <section class="sec-g">
+   <div class="container">
+   <div class="row">
+   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 news">
+   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
+   <h2>NEWS</h2>
+   <div class="news-slide">
+   <div class="inner-slide">
+   <figure> <img src="img/topnews.jpg" /> </figure>
+   <h4><b>Mark to Market | Cement: Resilient prices keep valuations high</b> Updated: Mon, Oct 15 2012. 10 29 PM IST  : <b>SOURCE: BSE</b></h4>
+   <p>The second half may be good for most pan-Indian firms, but the southern companies’ fortunes are linked to monsoon that sets in November-December. Photo: Hindustan Times <b><a href="">MORE</a></b></p>
+   </div>
+   </div>
+   </div>
+   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 blog">
+   <h2>BLOG</h2>
+   <div class="blog-slide">
+   <div class="inner-slide">
+   <div class="blog-inner col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+   <figure> <img src="img/limestone.jpg" /> </figure>
+   </div>
+   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+   <h3>
+   <b>Fine limestone in cement </b>
+   Updated: Mon, Oct 15 2012. 10 29 PM IST
+   </h3>
+   <p>Essential viewing for anyone with technical oversight of cement manufacturing concrete mix design/production or concrete petrography:video of experiment to test fine limestone reactivity in cement</p>
+   </div>
+   </div>
+   <div class="blog-inner col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+   <figure> <img src="img/water-cement.jpg" /> </figure>
+   </div>
+   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+   <h3><b>Estimating the water-cement ratio of ... </b>
+   Updated: Mon, Oct 15 2012. 10 29 PM IST
+   </h3>
+   <p>Describes a method of estimating the water-cement ratio of hardened concrete using SEM img of polished sections of reference pastes.
+   Continue reading "Estimating the water-cement ratio of hardened 
+   </p>
+   </div>
+   </div>
+   <div class="blog-inner col-lg-12 col-md-12 col-sm-12 col-xs-12">
+   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+   <figure> <img src="img/cement.jpg" /> </figure>
+   </div>
+   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+   <h3>
+   <b>Understanding Cement in India</b>
+   Updated: Mon, Oct 15 2012. 10 29 PM IST
+   </h3>
+   <p>We are delighted to announce that United Books and Periodicals International is now the distributor of our printed books in India. Customers in India can now obtain our printed books through United Books and Periodicals.</p>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </div>
+   </section>
+   <section class="Pricing_Section">
+   <div class="container">
+   <div class="row">
+   <div class="col-xs-12 col-sm-6 col-md-6">
+   <h2>
+   TESTIMONIALS
+   </h2>
+   <div class="carousel slide" data-ride="carousel" id="quote-carousel">
+   <!-- Bottom Carousel Indicators -->
+   <ol class="carousel-indicators">
+   <li data-target="#quote-carousel" data-slide-to="0" class="active"></li>
+   <li data-target="#quote-carousel" data-slide-to="1"></li>
+   <li data-target="#quote-carousel" data-slide-to="2"></li>
+   </ol>
+   <!-- Carousel Slides / Quotes -->
+   <div class="carousel-inner">
+   <!-- Quote 1 -->
+   <div class="item" ng-class="$index==0?'active':''" ng-repeat="item in testimonialData">
+   <p>
+   {{item.description}}<!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Etiam porta sem malesuada magna mollis euismod. Nulla vitae elit libero, a pharetra augue. Donec id elit non mi porta gravida at eget metus. -->
+   </p>
+   <h5>{{item.customerName}}<!--<br> <span>CEO of OSH</span>--></h5>
+   </div>
+   <span class="c-icon" ng-show="testmonialView">
+   <span data-toggle="tooltip" data-placement="top"  id="search_submit"><i class="fa fa-commenting-o" aria-hidden="true"></i></span>
+   <form name="testimonialForm" novalidate>
+   <div id="icon-block">
+   <textarea id="search" name="search" ng-model="testimonialComment"  placeholder="Comments" required></textarea>
+   <button  type="submit" class="btn btn-primary" ng-click="submitTestimonial(testimonialComment)" ng-disabled="testimonialForm.$invalid" id="updatetest">Post</button>
+   </div>
+   </form></span>
+   </div>
+   </div>
+   </div>
+   <div class="col-xs-12 col-sm-6 col-md-6 right">
+   <h2>TOP BRANDS</h2>
+   <div class="item active">
+   <ul class="brand-icons">
+   <li ng-repeat="item in brandData">
+   <img ng-src="{{item.brangImage}}" alt="{{item.brandName}}"/><!-- img/testimonials-img.jpg -->
+   </li>
+   </ul>
+   </div>
+   </div>
+   <!-- Container (Pricing Section) -->
+   </section>
+   <div id="back-top">
+   <a href="javascript:" id="return-to-top"><i class="fa fa-arrow-circle-o-up"></i></a>
+   </div></div>
+   </div>
+   </div>
+   <footer class="footer">
+      <div class="container" id="fcontainer">
+         <div class="row">
+            <div class="col-xs-12 col-sm-3 col-md-3 social-links"> <img src="img/logo.jpg"> </div>
+            <div class="hidden-xs col-sm-3 col-md-4"></div>
+            <div class="footer-subscribe col-xs-12 col-sm-6 col-md-5">
+               <form  class="subscribe-form" name="subscriberForm"  novalidate>
+                  <!-- Subscriber Email Address -->
+                  <div ng-class="{ 'has-error' : subscriberForm.emailAddress.$invalid && !subscriberForm.emailAddress.$pristine }">
+                     <input type="email" name="emailAddress" id="emailAddress" class="form-control" ng-model="emailAddress" placeholder="Enter Email address for updates"  pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                        <button class="btn btn-subs" type="submit" ng-disabled="subscriberForm.$invalid" ng-click="getNotifications(emailAddress)">SUBMIT</button>
+						<p class="help-block" ng-show="subscriberForm.emailAddress.$touched && subscriberForm.emailAddress.$error.required"><b>Email is required</b></p>
+                     <p class="help-block" ng-show="subscriberForm.emailAddress.$error.pattern"><b>Invalid Email</b></p>
+                  </div>
+            </div>
+            </form>
+         </div>
+      </div>
+</div>
+</footer>
+<footer class="footer inner">
+   <div class="container">
+      <div class="row">
+         <div class="footer-top">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 info left">
+               <p>about ONE SEVEN HOME Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dol reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in <a>read more info</a></p>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 info right">
+               <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                  <h3>BUYING ASSURANCE</h3>
+                  <p><a>See authorised Dealers Certification</a></p>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-5 col-lg-5">
+                  <h3>INFO &amp; NEWS</h3>
+                  <ul>
+                     <li><a>About Us</a></li>
+                     <li><a>Contact Us</a></li>
+                     <li><a>Press Releases</a></li>
+                     <li><a>product Support</a></li>
+                     <li><a>Careers</a></li>
+                     <li><a>FAQ's</a></li>
+                  </ul>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 lctns">
+                  <h3>LOCATIONS</h3>
+                  <ul>
+                     <li><a>Hyderabad</a></li>
+                     <li><a>Warangal</a></li>
+                     <li><a>Vijayawada</a></li>
+                     <li><a>Guntur</a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="footer-middle">
+            <div class="stores col-xs-12 col-sm-6 col-md-6"> 
+               <a><img src="img/applestore.jpg"></a> 
+               <a><img src="img/googleplay.jpg"></a> 
+            </div>
+            <div class="payment-cards col-xs-12 col-sm-6 col-md-6">
+               <ul>
+                  <li><a><i class="fa fa-cc-paypal"></i></a></li>
+                  <li><a><i class="fa fa-cc-visa"></i></a></li>
+                  <li><a><i class="fa fa-cc-mastercard"></i></a></li>
+                  <li><a><i class="fa fa-credit-card"></i></a></li>
+               </ul>
+            </div>
+         </div>
+         <div class="footer-bottom">
+            <div class="left col-xs-12 col-sm-6 col-md-6 col-lg-6">
+               <p>Email: <a href="mailto:info@onesevenhome.com">info@onesevenhome.com</a></p>
+               <p class="contact">Contact: <a>9966033317</a></p>
+            </div>
+            <div class="right col-xs-12 col-sm-6 col-md-6 col-lg-6">
+               <div class="social-icons">
+                  <ul>
+                     <li>Stay Updated</li>
+                     <li><a><img src="img/fb.png"></a></li>
+                     <li><a><img src="img/in.png"></a></li>
+                     <li><a><img src="img/skype.png"></a></li>
+                     <li><a><img src="img/youtube.png"></a></li>
+                     <li><a><img src="img/instra.png"></a></li>
+                     <li><a><img src="img/twiter.png"></a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</footer>
+<!-- testomonial Success Popup -->
+<div class="modal fade successPopup" id="SuccessModal" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Success</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!--testomonial  Failure Popup -->
+<div class="modal fade errorPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Error</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+   $(".login-btn").click(function(){
+    $(".myprofile-block").toggle();
+   });
+</script>
+<script>
+   $('.home-slide').slick({
+   dots: true,
+   fade: true, 
+   arrows:true,
+   infinite: true,
+   speed: 300,
+   autoplay:true,
+   autoplaySpeed: 5000,
+   slidesToShow: 1,
+   adaptiveHeight: true,
+   slidesToScroll: 1
+   });
+   
+   $('.responsive').slick({
+   dots: false,
+   infinite: true,
+   autoplay:true,
+   arrows:true,
+   autoplayspeed:3000,
+   speed:3000,
+   slidesToShow: 6,
+   slidesToScroll: 1,
+   responsive: [
+   {
+   breakpoint: 1024,
+   settings: {
+   slidesToShow: 3,
+   slidesToScroll: 3,
+   infinite: true,
+   arrows:true,
+   dots: true
+   }
+   },
+   {
+   breakpoint: 600,
+   settings: {
+   slidesToShow: 2,
+   slidesToScroll: 2
+   }
+   },
+   {
+   breakpoint: 480,
+   settings: {
+   slidesToShow: 1,
+   slidesToScroll: 1
+   }
+   }
+   // You can unslick at a given breakpoint now by adding:
+   // settings: "unslick"
+   // instead of a settings object
+   ]
+   });
+</script>
+<script>
+   $(document).ready(function(){
+   	$('[data-toggle="tooltip"]').tooltip();   
+   });
+   $("#search_submit").click(function(){
+   	$("#icon-block").toggle();
+   });
+   $(".mobile-search .fa-search").click(function(){
+   	$(".mobile-search input").toggle();
+   });
+</script>
+<script>
+   $("#updatetest").click(function(){
+   $('#search').val("");
+   });
+</script>

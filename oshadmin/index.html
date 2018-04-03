@@ -1,0 +1,212 @@
+<!doctype html>
+<html ng-app="newapp">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <link rel="icon" href="img/osh-fav.png">
+      <title>OneSevenHome Admin</title>
+	  
+      <!-- Core CSS-->
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+	  <link rel="stylesheet" href="css/bootstrap-datepicker.css"/>
+      <link rel="stylesheet" href="css/font-awesome.css" rel="stylesheet" type="text/css">      
+	  <link href="css/angular.treeview.css" rel="stylesheet">
+      <link rel="stylesheet" href="css/ui-grid.css" type="text/css">
+      <link href="css/style.css" rel="stylesheet">
+	  
+      <!-- Source SCRIPTS -->
+      <script src="lib/jquery/jquery.min.js"></script>
+	  <script src="lib/angular/angular.min.js"></script>
+      <script src="lib/angular/angular-resource.js"></script>
+      <script src="lib/angular/angular-route.js"></script>
+      <script src="lib/charts/fusioncharts.js"></script>
+      <script src="lib/charts/angular-fusioncharts.min.js"></script>
+      <script src="lib/charts/fusioncharts.charts.js"></script>
+      <script src="lib/charts/fusioncharts.theme.carbon.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+	  
+	  <!-- Functionality SCRIPTS -->
+      <script src="js/app.js"></script>
+	  <script src="js/services/config.js"></script>
+	  <script src="js/directives/vendordirective.js"></script>
+     <script src="js/directives/servicesregdirective.js"></script>
+     <script src="js/directives/Architectsdirective.js"></script>
+     <script src="js/directives/Machinerydirective.js"></script>
+       <script src="js/directives/Wallpaperdirective.js"></script>
+	   <script src="js/directives/angularjs-dropdown-multiselect.min.js"></script>
+      <script src="js/controllers/adminlogin.js"></script>
+      <script src="js/controllers/home.js"></script>
+      <script src="js/controllers/profile.js"></script>
+      <script src="js/controllers/store.js"></script>
+      <script src="js/controllers/orders.js"></script>
+	  <script src="js/controllers/catalogue.js"></script>
+      <script src="js/controllers/dealmanagement.js"></script>
+	  <script src="js/controllers/discmanagement.js"></script>
+      <script src="js/controllers/addproducts.js"></script>
+      <script src="js/controllers/approveproducts.js"></script>
+      <script src="js/controllers/categorymanagement.js"></script>
+	  <script src="js/controllers/dealofday.js"></script>
+      <script src="js/controllers/changepassword.js"></script>
+      <script src="js/controllers/testimonialmanagement.js"></script>
+      <script src="js/controllers/brandimage.js"></script>
+      <script src="js/controllers/postarequirement.js"></script>
+	  <script src="js/controllers/servicemanagement.js"></script>
+	  <script src="js/controllers/historymanagement.js"></script>
+	  <script src="js/controllers/architects.js"></script>
+	  <script src="js/controllers/machinerymanagement.js"></script>
+	  <script src="js/controllers/wallpapermanagement.js"></script>
+	  <script src="js/controllers/vendorRegistration.js"></script>
+	  <script src="js/controllers/vendormanagement.js"></script>
+	  <script src="js/controllers/registeredVendors.js"></script>
+	  <script src="js/controllers/vendorproducts.js"></script>
+	  <script src="js/controllers/reports.js"></script>
+	  <script src="js/controllers/advertisements.js"></script>
+	  <script src="js/ng-pattern-restrict.js"></script>
+      <!-- Treeview  -->
+      <script src="js/angular.treeview.min.js"></script>
+      <script src="lib/uigrid/ui-grid.js"></script>
+      <script src="js/directives/paging.js"></script>
+	  <script src="js/bootstrap-datepicker.js"></script>
+   </head>
+   <body class="admin-panel" ng-controller="bodyController" ng-class="{login: location === '/'}">
+      <!--Header-->
+      <header class="header">
+         <nav class="navbar navbar-default">
+            <div class="container">
+               <div class="row">
+                  <div class="col-xs-12">
+                     <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                        <a class="navbar-brand" href="#/"></a>
+                        <figure> </figure>
+                     </div>
+                     <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                           <li><a class="btn" href="#home">Welcome <b>Admin</b></a></li>
+                        </ul>
+                     </div>
+                     <!--.nav-collapse -->               
+                  </div>
+               </div>
+            </div>
+         </nav>
+      </header>
+      <!--Header-->
+      <!--Container-->
+      <div class="container">
+         <div class="row">
+            <div class="col-md-2 admin-menu">
+               <nav class="navbar navbar-default sidebar" role="navigation">
+                  <div class="container-fluid">
+                     <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bscollapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        </button>      
+                     </div>
+                     <div class="collapse navbar-collapse" id="bscollapse-1">
+                        <ul class="nav navbar-nav">
+                           <li>
+                              <a class="dropmenu active" href="#home"><i class="fa fa-home"></i><span class="hidden-tablet">Home</span></a>
+                           </li>
+                           <li>
+                              <a class="dropmenu" href="#store"><i class="fa fa-book"></i><span class="hidden-tablet">Store</span></a>
+                           </li>
+                           <li>
+                              <a class="dropmenu" href="#profile"><i class="fa fa-user"></i><span class="hidden-tablet"> Profile</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#orders"><i class="fa fa-book"></i><span class="hidden-tablet">Orders/Invoices</span></a>
+                           </li>
+                           <li>
+							  <a class="dropmenu" href="#catalogue"><i class="fa fa-file"></i><span class="hidden-tablet">Catalogue</span></a>
+						   </li>
+						   <li>
+                              <a class="dropmenu" href="#dealmanagement"><i class="fa fa-book"></i><span class="hidden-tablet">Deal Management</span></a>
+                           </li>
+						    <li>
+                              <a class="dropmenu" href="#discmanagement"><i class="fa fa-book"></i><span class="hidden-tablet">Discount Management</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#vendorsmanagement"><i class="fa fa-book"></i><span class="hidden-tablet">Vendor Management</span></a>
+                           </li>
+						   <!--<li>
+                              <a class="dropmenu" href="#registeredVendors"><i class="fa fa-book"></i><span class="hidden-tablet">Registered Vendors</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#vendorRegistration"><i class="fa fa-book"></i><span class="hidden-tablet">Register A Vendor</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#vendorProducts"><i class="fa fa-file"></i><span class="hidden-tablet">Vendor Products Approvals</span></a>
+                           </li>-->
+						   <li>
+                              <a class="dropmenu" href="#addproducts"><i class="fa fa-file"></i><span class="hidden-tablet">Products Management</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#categorymanagement"><i class="fa fa-book"></i><span class="hidden-tablet">Category Management</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#serviceManagement"><i class="fa fa-book"></i><span class="hidden-tablet">Service Management</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#architectectsManagement"><i class="fa fa-book"></i><span class="hidden-tablet">Architects Management</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#machinerymanagement"><i class="fa fa-book"></i><span class="hidden-tablet">Machinery & Equipments Management</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#wallpapermanagement"><i class="fa fa-book"></i><span class="hidden-tablet">Wallpapers Management</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#historyManagement"><i class="fa fa-book"></i><span class="hidden-tablet">History Management</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#postarequirement"><i class="fa fa-book"></i><span class="hidden-tablet">Manage Requirements</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#testimonialmgmt"><i class="fa fa-book"></i><span class="hidden-tablet">Testimonials</span></a>
+                           </li>
+                           <!--<li>
+                              <a class="dropmenu" href="#approveproducts"><i class="fa fa-file"></i><span class="hidden-tablet">Approve Vendors</span></a>
+                           </li>-->
+						   <li>
+							 <a class="dropmenu" href="#dealofday"><i class="fa fa-file"></i><span class="hidden-tablet">Deal Of The Day</span></a>
+						  </li>
+						  <li>
+							 <a class="dropmenu" href="#advertisements"><i class="fa fa-file"></i><span class="hidden-tablet">Advertisements</span></a>
+						  </li>
+						   <li>
+                              <a class="dropmenu" href="#brandimageupload"><i class="fa fa-book"></i><span class="hidden-tablet">Brand Images</span></a>
+                           </li>
+						   <li>
+                              <a class="dropmenu" href="#Reports"><i class="fa fa-book"></i><span class="hidden-tablet">Reports</span></a>
+                           </li>
+                           <li>
+                              <a href="#changepassword"><i class="fa fa-lock"></i><span class="hidden-tablet">Change Password</span></a>
+                           </li>
+                           <li>
+                              <a href="" ng-click="logout()"><i class="fa fa-unlock"></i><span class="hidden-tablet">Logout</span></a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </nav>
+            </div>
+            <div class="content col-xs-12 col-lg-10 containerwrap" autoscroll="true" ng-view></div>
+         </div>
+      </div>
+      <!--container--> 
+      <div class="clearfix"></div>
+      <!--Footer-->
+      <footer class="footer">
+         <div class="copy">Copyright &copy; 2017 One Seven Homes. All rights reserved. </div>
+      </footer>
+      <!--Footer-->
+	  <!--<div class="modal-backdrop fade in" data-loading ><div class="loadspinner" ><i class="fa fa-spinner fa-spin"></i> <span>Loading...</span></div></div>-->
+   </body>
+</html>

@@ -1,0 +1,282 @@
+<div class="wrap">
+   <!-- Static navbar -->
+   <section class="top" id="top-header">
+		  <div class="container">
+			 <div class="row">
+				<div class="col-xs-12 col-sm-6 shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+				<div class="col-xs-12 col-sm-6 links">
+				   <a href="#contact" class="right-links">Contact Us</a> <span ng-hide="userlogged"><a href="#/login" class="right-links">Login </a>  <a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+				   <!--=== LOGOUT SECTION ===-->
+				   <div class="myprofile-block">
+					  <div class="mypro-brdr">
+						 <div class="pro-top">
+							<!--<a href="#" class="pro-pic">
+							   <img src="img/tst-pic.jpg"/>
+							   <span>Change</span>
+							   </a>-->
+							<div class="pro-txt">
+							   <h3>{{loggedInUserName}}</h3>
+							   <h4>{{loggedInUser}}</h4>
+							</div>
+						 </div>
+						 <div class="pro-btm">
+							<span class="mypro-btn" ng-click="myProfile()"><a>My profile</a></span>
+							<span class="mypro-logout" ng-click="logout()"><a>Log Out</a></span>
+						 </div>
+					  </div>
+				   </div>
+				   <a href="#cart" class="cart">
+				   <!--<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> -->
+				   <img src="img/cart1.png">
+				   <span class="cart-value"> {{lengthofcart}}</span> </a>
+				</div>
+			 </div>
+		  </div>
+	   </section>
+	   <header class="header">
+		  <nav class="navbar navbar-default">
+			 <div class="container">
+				<div class="row">
+				   <div class="col-xs-12 ">
+					  <div class="navbar-header">
+						 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+						 <a class="navbar-brand" href="#/"></a>
+						 <figure> </figure>
+						 <div class="search mobile-search">
+							<div class="input">
+								<i class="fa fa-search"></i>
+								<input type="text" placeholder="Search">
+							</div>
+						</div>
+					  </div>
+					  <div id="navbar" class="navbar-collapse collapse">
+						 <ul class="nav navbar-nav">
+							<li><a href="#/todaydeals">Today's Deals</a></li>
+							<li><a>Buy/Sell</a></li>
+							<li><a href="#services">Services</a></li>
+							<li><a>About Us</a></li>
+							<li class="store"><a>Our Store</a></li>
+							<li><a href="#/myaccount">My Account</a></li>
+							<li class="menu-search">
+							<div class="search">
+							  <div class="input">
+								<i class="fa fa-search"></i>
+								  <div class="menu-in" ng-controller="TypeSearchCtrl">
+								  <div class="sec-block">
+									<select ng-init="searchType = typeOfSearch[0]"
+											ng-model="searchType"
+											ng-options="option.name for option in typeOfSearch">
+									</select>
+								  </div>
+                                    <input type="text" id="modalValue" ng-keypress="searchFunctions(searchSelected,$event,searchType.value,$model)" value="searchSelected" ng-model="searchSelected" autofocus="autofocus" placeholder="Search" uib-typeahead="item for item in getSearch($viewValue, searchType.value)" typeahead-focus-first="false" typeahead-wait-ms="1000" typeahead-min-length="3" typeahead-on-select="onSearchSelect(searchSelected, $item, $model, $label, $event, searchType.value, titleArray)" typeahead-no-results="noResults"/>
+									<span class="menu-in-search" ng-click="searchFunction(searchSelected, searchType.value)"><i class="fa fa-search"></i></span>
+									<span class="menu-in-clear" ng-click="clearString(searchSelected)"><i class="fa fa-times-circle"></i></span>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+							<li class="post" ><a href="#postrequire"><span>Post A Requirement</span></a></li>
+						 </ul>
+					  </div>
+					  <!--.nav-collapse -->
+				   </div>
+				</div>
+			 </div>
+			 <!--/.container-fluid -->
+		  </nav>
+		  <category-Directive></category-Directive>
+	   </header>   
+<div class="breadcrumbs">
+	<a href="#/">Home</a>    &gt;    <a href="">Kitchen</a>    &gt;     Sub Categories
+	</div>
+	
+	<section class="plist mid">
+	<div class="container">
+		<div id="subcat-block">
+		<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3  ">
+			<div class="subcat-check blck">  
+			<h5>Kitchen</h5>
+				  <input id="box1" type="checkbox" />
+				  <label for="box1">Kitchen ranges or Modular kitchen</label>
+				  
+				  <input id="box2" type="checkbox" />
+				  <label for="box2">Kitchen appliances and accessories</label>
+		
+				  <input id="box3" type="checkbox" />
+				  <label for="box3">Kitchen sinks and taps</label>
+				  
+				  <input id="box4" type="checkbox" />
+				  <label for="box4">Kitchen workshops</label>
+				  
+				
+			</div>
+			<div class="subcat-check s-link blck">  
+			<h5 class="show-brand active">Brand </h5>
+			<div  class="scrollbar-inner">
+				<ul class="subcat-link brand">
+					<li><a href="">Cera</a></li>
+					<li><a href="">Campton</a></li>
+					<li><a href="">Elica</a></li>
+					<li><a href="">LG</a></li>
+					<li><a href="">Sterla</a></li>
+					<li><a href="">Cera</a></li>
+					<li><a href="">Campton</a></li>
+					<li><a href="">Elica</a></li>
+					<li><a href="">LG</a></li>
+					<li><a href="">Sterla</a></li>
+				</ul>
+			</div>
+			</div>
+			
+			<div class="subcat-check s-link blck">  
+			<h5 class="show-type">Type </h5>
+			<div  class="scrollbar-inner">
+				<ul class="subcat-link type">
+					<li><a href="">Cera</a></li>
+					<li><a href="">Campton</a></li>
+					<li><a href="">Elica</a></li>
+					<li><a href="">LG</a></li>
+					<li><a href="">Sterla</a></li>
+					<li><a href="">Cera</a></li>
+					<li><a href="">Campton</a></li>
+					<li><a href="">Elica</a></li>
+					<li><a href="">LG</a></li>
+					<li><a href="">Sterla</a></li>
+				</ul>
+			</div>
+			</div>
+			
+			<div class="subcat-check s-link blck">  
+			<h5 class="show-quality">Quality </h5>
+			<div  class="scrollbar-inner">
+				<ul class="subcat-link qty">
+					<li><a href="">Cera</a></li>
+					<li><a href="">Campton</a></li>
+					<li><a href="">Elica</a></li>
+					<li><a href="">LG</a></li>
+					<li><a href="">Sterla</a></li>
+					<li><a href="">Cera</a></li>
+					<li><a href="">Campton</a></li>
+					<li><a href="">Elica</a></li>
+					<li><a href="">LG</a></li>
+					<li><a href="">Sterla</a></li>
+				</ul>
+			</div>
+			</div>
+			
+			
+			<div class="todaydeals rp">
+			<div class="rp-block">
+				<h2 class="sec-title2"><strong>Recommended Products </strong></h2>
+				<div class="block"ng-repeat="image in recommend">
+					<figure>
+						<a href="#"><img ng-src="{{image.imgurl}}"></a>
+						<span class="dis">{{image.discount}}</span>
+					</figure>
+					<h3> {{image.description}}</h3>
+					<h4> <i class="fa fa-inr" aria-hidden="true"></i> {{image.price}} </h4>
+					<a href="#" class="va">View Details</a>
+				</div>
+				
+			</div>  
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 tdm-block">
+		<h5>Showing 1-22 of 99 Results</h5>
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 todaydeal-block" ng-repeat="sbct in subca">
+				<figure>
+					<a href="#"><img ng-src="{{sbct.imgurl}}"></a>
+					<span class="dis">{{sbct.discount}}</span>
+				</figure>
+				<h3> {{sbct.description}}</h3>
+				<h4><i class="fa fa-inr" aria-hidden="true"></i> {{sbct.price}}</h4>
+				<a href="#" class="va">View Details</a>
+			</div>
+		</div>
+	</section>
+	<section class="todaydeals rview" >
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12  ">
+               <h2 class="sec-title"><strong>Recently Bought</strong></h2>
+               <ul class="all">
+                  <slick settings="slickrecentbroughtConfig" ng-if="RecentlyLoaded">
+                     <li ng-repeat="brought in recently">
+                        <figure>
+                           <a href="#/productpage/{{brought.productId}}"><img data-lazy="{{brought.imgurl}}"></a>
+                           <span class="dis">{{brought.discount}}</span>
+                        </figure>
+                        <h3>{{brought.description}}</h3>
+                        <h4><i class="fa fa-inr" aria-hidden="true"></i> {{brought.price}}</h4>
+                        <a href="#/productpage/{{brought.productId}}" class="va">View Details</a>
+                     </li>
+                  </slick>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </section>
+
+<script>
+$(".login-btn").click(function(){
+    $(".myprofile-block").toggle();
+});
+$(".mobile-search .fa-search").click(function(){
+	$(".mobile-search input").toggle();
+});
+</script>
+<!-- /container -->
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+<script src="js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+<script src="js/bootstrap-select.min.js"></script>
+<script src="js/backtotop.js"></script>
+<script src="js/jquery.scrollbar.js"></script>
+<script>
+$(document).ready(function(){ 
+   $(".scrollbar-inner").scrollbar();
+});
+    jQuery('.category-menu  a').mouseover(function() {	 
+	imageurl= $(this).text().toLowerCase().replace(/ /g,"-");
+		console.log(imageurl); 
+        jQuery('.category-menu ul li > ul.dropdown').css('background-image', "url('images/"+imageurl+".jpg')");
+    }); 
+	var topHeight = $('#top-header').height();
+ 
+	//Scroll Menu
+	$(window).on('scroll', function(){
+		if( $(window).scrollTop()>topHeight ){
+			$('.navbar-default').addClass('navbar-fixed-top ');
+			$('.navbar-default').addClass('active ');
+		} else {
+			$('.navbar-default').removeClass('navbar-fixed-top');
+			$('.navbar-default').removeClass('active');
+		}
+	});
+$(".show-brand").click(function(){
+    $(".subcat-link.brand").toggle();
+});
+$(".show-brand").click(function(){
+    $(".show-brand").toggleClass("active");
+});
+
+$(".show-type").click(function(){
+    $(".subcat-link.type").toggle();
+});
+$(".show-type").click(function(){
+    $(".show-type").toggleClass("active");
+});
+
+$(".show-quality").click(function(){
+    $(".subcat-link.qty").toggle();
+});
+$(".show-quality").click(function(){
+    $(".show-quality").toggleClass("active");
+});
+</script>

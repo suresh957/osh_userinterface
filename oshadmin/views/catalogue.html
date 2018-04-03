@@ -1,0 +1,774 @@
+<div class="catalogue-view">
+   <!-- Nav tabs -->
+   <ul class="nav nav-tabs" id="cataloguetabs" role="tablist">
+      <li role="presentation" class="active"><a data-target="#catalogue" aria-controls="home" role="tab" data-toggle="tab" >Catalogue</a></li>
+      <li role="presentation" class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+         Products <span class="caret"></span>
+         </a>
+         <ul class="dropdown-menu" id="collapsed">
+            <li><a data-target="#cproducts" data-toggle="tab">Create Product</a></li>
+            <li><a data-target="#upproducts" data-toggle="tab">Update/Delete Product</a></li>
+            <li><a data-target="#upimgproducts" data-toggle="tab">Product Images</a></li>
+         </ul>
+      </li>
+      <li role="presentation" class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+         Category <span class="caret"></span>
+         </a>
+         <ul class="dropdown-menu" id="collapsed">
+            <li><a data-target="#ccategories" data-toggle="tab">Create Category</a></li>
+         </ul>
+      </li>
+      <li role="presentation" class="dropdown">
+         <a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+         Filters <span class="caret"></span>
+         </a>
+         <ul class="dropdown-menu" id="collapsed">
+            <li><a data-target="#cfiltername" data-toggle="tab">Create New Filter</a></li>
+            <li><a data-target="#cfilters" data-toggle="tab">Add Filter Values</a></li>
+            <li><a data-target="#addprodfilter" data-toggle="tab">Assign Filters to Products</a></li>
+         </ul>
+      </li>
+   </ul>
+   <!-- Tab panes -->
+   <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="catalogue">
+         <div id="content" class="row">
+            <div class="col-md-4">
+               <div class="panel panel-primary">
+                  <div class="panel-heading">
+                     <h3 class="panel-title main-title "><span>Categories</span></h3>
+                  </div>
+                  <div class="panel-body">
+                     <div
+                        data-angular-treeview="false"
+                        data-tree-id="mytree"
+                        data-tree-model="treedata"
+                        data-node-id="url"
+                        data-node-label="title"
+                        data-ng-click="treesel(mytree.currentNode.title)"
+                        data-node-children="subCategory" ></div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-8">
+               <div class="panel panel-primary">
+                  <div class="panel-heading">
+                     <h3 class="panel-title main-title "><span>Products</span></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="gridStyle"
+                        ui-grid="{ data: productdata, columnDefs: columnDefs }" ui-grid-cellnav  ui-grid-auto-resize>
+					</div>
+                     <div class="clearfix"></div>
+                     <div class="text-center">
+                        <div paging
+                           page="1" 
+                           page-size="15" 
+                           total=totalCount
+                           paging-action="PagingAct(page, pageSize, total)">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="cproducts">
+         <div id="content" class="row">
+            <div class="col-md-12">
+               <!-- Create Product -->
+               <div class="body-bg">
+                  <div class="container-fluid-full">
+                     <div class="row-fluid">
+                        <div class="content-box store ">
+                           <h2 class="main-title"><span>Create a Product</span></h2>
+                           <form name="ProdForm" novalidate>
+                              <div class="col-xs-12 col-sm-6 pull-left">
+                                 <!-- Category
+                                    <div class="form-group" ng-class="{ 'has-error' : ProdForm.category.$invalid && !ProdForm.category.$pristine }">
+                                       <input type="text" name="category" class="form-control" ng-model="prod.category" placeholder="Category " required>
+                                       <p ng-show="ProdForm.category.$touched && ProdForm.category.$invalid" class="help-block">Category is required</p>
+                                       <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div> -->
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-change="prodcatchange()" ng-model="prodcatvalue">
+                                          <option ng-repeat="cprod in menuitems">{{cprod.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-model="prodsubcatvalue" ng-disabled="prodsubCatValueEnb">
+                                          <option ng-repeat="sCat in prodcategorySub">{{sCat.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <!-- SKU -->
+                                 <div class="form-group" ng-class="{ 'has-error' : ProdForm.sku.$invalid && !ProdForm.sku.$pristine }">
+                                    <input type="text" name="sku" class="form-control" ng-model="prod.sku" placeholder="Product Code" required>
+                                    <p ng-show="ProdForm.sku.$touched && ProdForm.sku.$invalid" class="help-block">Product Code is required</p>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                 </div>
+                                 <!-- Description -->
+                                 <div class="form-group" ng-class="{ 'has-error' : ProdForm.description.$invalid && !ProdForm.description.$pristine }">
+                                    <input type="text" name="description" class="form-control" ng-model="prod.description" placeholder="Enter Description" required>
+                                    <p ng-show="ProdForm.description.$touched && ProdForm.description.$invalid" class="help-block">Description is required</p>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                 </div>
+                                 <!-- Name -->
+                                 <div class="form-group" ng-class="{ 'has-error' : ProdForm.name.$invalid && !ProdForm.name.$pristine }">
+                                    <input type="text" name="name" class="form-control" ng-model="prod.productName" placeholder="Enter Name" required>
+                                    <p ng-show="ProdForm.name.$touched && ProdForm.name.$invalid" class="help-block">Name is required</p>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                 </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-6  pull-right">
+                                 <!-- Title -->
+                                 <div class="form-group" ng-class="{ 'has-error' : ProdForm.title.$invalid && !ProdForm.title.$pristine }">
+                                    <input type="text" name="title" class="form-control" ng-model="prod.title" placeholder="Title" required>
+                                    <p ng-show="ProdForm.title.$touched && ProdForm.title.$invalid" class="help-block">Title is required</p>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                 </div>
+                                 <!-- Short Descriptionesc -->
+                                 <div class="form-group" ng-class="{ 'has-error' : ProdForm.short_desc.$invalid && !ProdForm.short_desc.$pristine }">
+                                    <input type="text" name="short_desc" class="form-control" ng-model="prod.shortDesc" placeholder="Short Description" required>
+                                    <p ng-show="ProdForm.short_desc.$touched && ProdForm.short_desc.$invalid" class="help-block">Short Description is required</p>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                 </div>
+                                 <!-- Product Description -->
+                                 <div class="form-group" ng-class="{ 'has-error' : ProdForm.productDescTitle.$invalid && !ProdForm.productDescTitle.$pristine }">
+                                    <input type="text" name="productDescTitle" class="form-control" ng-model="prod.productDescTitle" placeholder="Product Description Title" required>
+                                    <p ng-show="ProdForm.productDescTitle.$touched && ProdForm.productDescTitle.$invalid" class="help-block">Product Description Title is required</p>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                 </div>
+                                 <!-- Price -->
+                                 <div class="form-group" ng-class="{ 'has-error' : ProdForm.price.$invalid && !ProdForm.price.$pristine }">
+                                    <input type="number" name="price" class="form-control" ng-model="prod.productPrice" placeholder="Enter Price" required>
+                                    <p ng-show="ProdForm.price.$touched && ProdForm.price.$invalid" class="help-block">Price is required</p>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                 </div>
+                                 <!-- Discount Price -->
+                                 <!--<div class="form-group" ng-class="{ 'has-error' : ProdForm.discount_price.$invalid && !ProdForm.discount_price.$pristine }">
+                                    <input type="number" name="discount_price" class="form-control" ng-model="prod.discountPrice" placeholder="Discount Price" >
+                                 </div>-->
+                              </div>
+                              <div class="clearfix"></div>
+                              <div class="button-login">
+                                 <button id="submit" type="button" class="btn btn-primary" ng-disabled="ProdForm.$invalid" ng-click="createprod(prod)">Submit</button>
+                              </div>
+                              <div class="alert alert-warning" ng-if="errmsg"> 
+                                 <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>{{errmessage}}
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Create Product -->
+            </div>
+         </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="upproducts">
+         <div id="content" class="row">
+            <div class="col-md-12">
+               <!-- Update Product -->
+               <div class="row">
+                  <div class="col-md-offset-4 col-sm-4">
+                     <h2 class="main-title"><span>Update/Delete Products</span></h2>
+                     <form class="form-horizontal">
+                        <div class="form-group">
+                           <div class="sec-block">
+                              <select ng-change="catchange()" ng-model="catvalue">
+                                 <option ng-repeat="category in menuitems">{{category.title}}</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="sec-block">
+                              <select ng-change="subCatChange()" ng-model="subCatValue" ng-disabled="subCatValueEnb">
+                                 <option ng-repeat="subCat in categorySub">{{subCat.title}}</option>
+                              </select>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="gridStyle"
+                     ui-grid="Updateproductgrid" ui-grid-cellnav  ui-grid-auto-resize></div>
+                  <div class="clearfix"></div>
+                  <div class="text-center">
+                     <div paging
+                        page="1" 
+                        page-size="15" 
+                        total=uptotalCount
+                        paging-action="UpPagingAct(page, pageSize, total)">
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Product Images Upload -->
+      <div role="tabpanel" class="tab-pane" id="upimgproducts">
+         <div id="content" class="row">
+            <div class="col-md-12">
+               <div class="body-bg">
+                  <div class="container-fluid-full">
+                     <div class="row-fluid">
+                        <div class="content-box store ">
+                           <h2 class="main-title"><span>Product Images</span></h2>
+                           <div class="col-md-offset-4 col-sm-4">
+                              <form class="form-horizontal">
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-change="upImgcatchange()" ng-model="upImgcatvalue">
+                                          <option ng-repeat="upImgcategory in menuitems">{{upImgcategory.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-change="upImgsubCatChange(upImgsubCatValue)" ng-model="upImgsubCatValue" ng-disabled="pfsubCatValueEnb">
+                                          <option ng-repeat="pfsubCat in upImgSubCat">{{pfsubCat.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="gridStyle"
+                              ui-grid="upImgproductgrid" ui-grid-cellnav ui-grid-auto-resize></div>
+                           <div class="clearfix"></div>
+                           <div class="text-center">
+                              <div paging
+                                 page="1" 
+                                 page-size="15" 
+                                 total=filtotalCount
+                                 paging-action="upImgPagingAct(page, pageSize, total)">
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Category-->
+      <div role="tabpanel" class="tab-pane" id="ccategories">
+         <div id="content" class="row">
+            <div class="col-md-12">
+               <!-- Create Product -->
+               <div class="body-bg">
+                  <div class="container-fluid-full">
+                     <div class="row-fluid">
+                        <div class="content-box store ">
+                           <h2 class="main-title"><span>Create a category</span></h2>
+                           <form name="categoryForm" novalidate>
+                              <div class="col-xs-12 col-md-6 col-md-offset-3">
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-model="categvalue" ng-change="changePlaceholder()">
+                                          <option ng-repeat="categ in categarry">{{categ.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="form-group" ng-class="{ 'has-error' : categoryForm.categoryName.$invalid && !categoryForm.sku.$pristine }">
+                                    <input type="text" name="categoryName" class="form-control" ng-model="newcategory.categoryName" placeholder="{{somePlaceholder}}" required>
+                                    <p ng-show="categoryForm.categoryName.$touched && ProdForm.categoryName.$invalid" class="help-block">Category Name is required</p>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                 </div>
+                                 <div class="input-group">
+                                    <input type="file" id="file" upload-files name="file" multiple class="inputfile inputfile-2" onchange="angular.element(this).scope().getFileDetails(this)"/>
+                                    <label for="file"><span>Select Image</span></label>
+                                    <ul>
+                                       <li ng-repeat="selectFile in files">{{selectFile.name}}</li>
+                                    </ul>
+                                 </div>
+                              </div>
+                              <div class="clearfix"></div>
+                              <div class="button-login">
+                                 <button id="submit" type="button" class="btn btn-primary" ng-disabled="categoryForm.$invalid" ng-click="createcat(newcategory)">Submit</button>
+                              </div>
+                              <div class="alert alert-warning" ng-if="errmsg"> 
+                                 <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>{{errmessage}}
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Create Product -->
+            </div>
+         </div>
+      </div>
+      <!-- Filters-->
+      <div role="tabpanel" class="tab-pane" id="cfiltername">
+         <div id="content" class="row">
+            <div class="col-md-12">
+               <div class="body-bg">
+                  <div class="container-fluid-full">
+                     <div class="row-fluid">
+                        <div class="content-box store ">
+                           <h2 class="main-title"><span>Create New Filter</span></h2>
+                           <form name="cfiltname" novalidate>
+                              <div class="col-xs-12 col-md-6 col-md-offset-3">
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-change="filnamecatchange()" ng-model="cfilname">
+                                          <option ng-repeat="filnamecategory in menuitems">{{filnamecategory.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-change="filnamesubCatChange(filsubCatValue)" ng-model="filsubCatValue" ng-disabled="filnamesubCatValueEnb">
+                                          <option ng-repeat="filnamesubCat in filnamecategorySub">{{filnamesubCat.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="form-group" ng-class="{ 'has-error' : cfiltname.filname.$invalid && !cfiltname.filname.$pristine }">
+                                    <input type="text" name="filname" class="form-control" ng-model="newfilname.filname" placeholder="Enter Filter Name" required>
+                                    <p ng-show="cfiltname.filname.$touched && cfiltname.filname.$invalid" class="help-block">Enter Filter Name </p>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                 </div>
+                              </div>
+                              <div class="clearfix"></div>
+                              <div class="button-login">
+                                 <button id="submit" type="button" class="btn btn-primary" ng-disabled="cfiltname.$invalid" ng-click="createfiltername(newfilname)">Add</button>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="cfilters">
+         <div id="content" class="row">
+            <div class="col-md-12">
+               <div class="body-bg">
+                  <div class="container-fluid-full">
+                     <div class="row-fluid">
+                        <div class="content-box store ">
+                           <h2 class="main-title"><span>Add Filter Values</span></h2>
+                           <form name="filcategoryForm" novalidate>
+                              <div class="col-xs-12 col-md-6 col-md-offset-3">
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-change="filcatchange()" ng-model="filcatvalue">
+                                          <option ng-repeat="filcategory in menuitems">{{filcategory.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-change="filsubCatChange(filsubCatValue)" ng-model="filsubCatValue" ng-disabled="filsubCatValueEnb">
+                                          <option ng-repeat="filsubCat in filcategorySub">{{filsubCat.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-change="filnameChange()" ng-model="filtername" ng-disabled="filnameValueEnb">
+                                          <option ng-repeat="filname in filternames">{{filname.filterName}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="form-group" ng-class="{ 'has-error' : filcategoryForm.filtype.$invalid && !filcategoryForm.filtype.$pristine }">
+                                    <textarea type="text" name="filtype" class="form-control" ng-model="newfil.filtype" placeholder="Enter Single/Multiple Filter types by comma seperated" required></textarea>
+                                    <p ng-show="filcategoryForm.filtype.$touched && filcategoryForm.filtype.$invalid" class="help-block">Enter Single/Multiple Filter types </p>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                 </div>
+                              </div>
+                              <div class="clearfix"></div>
+                              <div class="button-login">
+                                 <button id="submit" type="button" class="btn btn-primary" ng-disabled="filcategoryForm.$invalid" ng-click="createfilter(newfil)">Add</button>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Add Product Filters -->
+      <div role="tabpanel" class="tab-pane" id="addprodfilter">
+         <div id="content" class="row">
+            <div class="col-md-12">
+               <div class="body-bg">
+                  <div class="container-fluid-full">
+                     <div class="row-fluid">
+                        <div class="content-box store ">
+                           <h2 class="main-title"><span>Assign Filters to Products</span></h2>
+                           <div class="col-md-offset-4 col-sm-4">
+                              <form class="form-horizontal">
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-change="pfcatchange()" ng-model="pfcatvalue">
+                                          <option ng-repeat="pfcategory in menuitems">{{pfcategory.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <div class="sec-block">
+                                       <select ng-change="pfsubCatChange(filsubCatValue)" ng-model="filsubCatValue" ng-disabled="filsubCatValueEnb">
+                                          <option ng-repeat="pfsubCat in assFilProdSubCat">{{pfsubCat.title}}</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+                           <div class="clearfix"></div>
+                           <div class="gridStyle"
+                              ui-grid="filproductgrid" ui-grid-cellnav  ui-grid-auto-resize></div>
+                           <div class="clearfix"></div>
+                           <div class="text-center">
+                              <div paging
+                                 page="1" 
+                                 page-size="15" 
+                                 total=filtotalCount
+                                 paging-action="filPagingAct(page, pageSize, total)">
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title">{{updateProd.productName}} [{{updateProd.productId}}]</h4>
+            </div>
+            <div class="modal-body">
+               <form name="updateProdForm" novalidate>
+                  <div class="row">
+                     <div class="col-md-6 text-center">
+                        <img src="{{updateProdImage}}" alt="product Image"/>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="form-group" ng-class="{ 'has-error' : updateProdForm.description.$invalid && !updateProdForm.description.$pristine }">
+                           <textarea  rows="10" name="description" class="form-control" ng-model="updateProd.description" placeholder="Discount Price" >
+                           </textarea>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 pull-left">
+                     <!-- SKU -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateProdForm.sku.$invalid && !updateProdForm.sku.$pristine }">
+                        <input type="text" name="sku" class="form-control" ng-model="updateProd.sku" placeholder="Enter Product Code" required ng-readonly="true">
+                        <p ng-show="updateProdForm.sku.$touched && updateProdForm.sku.$invalid" class="help-block">Product Code is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <!-- Title -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateProdForm.title.$invalid && !updateProdForm.title.$pristine }">
+                        <input type="text" name="title" class="form-control" ng-model="updateProd.title" placeholder="Title" required>
+                        <p ng-show="updateProdForm.title.$touched && updateProdForm.title.$invalid" class="help-block">Title is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <!-- Short Descriptionesc -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateProdForm.short_desc.$invalid && !updateProdForm.short_desc.$pristine }">
+                        <input type="text" name="short_desc" class="form-control" ng-model="updateProd.short_desc" placeholder="Short Description" required>
+                        <p ng-show="updateProdForm.short_desc.$touched && updateProdForm.short_desc.$invalid" class="help-block">Short Description is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6  pull-right">
+                     <!-- updateProduct Description -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateProdForm.updateProduct_desc_title.$invalid && !updateProdForm.updateProduct_desc_title.$pristine }">
+                        <input type="text" name="updateProduct_desc_title" class="form-control" ng-model="updateProd.updateProduct_desc_title" placeholder="Product Description Title" required>
+                        <p ng-show="updateProdForm.updateProduct_desc_title.$touched && updateProdForm.updateProduct_desc_title.$invalid" class="help-block">Product Description Title is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <!-- Price -->
+                     <div class="form-group" ng-class="{ 'has-error' : updateProdForm.productPrice.$invalid && !updateProdForm.productPrice.$pristine }">
+                        <input type="text" name="productPrice" class="form-control" ng-model="updateProd.productPrice" placeholder="Enter Price" required>
+                        <p ng-show="updateProdForm.productPrice.$touched && updateProdForm.productPrice.$invalid" class="help-block">Price is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                  </div>
+                  <div class="clearfix"></div>
+               </form>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary"  ng-disabled="updateProdForm.$invalid" ng-click="updateProduct(updateProd)">Update</button>
+               <button type="button" class="btn btn-danger" ng-click="deleteRow(updateProd)">Delete</button>
+            </div>
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+   </div>
+   <!-- Modal -->
+   <div class="modal fade" id="DelModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog  modal-sm" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="myModalLabel">Delete Product</h4>
+            </div>
+            <div class="modal-body">
+               Do you want to Delete Product?
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary" ng-click="delprod(updateProd)">Delete</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Success Msg Dialog -->
+   <div class="modal fade" id="SuccessModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog  modal-sm" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="myModalLabel">Success</h4>
+            </div>
+            <div class="modal-body">
+               <p><i class="fa fa-check fa-3x"></i><span>{{catsuccmsg}}</span></p>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Error Msg Dialog -->
+   <div class="modal fade" id="ErrdealModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog  modal-sm" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="myModalLabel">Error</h4>
+            </div>
+            <div class="modal-body">
+               <p><i class="fa fa-warning fa-3x"></i><span>{{caterrmsg}}</span></p>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Product Filters -->  
+   <!-- Update Deal Dialog-->
+   <div class="modal fade" id="prodfilModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title ">{{addprdfil.prodname}} [{{addprdfil.prodId}}]</h4>
+            </div>
+            <div class="modal-body">
+               <div class="row">
+                  <div class="col-md-6 text-center">
+                     <img src="{{prodImage}}" alt="product Image"/>
+                  </div>
+                  <div class="col-md-6">
+                     <p class="text-justify">{{addprdfil.description}}</p>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="subcat-check s-link blck col-md-6 filter-assign" ng-repeat="itembrand in branditem">
+                     <h5 class="show-brand active">{{itembrand.filterName}}</h5>
+                     <div class="scrollbar-inner">
+                        <ul class="subcat-link brand">
+                           <li ng-repeat="brandName in itembrand.filterType">
+                               <span  class="vendor-chk-select"><input class="filcheck" id="{{brandName.id}}" type="checkbox" name="selectedBrands[]" value="{{brandName.id}}" ng-model="brandName.status" ng-checked="checked(brandName.id)" ng-click="filteritem(brandName.id,brandName.checked)" id="{{brandName.filterTypeName}}" />
+                             <label for="{{brandName.id}}">{{brandName.filterTypeName}}</label></span>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               <button type="button" class="btn btn-primary"   ng-click="setprdfil()">Add</button>
+            </div>
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+   </div>
+   <!-- /.modal -->
+   <div class="modal fade" id="upImgModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title ">{{addprdfil.prodname}} [{{addprdfil.prodId}}]</h4>
+            </div>
+            <div class="modal-body">
+               <div class="row">
+                  <div class="col-md-12">
+                     <p class="text-justify">{{addprdfil.description}}</p>
+                  </div>
+               </div>
+               <hr>
+
+<!-- Upload, Update, Delete Of Products Images In Popup View Starts -->
+			   <ul id="popup-change">
+                  <li id="upload-btn" class="active">Upload</li>
+                  <li id="update-btn">Update</li>
+                  <li id="delete-btn">Delete</li>
+               </ul>
+               <div id="upload-tab">
+                  <div class="form-group">
+                     <label ng-show="showDefaultImage">Default Image</label>
+                     <div class="input-group" ng-show="showDefaultImage">
+                        <input name="file" id="file-1" upload-files class="inputfile inputfile-2" type="file" >
+                        <label for="file-1"><span>Select Image</span></label>
+                        <ul class="file-upload">
+                           <li ng-repeat="file in files">{{file.name}}</li>
+                        </ul>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="defaultProdImage()">Upload</button>
+                        </span>
+                     </div>
+                     <label>Supporting Images</label>
+                     <div class="input-group">
+                        <input type="file" id="supportImg" name="supportImg" class="inputfile inputfile-2" onchange="angular.element(this).scope().getFileDetails(this)"/>
+                        <label for="supportImg"><span>Select Images</span></label>
+						<ul class="file-upload">
+                           <li ng-repeat="file in files">{{file.name}}</li>
+                        </ul>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="uploadFiles()">Upload</button>
+                        </span>
+                     </div>
+                  </div>
+               </div>
+               <div id="update-tab"> 
+                  <div class="form-group">
+                     <div class="input-group">
+                        <input name="uploadImg1" id="uploadImg1" upload-files class="inputfile inputfile-2" type="file" >
+                        <label for="uploadImg1"><span>Select Image</span></label>
+                        <ul class="file-upload">
+                           <li ng-repeat="uploadImg1 in files">{{uploadImg1.name}}</li>
+                        </ul>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="defaultProdImage()">Update</button>
+                        </span>
+                     </div>
+                     <div class="input-group">
+                        <input name="uploadImg2" id="uploadImg2" upload-files class="inputfile inputfile-2" type="file" >
+                        <label for="uploadImg2"><span>Select Image</span></label>
+                        <ul class="file-upload">
+                           <li ng-repeat="uploadImg2 in files">{{uploadImg2.name}}</li>
+                        </ul>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="defaultProdImage()">Update</button>
+                        </span>
+                     </div>
+                     <div class="input-group">
+                        <input name="uploadImg3" id="uploadImg3" upload-files class="inputfile inputfile-2" type="file" >
+                        <label for="uploadImg3"><span>Select Image</span></label>
+                        <ul class="file-upload">
+                           <li ng-repeat="uploadImg3 in files">{{uploadImg3.name}}</li>
+                        </ul>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="defaultProdImage()">Update</button>
+                        </span>
+                     </div>
+                     <div class="input-group">
+                        <input type="file" id="file" name="file" multiple class="inputfile inputfile-2" onchange="angular.element(this).scope().getFileDetails(this)"/>
+                        <label for="file"><span>Select Images</span></label>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="uploadFiles()">Update</button>
+                        </span>
+                     </div>
+                  </div>
+               </div>
+               <div id="delete-tab">
+                  <div class="form-group">
+					<div class="col-xs-12 col-sm-3 col-md-3"  ng-repeat="eachImage in imageArray">
+						<p>
+						  <img class="del-img" src="{{eachImage}}" />
+						  <button type="button" class="btn btn-primary" ng-click="deleteImage(addprdfil, eachImage)">Delete</button>
+						</p>
+					</div>
+		<!-- Upload, Update, Delete Of Products Images In Popup View Ends -->
+		</div></div>
+			   </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+         <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+   </div>
+</div>
+<script>
+   $('#cataloguetabs a').click(function (e) {
+   	e.preventDefault()
+   	$(this).tab('show')
+   });
+</script>
+
+<style>
+   #update-tab, #delete-tab{
+   display:none;
+   }
+   #popup-change li {
+   display: inline-block;
+   cursor: pointer;
+   }
+   #popup-change li {
+   color: blue;
+   background: #ddd;
+   border: 1px solid #ddd;
+   padding: 8px;
+   }
+   #popup-change li.active {
+   color: red;
+   background: #000;
+   border: 1px solid #000;
+   padding: 8px;
+   }
+   .del-img{
+	width:100%;
+	margin-bottom:10px;
+   }
+</style>
+
+<script>
+   $('#upload-btn').click(function (e) {
+   	$(this).addClass('active');
+   	$('#delete-btn').removeClass('active');
+   	 $('#update-btn').removeClass('active');
+        $('#upload-tab').show().addClass('active');
+   	 $('#update-tab').hide().removeClass('active');
+   	 $('#delete-tab').hide().removeClass('active');
+      });
+   $('#delete-btn').click(function (e) {
+   $(this).addClass('active');
+   $('#upload-btn').removeClass('active');
+   	 $('#update-btn').removeClass('active');
+        $('#upload-tab').hide().removeClass('active');
+   	 $('#update-tab').hide().removeClass('active');
+   	 $('#delete-tab').show().addClass('active');
+      });
+      $('#update-btn').click(function (e) {
+      $(this).addClass('active');
+      $('#delete-btn').removeClass('active');
+   	 $('#upload-btn').removeClass('active');
+        $('#upload-tab').hide().removeClass('active');
+   	 $('#update-tab').show().addClass('active');
+   	 $('#delete-tab').hide().removeClass('active');
+      });
+</script>

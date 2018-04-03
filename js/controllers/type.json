@@ -1,0 +1,26 @@
+{
+	"type":
+  [
+	{	
+		"item": "Dalmia"
+	},
+	{
+		"item": "Orbit"
+	},
+	{	
+		"item": "Single"
+	},
+	{
+		"item": "Double"
+	},
+	{
+		"item": "Multi"
+	},
+	{
+		"item": "Combo"
+	},
+	{
+		"item": "Flexible"
+	}
+  ]
+}

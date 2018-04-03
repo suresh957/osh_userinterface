@@ -1,0 +1,63 @@
+<div class="body-bg">
+<div class="container-fluid-full">
+    <div class="row-fluid">
+      <div class="content-box store">
+                  <h2 class="main-title"><span>Store</span></h2>
+                  <form class="prof form-login" name="storeForm">
+                    <fieldset>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
+						<div class="input" title="Store Name">
+                            <input type="text" class="input-large span12" value="" placeholder="Store name" ng-model="setStore.storeName" id="store_name" name="store_name" readonly>
+						</div>
+                        <div class="input" title="Unique Store Code">
+                            <input type="text" class="input-large span12" value="" placeholder="Unique Store Code" ng-model="setStore.storeCode" id="unique_store_code" name="unique_store_code" readonly>
+						</div>
+                        <div class="input" title="Store Phone">  
+							<input type="text" class="input-large span12" value="" placeholder="Store Phone" ng-model="setStore.storePhone" id="store_phone" name="store_phone">
+							<p ng-show="storeForm.storePhone.$touched && storeForm.storePhone.$invalid" class="help-block">Mobile Number is required</p>
+							<i class="fa fa-star" aria-hidden="true"></i>
+						</div>
+                        <div class="input" title="Store Email ID">
+                            <input type="email" class="input-large span12" value="" placeholder="Store Email ID" ng-model="setStore.emailAddress" id="store_email" name="store_email">
+							<i class="fa fa-star" aria-hidden="true"></i>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
+                        <div class="input" title="Store Address">
+                            <input type="text" class="input-large span12" value="" placeholder="Store Address" ng-model="setStore.storeAddress" id="store_address" name="store_address">
+							<i class="fa fa-star" aria-hidden="true"></i>
+						</div>
+                        <div class="input" title="Store City">
+                            <input type="text" class="input-large span12" value="" placeholder="Store City" ng-model="setStore.storeCity" id="store_city" name="store_city">
+							<i class="fa fa-star" aria-hidden="true"></i>
+						</div>
+                        <div class="input" title="Store State/Province">
+                            <input type="text" class="input-large span12" value="" placeholder="Store State/Province" ng-model="setStore.storeState" id="store_state" name="store_state">
+							<i class="fa fa-star" aria-hidden="true"></i>
+						</div>
+						<div class="input" title="Store Country">
+                              <input type="text" class="input-large span12" value="" placeholder="Store Country" ng-model="setStore.storeCountry" id="store_country" name="store_country" readonly>
+                        </div>
+						<div class="input" title="Store Postal Code">
+                            <input type="text" class="input-large span12" value="" placeholder="Store Postal Code" ng-model="setStore.storePostalCode" id="store_postalcode" name="store_postalcode">
+							<i class="fa fa-star" aria-hidden="true"></i>
+						</div>
+					</div>
+                    <div class="button-login">
+						<button id="submit" type="submit" class="btn btn-primary" ng-disabled="storeForm.$invalid" ng-click="storeUpdate(setStore)">Submit</button>
+                    </div>
+					<div class="alert alert-warning" ng-if="errmsg"> 
+							<span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>{{errmessage}}
+					</div>
+                    </fieldset>
+                  </form>
+      </div>
+    </div>
+</div>
+</div>
+  
+<script>
+$('.dropmenu').click(function(){
+	$(this).parent().find('ul').slideToggle();  
+});
+</script>

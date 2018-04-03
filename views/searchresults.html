@@ -1,0 +1,298 @@
+<div class="wrap">
+   <!-- Static navbar -->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <section class="top" id="top-header">
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 col-sm-6 shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+            <div class="col-xs-12 col-sm-6 links">
+               <a href="#contact" class="right-links">Contact Us</a>
+               <span ng-hide="userlogged">
+               <a href="#/login" class="right-links">Login </a>
+               <a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+               <!--=== LOGOUT SECTION ===-->
+               <div class="myprofile-block">
+                  <div class="mypro-brdr">
+                     <div class="pro-top">
+                        <!--<a href="#" class="pro-pic">
+                           <img src="img/tst-pic.jpg"/>
+                           <span>Change</span>
+                           </a>-->
+                        <div class="pro-txt">
+                           <h3>{{loggedInUserName}}</h3>
+                           <h4>{{loggedInUser}}</h4>
+                        </div>
+                     </div>
+                     <div class="pro-btm">
+                        <span class="mypro-btn" ng-click="myProfile()"><a>My Profile</a></span>
+                        <span class="mypro-logout" ng-click="logout()"><a>Logout</a></span>
+                     </div>
+                  </div>
+               </div>
+               <a href="#cart" class="cart">
+                  <!--<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> -->
+                  <img src="img/cart1.png">
+                  <span class="cart-value"> {{lengthofcart}}</span> 
+               </a>
+            </div>
+         </div>
+      </div>
+   </section>
+   <header class="header">
+      <nav class="navbar navbar-default">
+         <div class="container">
+            <div class="row">
+               <div class="col-xs-12 ">
+                  <div class="navbar-header">
+                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                     <a class="navbar-brand" href="#/"></a>
+                     <figure> </figure>
+                     <div class="search mobile-search">
+                        <div class="input">
+                           <i class="fa fa-search"></i>
+                           <input type="text" placeholder="Search">
+                        </div>
+                     </div>
+                  </div>
+                  <div id="navbar" class="navbar-collapse collapse">
+                     <ul class="nav navbar-nav">
+                        <li><a href="#/todaydeals">Today's Deals</a></li>
+                        <li><a>Buy/Sell</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a>About Us</a></li>
+                        <li class="store"><a>Our Store</a></li>
+                        <li><a href="#/myaccount">My Account</a></li>
+                        <li class="menu-search">
+                           <div class="search">
+                              <div class="input">
+                                 <i class="fa fa-search"></i>
+                                 <div class="menu-in" ng-controller="TypeSearchCtrl">
+                                    <div class="sec-block">
+                                       <select ng-init="searchType = typeOfSearch[0]"
+                                          ng-model="searchType"
+                                          ng-options="option.name for option in typeOfSearch">
+                                       </select>
+                                    </div>
+                                    <input type="text" ng-keypress="searchitems(searchSelected,$event,searchType.value)" ng-model="searchSelected" placeholder="Search" id="modalValue" value="searchSelected" uib-typeahead="item for item in getSearch($viewValue, searchType.value)" typeahead-focus-first="false" typeahead-wait-ms="1000" typeahead-min-length="3" typeahead-on-select="onSearchSelect(searchSelected, $item, $model, $label, $event, searchType.value)" typeahead-no-results="noResults">
+                                    <span class="menu-in-search" ng-click="searchProducts(searchSelected, searchType.value)"><i class="fa fa-search"></i></span>
+                                    <span class="menu-in-clear" ng-click="clearString(searchSelected)"><i class="fa fa-times-circle"></i></span>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+                        <li class="post" ><a><span>Post A Requirement</span></a></li>
+                     </ul>
+                  </div>
+                  <!--.nav-collapse -->
+               </div>
+            </div>
+         </div>
+         <!--/.container-fluid -->
+      </nav>
+      <category-Directive></category-Directive>
+   </header>
+   <!-- <div class="breadcrumbs" ng-show="resultsAvailable"><a>Showing Results in "{{searchMethod}}" for <b>"{{searchInput}}"</b></a></div> -->
+   <section class="plist mid searchResults" ng-show="noReultsMessage">
+      <div class="container">
+         <h1>No results found for "<strong>{{noResults}}</strong>"</h1>
+      </div>
+   </section>
+   
+   <!-- Products Response Binding -->
+   <section class="plist mid searchResults" ng-show="showProductResponse">
+      <div class="container">
+         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 plist-blck" ng-controller="TypeSearchCtrl" ng-repeat="searchResult in getsearchResults">
+               <div class="t-pro" >
+                  <figure>
+                     <a href="#/productpage/{{searchResult.productId}}"><img ng-src="{{searchResult.imageURL}}"></a>
+                     <span class="dis">{{searchResult.discountPercentage}}% OFF</span>
+                  </figure>
+                  <h3>{{searchResult.productName}}</h3>
+                  <!--<h6 class="disc-prd"><span> <i class="fa fa-inr" aria-hidden="true"></i> {{searchResult.productPrice}} </span></h6>-->
+                  <h6 class="no-disc"><span> <i class="fa fa-inr" aria-hidden="true"></i> {{searchResult.productPrice}} </span></h6>
+                  <!--<h4 class="dis1"> <i class="fa fa-inr" aria-hidden="true"></i> {{searchResult.productDiscountPrice}} </h4>-->
+                  <a href="#/productpage/{{searchResult.productId}}" class="va">View Details</a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   
+   <!-- Category Wise Products Binding -->
+   <section class="plist mid srslt" ng-show="showCategoryResponse">
+      <div class="container">
+         <div id="subcat-block">
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+               <div class="subcat-check blck" ng-repeat="categoryValues in categoryResults">
+                  <h5 data-toggle="collapse" data-target="#get{{$index}}" aria-expanded="false">{{categoryValues.title}}</h5>
+                  <div id="get{{$index}}" class="collapse">
+                     <div ng-repeat="subCatName in categoryValues.subCategory">
+                        <input id="{{subCatName.title}}" type="checkbox" ng-model="subCatName.checked" ng-click="getProductsForCategory(categoryValues, subCatName)">
+                        <label for="{{ subCatName.title }}">{{ subCatName.title }}</label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+               <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 plist-blck" ng-repeat="categoryProduct in productsByCategory">
+                  <div class="t-pro" >
+                     <figure>
+                        <a href="#/productpage/{{categoryProduct.productId}}"><img ng-src="{{categoryProduct.imageURL}}"></a>
+                        <span ng-show="vendoradd" class="vendor-chk-select"><input id="{{categoryProduct.productId}}" value="{{categoryProduct.productId}}" type="checkbox" ng-model="categoryProduct.checked" ng-click="vendorselect(categoryProduct)" /><label for="{{categoryProduct.productId }}"></label></span>
+                        <span class="dis" ng-show="display{{$index}}" >{{categoryProduct.discountPercentage}}% OFF</span>
+                     </figure>
+                     <h3>{{categoryProduct.productName}}</h3>
+                     <h6 class="no-disc" ng-hide="display{{$index}}"><span> <i class="fa fa-inr" aria-hidden="true"></i> {{categoryProduct.productPrice}} </span></h6>
+                     <h6 class="disc-prd" ng-show="display{{$index}}"><span> <i class="fa fa-inr" aria-hidden="true"></i> {{categoryProduct.productPrice}} </span></h6>
+                     <h4   class="dis1" ng-show="display{{$index}}"> <i class="fa fa-inr" aria-hidden="true"></i> {{categoryProduct.productDiscountPrice}} </h4>
+                     <a href="#/productpage/{{categoryProduct.productId}}" class="va">View Details</a>
+                  </div>
+               </div>
+               <div paging
+                  page="1" 
+                  page-size="15" 
+                  total=prodByCatCount
+                  paging-action="prodByCategoryPaging(page, pageSize, total)">
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   
+   <!-- Brand Wise Products Binding -->
+   <section class="plist mid srslt" ng-show="showBrandResponse">
+      <div class="container">
+         <div id="subcat-block">
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+               <div class="subcat-check blck" ng-repeat="brands in brandResults">
+                  <h5 data-toggle="collapse" data-target="#brand{{$index}}" aria-expanded="false">{{brands.categoryCode}}</h5>
+                  <div class="collapse" id="brand{{$index}}">
+                     <h5 class="sb-brnd">{{brands.filterName}}</h5>
+                     <div ng-repeat="brandNames in brands.filterTypes">
+                        <input class="getFilterId" id="check{{$index}}" type="checkbox" ng-model="brandNames.checked" ng-checked="brandNames.checked" ng-click="filterCheck(brandNames.filterTypeId, brandNames.checked)">
+                        <label for="check{{$index}}">{{brandNames.filterTypeName}}</label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+               <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 plist-blck" ng-repeat="filterProduct in productsRespByFilters">
+                  <div class="t-pro" >
+                     <figure>
+                        <a href="#/productpage/{{filterProduct.productId}}"><img ng-src="{{filterProduct.imageURL}}"></a>
+                        <span ng-show="vendoradd" class="vendor-chk-select"><input id="{{filterProduct.productId}}" value="{{filterProduct.productId}}" type="checkbox" ng-model="categoryProduct.checked" ng-click="vendorselect(categoryProduct)" /><label for="{{categoryProduct.productId }}"></label></span>
+                        <span class="dis" ng-show="display{{$index}}" >{{filterProduct.discountPercentage}}% OFF</span>
+                     </figure>
+                     <h3>{{filterProduct.productName}}</h3>
+                     <h6 class="no-disc" ng-hide="display{{$index}}"><span> <i class="fa fa-inr" aria-hidden="true"></i> {{filterProduct.productPrice}} </span></h6>
+                     <h6 class="disc-prd" ng-show="display{{$index}}"><span> <i class="fa fa-inr" aria-hidden="true"></i> {{filterProduct.productPrice}} </span></h6>
+                     <h4 class="dis1" ng-show="display{{$index}}"> <i class="fa fa-inr" aria-hidden="true"></i> {{filterProduct.productDiscountPrice}} </h4>
+                     <a href="#/productpage/{{filterProduct.productId}}" class="va">View Details</a>
+                  </div>
+               </div>
+               <div paging
+                  page="1" 
+                  page-size="15"
+                  total=filterProdCount
+                  paging-action="prodByFilterPaging(page, pageSize, total)">
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   
+   <!-- Category Wise Vendors Binding -->
+   <section class="plist mid srslt" ng-show="showVendorResponse">
+      <div class="container">
+         <div id="subcat-block">
+            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+               <div class="subcat-check blck" ng-repeat="categoryNames in categoryResults">
+                  <h5 data-toggle="collapse" data-target="#set{{$index}}" aria-expanded="false">{{categoryNames.title}}</h5>
+                  <div id="set{{$index}}" class="collapse">
+                     <div ng-repeat="subCatTitle in categoryNames.subCategory">
+                        <input id="{{subCatTitle.title}}" type="checkbox" ng-model="subCatTitle.checked" ng-click="getProductsForCategory(categoryNames, subCatTitle)">
+                        <label for="{{subCatTitle.title}}">{{ subCatTitle.title }}</label>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="list-view col-xs-12 col-sm-9 col-md-9 col-lg-9">
+               <ul>
+                  <li ng-repeat="vendorDetails in vendorCategoryData">
+                     <div class="t-pro">
+                        <figure><a href="#/arcproduct/{{vendorDetails.id}}"><img ng-src="{{vendorDetails.imageUrl}}"></a></figure>
+                        <h3> {{vendorDetails.companyName}}</h3>
+                        <p> {{vendorDetails.shortDescription}}</p>
+                        <div class="push-right">
+                           <a href="#/arcproduct/{{vendorDetails.id}}" class="booknow">View Details</a>
+                        </div>
+                        <p><span class="rating line sm">
+                           <span star-rating rating-value="vendorDetails.avgRating" max="5" on-rating-selected="getSelectedRating(rating)"></span>
+                           |
+                           <span>{{vendorDetails.totalRating}} Votes</span> |
+                           </span>
+                        </p>
+                     </div>
+                  </li>
+               </ul>
+               <div paging
+                  page="1" 
+                  page-size="5" 
+                  total=vendorcatCount
+                  paging-action="vendorByCategoryPaging(page, pageSize, total)">
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <section id="fp">
+   <div class="container">
+   <h2 class="sec-title3"><strong>Recommended Products </strong></h2>
+      <slick settings="slickrecommendedprocutsConfig" ng-if="RecomendLoaded">
+         <li class="block" ng-repeat="image in recommend">
+            <div class="t-pro">
+               <figure>
+                  <a href="#/productpage/{{image.productId}}"><img data-lazy="{{image.imageURL}}"></a>
+               </figure>
+			   <h3> {{image.productName}}</h3>
+               <h4><i class="fa fa-inr" aria-hidden="true"></i> {{image.productPrice}}</h4>
+                 <a href="#/productpage/{{image.productId}}" class="va">View Details</a>
+            </div>
+         </li>
+      </slick>
+   </div>
+   </section>
+   <section class="todaydeals rview" >
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-12">
+            <h2 class="sec-title"><strong>Recently Bought</strong></h2>
+            <ul class="all">
+               <slick settings="slickrecentbroughtConfig" ng-if="RecentlyLoaded">
+                  <li ng-repeat="brought in recently">
+                     <div class="t-pro">
+                        <figure>
+                           <a href="#/productpage/{{brought.productId}}"><img data-lazy="{{brought.imageURL}}"></a>
+                           <span class="dis">{{brought.discountPercentage}}% OFF</span>
+                        </figure>
+                        <h3>{{brought.productName}}</h3>
+                        <h4><i class="fa fa-inr" aria-hidden="true"></i> {{brought.productDiscountPrice}}</h4>
+                        <a href="#/productpage/{{brought.productId}}" class="va">View Details</a>
+                     </div>
+                  </li>
+               </slick>
+            </ul>
+         </div>
+      </div>
+   </div>
+</section>
+   <script>
+      $(".mobile-search .fa-search").click(function(){
+      	$(".mobile-search input").toggle();
+      });
+      $(".login-btn").click(function(){
+      	$(".myprofile-block").toggle();
+      });
+   </script>
+</div>

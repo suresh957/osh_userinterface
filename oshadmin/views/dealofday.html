@@ -1,0 +1,314 @@
+<div class="body-bg">
+   <div class="container-fluid-full">
+      <div class="row-fluid">
+         <div class="content-box add-product">
+            <h2 class="main-title"><span>Deal Of The Day</span></h2>
+            <h4 class="show-title">Product List</h4>
+            <table id="example" class="hide-content table table-striped table-bordered bootstrap-datatable datatable">
+               <thead>
+                  <tr>
+                     <th>S.No</th>
+                     <th>Product Id</th>
+                     <th>Product Name</th>
+                     <th>Price</th>
+                     <th>Start Date</th>
+                     <th>End date</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="dealData in dealOfTheDay">
+                     <td class="center">{{$index +1}}</td>
+                     <td class="center">{{dealData.productId}}</td>
+                     <td class="center">{{dealData.productName}}</td>
+                     <td class="center">{{dealData.productPrice}}</td>
+                     <td class="center">
+                        {{dealData.productPriceSpecialStartDate}}
+                     </td>
+                     <td class="center">
+                        {{dealData.productPriceSpecialEndDate}}
+                     </td>
+                     <td class="center">
+                        <a class="btn btn-primary" data-toggle="modal" data-target=".pop-up-1" ng-click="getProd(dealData)">Details</a>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+            <div class="modal fade pop-up-1" id="getDealModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-1" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content dealmgm-view">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="text-left modal-title">{{updateDealmgm.prodname}} [{{updateDealmgm.prodId}}]</h4>
+                     </div>
+                     <div class="modal-body">
+                        <form name="productInfoForm" novalidate="" class="ng-pristine ng-valid ng-valid-required">
+                           <div class="modal-top">
+                              <div class="col-xs-12 col-sm-6 pull-left">
+                                 <!--Product Image -->
+                                 <figure class="dealpimg text-center">
+                                    <img class="img-responsive" src="{{updateDealmgm.imagePath}}" />
+                                 </figure>
+                              </div>
+                              <div class="col-xs-12 col-sm-6  pull-right">
+                                 <!-- Product Description -->
+                                 <div class="form-group">
+                                    <p>{{updateDealmgm.prodDescription}}</p>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-xs-12 col-sm-6 pull-left">
+                              <!-- Product Price -->
+                              <div class="form-group" ng-class="{ 'has-error' : productInfoForm.prodPrice.$invalid &amp;&amp; !productInfoForm.prodPrice.$pristine }">
+                                 <label>Original Price</label>
+                                 <input type="text" name="prodPrice" class="form-control" ng-model="updateDealmgm.prodPrice" placeholder="Product Price" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="productInfoForm.prodPrice.$touched &amp;&amp; productInfoForm.prodPrice.$invalid" class="help-block ng-hide">Product Price is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+                              <!-- Product Discount Price -->
+                              <div class="form-group" ng-class="{ 'has-error' : productInfoForm.prodDiscountPrice.$invalid &amp;&amp; !productInfoForm.prodDiscountPrice.$pristine }">
+                                 <label>Discount Price</label>
+                                 <input type="text" name="prodDiscountPrice" class="form-control" ng-model="updateDealmgm.prodDiscountPrice" placeholder="Product Discount Price" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="productInfoForm.prodDiscountPrice.$touched &amp;&amp; productInfoForm.prodDiscountPrice.$invalid" class="help-block ng-hide">Product Discount Price is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+                           </div>
+                           <div class="col-xs-12 col-sm-6  pull-right">
+                              <!-- Deal Start Date -->
+                              <div class="form-group" ng-class="{ 'has-error' : productInfoForm.sdate.$invalid &amp;&amp; !productInfoForm.sdate.$pristine }">
+                                 <label>Start Date</label>
+                                 <input type="text" id="dealStateDate" name="sdate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="updateDealmgm.sdate" placeholder="Start Date" required="">
+                                 <p ng-show="productInfoForm.sdate.$touched &amp;&amp; productInfoForm.sdate.$invalid" class="help-block ng-hide">Deal Start Date is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+                              <!-- Deal End Date -->
+                              <div class="form-group" ng-class="{ 'has-error' : productInfoForm.productPriceSpecialEndDate.$invalid &amp;&amp; !productInfoForm.edate.$pristine }">
+                                 <label>End Date</label>
+                                 <input type="text" id="dealEndDate" name="edate" class="form-control dealEndDate" ng-model="updateDealmgm.edate" placeholder="End Date" required>
+                                 <p ng-show="productInfoForm.edate.$touched &amp;&amp; productInfoForm.edate.$invalid" class="help-block ng-hide">Deal End Date is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+                           </div>
+                           <div class="clearfix"></div>
+                           <!-- ngIf: errmsg -->
+                           <div class="clearfix"></div>
+                        </form>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" ng-disabled="productInfoForm.$invalid" ng-click="updateProd(updateDealmgm)">Update</button>
+                        <button type="button" title="Delete" class="btn btn-danger" data-target=".confirmPopup" ng-disabled="productInfoForm.$invalid" ng-click="confirmDelete()">Delete</button>
+                     </div>
+                  </div>
+                  <!-- /.modal-content -->
+               </div>
+            </div>
+            <!-- Confirm Delete Popup -->
+            <div class="modal fade" id="confirmPopup" tabindex="-1" role="dialog">
+               <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Delete Product</h4>
+                     </div>
+                     <div class="modal-body">
+                        Do you want to Delete Product?
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" ng-click="deleteProd(updateDealmgm)">Delete</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+			 <div class="text-center">
+				<div paging
+					page="1" 
+					page-size="15" 
+					total=totalCount
+					paging-action="PagingAct(page, pageSize, total)">
+				</div>
+			</div>
+            <!-- Set New Deal -->
+            <form class="prof form-login" method="post">
+               <fieldset>
+                  <h2 class="main-title"><span>Set New Deal</span></h2>
+                  <div class="input" title="Select Category">
+                     <div class="sec-block">
+                        <select ng-change="catchange()" ng-model="catvalue">
+                           <option value="">Select Category</option>
+                           <option ng-repeat="category in menuitem">{{category.title}}</option>
+                        </select>
+                     </div>
+                     <i class="fa fa-star" aria-hidden="true"></i>
+                  </div>
+                  <div class="input" title="Select Sub Category">
+                     <div class="sec-block">
+                        <select ng-change="subCatChange()" ng-model="subCatValue">
+                           <option value="">Select Sub Category</option>
+                           <option ng-repeat="subCat in categorySub">{{subCat.title}}</option>
+                        </select>
+                     </div>
+                     <i class="fa fa-star" aria-hidden="true"></i>
+                  </div>
+                  <div class="button-login">
+                     <button type="submit" class="btn btn-primary" ng-click="proceed()">GO</button>
+                  </div>
+               </fieldset>
+            </form>
+            <!--<h2 class="main-title"><span>Product List</span></h2>-->
+            <h4 class="show-title">Product List</h4>
+            <table id="example" class="hide-content table table-striped table-bordered bootstrap-datatable datatable">
+               <thead>
+                  <tr>
+                     <th>S.No</th>
+                     <th>Product Id</th>
+                     <th>Product Name</th>
+                     <th>Price</th>
+                     <th>Start Date</th>
+                     <th>End Date</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="prodInfo in prodData">
+                     <td class="center">{{$index+1}}</td>
+                     <td class="center">{{prodInfo.productId}}</td>
+                     <td class="center">{{prodInfo.productName}}</td>
+                     <td class="center">{{prodInfo.productPrice}}</td>
+                     <td class="center">
+                        {{prodInfo.productPriceSpecialStartDate}}
+                     </td>
+                     <td class="center">
+                        {{prodInfo.productPriceSpecialEndDate}}
+                     </td>
+                     <td class="center">
+                        <a class="btn btn-primary" title="Details" data-toggle="modal" data-target=".setDealPopup" ng-click="getProdInfo(prodInfo)" >Details</a>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+            <div class="modal fade setDealPopup" id="getDealModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-1" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content dealmgm-view">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="text-left modal-title">{{setDealMgmt.prodname}} [{{setDealMgmt.prodId}}]</h4>
+                     </div>
+                     <div class="modal-body">
+                        <form name="setProductForm" novalidate="" class="ng-pristine ng-valid ng-valid-required">
+                           <div class="modal-top">
+                              <div class="col-xs-12 col-sm-6 pull-left">
+                                 <!--Product Image -->
+                                 <figure class="dealpimg text-center">
+                                    <img class="img-responsive" src="{{setDealMgmt.imagePath}}" />
+                                 </figure>
+                              </div>
+                              <div class="col-xs-12 col-sm-6  pull-right">
+                                 <!-- Product Description -->
+                                 <div class="form-group">
+                                    <p>{{setDealMgmt.prodDescription}}</p>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-xs-12 col-sm-6 pull-left">
+                              <!-- Product Price -->
+                              <div class="form-group" ng-class="{ 'has-error' : setProductForm.prodPrice.$invalid &amp;&amp; !setProductForm.prodPrice.$pristine }">
+                                 <label>Original Price</label>
+                                 <input type="text" name="prodPrice" class="form-control" ng-model="setDealMgmt.prodPrice" placeholder="Product Price" required>
+                                 <p ng-show="setProductForm.prodPrice.$touched &amp;&amp; setProductForm.prodPrice.$invalid" class="help-block ng-hide">Product Price is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+                              <!-- Product Discount Price -->
+                              <div class="form-group" ng-class="{ 'has-error' : setProductForm.prodDiscountPrice.$invalid &amp;&amp; !setProductForm.prodDiscountPrice.$pristine }">
+                                 <label>Discount Price</label>
+                                 <input type="text" name="prodDiscountPrice" class="form-control" ng-model="setDealMgmt.prodDiscountPrice" placeholder="Product Price" required>
+                                 <p ng-show="setProductForm.prodDiscountPrice.$touched &amp;&amp; setProductForm.prodDiscountPrice.$invalid" class="help-block ng-hide">Product Discount Price is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+                           </div>
+                           <div class="col-xs-12 col-sm-6  pull-right">
+                              <!-- Deal Start Date -->
+                              <div class="form-group" ng-class="{ 'has-error' : setProductForm.sdate.$invalid &amp;&amp; !setProductForm.sdate.$pristine }">
+                                 <label>Start Date</label>
+                                 <input type="text" id="dealStateDate" name="sdate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="setDealMgmt.sdate" placeholder="Start Date" required="">
+                                 <p ng-show="setProductForm.sdate.$touched &amp;&amp; setProductForm.sdate.$invalid" class="help-block ng-hide">Deal Start Date is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+                              <!-- Deal End Date -->
+                              <div class="form-group" ng-class="{ 'has-error' : setProductForm.productPriceSpecialEndDate.$invalid &amp;&amp; !setProductForm.edate.$pristine }">
+                                 <label>End Date</label>
+                                 <input type="text" id="dealEndDate" name="edate" class="form-control" ng-model="setDealMgmt.edate" placeholder="End Date" required>
+                                 <p ng-show="setProductForm.edate.$touched &amp;&amp; setProductForm.edate.$invalid" class="help-block ng-hide">Deal End Date is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+                           </div>
+                           <div class="clearfix"></div>
+                           <!-- ngIf: errmsg -->
+                           <div class="clearfix"></div>
+                        </form>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <a title="Add" class="btn btn-primary" ng-disabled="setProductForm.$invalid" data-target=".successPopup" ng-click="setProd(setDealMgmt)">Add</a>
+                        <div class="alert alert-warning col-md-12" ng-if="dateErrorMsg">
+                           <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>
+                           <strong>Error! </strong>{{errDateMessage}}
+                        </div>
+                     </div>
+                  </div>
+                  <!-- /.modal-content -->
+               </div>
+            </div>
+			<div class="text-center">
+				<div paging
+					page="1" 
+					page-size="15" 
+					total=pagingTotal
+					paging-action="PagingAct(page, pageSize, total)">
+				</div>
+			</div>
+				
+            <!-- Success Popup -->
+            <div class="modal fade successPopup" id="SuccessModal" tabindex="-1" role="dialog">
+               <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Success</h4>
+                     </div>
+                     <div class="modal-body">
+                        <p><i class="fa fa-check fa-3x"></i><span>{{errmessage}}</span></p>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+			
+            <!-- Failure Popup -->
+            <div class="modal fade errorPopup" id="ErrdealModal" tabindex="-1" role="dialog">
+               <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Error</h4>
+                     </div>
+                     <div class="modal-body">
+                        <p><i class="fa fa-warning fa-3x"></i><span>{{errmessage}}</span></p>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+      </div>
+   </div>
+</div>
+<script>
+   $('.dropmenu').click(function(){
+   $(this).parent().find('ul').slideToggle();
+   });
+</script>

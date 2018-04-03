@@ -1,0 +1,123 @@
+<div class="body-bg">
+   <div class="container-fluid-full">
+      <div class="row-fluid">
+         <div class="content-box add-product">
+            <h2 class="main-title"><span>Post A Requirement</span></h2>
+            <div class="col-md-12">
+               <div class="gridStyle"
+                  ui-grid="postRequirementGrid"  ui-grid-edit ui-grid-cellnav  ui-grid-auto-resize></div>
+               <div class="clearfix"></div>
+               <div class="text-center">
+                  <div paging
+                     page="1" 
+                     page-size="10" 
+                     total=postRequireCount
+                     paging-action="postRequirePaging(page, pageSize, total)">
+                  </div>
+               </div>
+            </div>
+			<!-- Post A Requirement Detail Popup -->
+            <div class="modal fade" id="postRequirementModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-1" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content postrequire-view">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="text-left modal-title">Post A Requirement Id : {{requirementDetails.postRequirementId}}</h4>
+                     </div>
+                     <div class="modal-body">
+                        <form name="postRequirementForm" novalidate>
+                           <div class="row">
+                              <div class="form-group">
+                                 <p class="testmonialForm">{{requirementDetails.query}}</p>
+                              </div>
+                           </div>
+                           <hr>
+                           <div class="col-xs-12 col-sm-6 pull-left">
+                              <!-- Customer Name -->
+                              <div class="form-group" ng-class="{ 'has-error' : postRequirementForm.customerName.$invalid &amp;&amp; !postRequirementForm.customerName.$pristine }">
+                                 <label>Customer Name</label>
+                                 <input type="text" name="customerName" class="form-control" ng-model="requirementDetails.customerName" placeholder="Customer Name" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="postRequirementForm.customerName.$touched &amp;&amp; postRequirementForm.customerName.$invalid" class="help-block ng-hide">Customer Name is required</p>
+                              </div>
+							  <!-- Customer Id -->
+                              <div class="form-group" ng-class="{ 'has-error' : postRequirementForm.customerId.$invalid &amp;&amp; !postRequirementForm.customerId.$pristine }">
+                                 <label>Customer Id</label>
+                                 <input type="text" name="customerId" class="form-control" ng-model="requirementDetails.customerId" placeholder="Customer Id" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="postRequirementForm.customerId.$touched &amp;&amp; postRequirementForm.customerId.$invalid" class="help-block ng-hide">Customer Id is required</p>
+                              </div>
+						   </div>
+                           <div class="col-xs-12 col-sm-6 pull-right">
+                              <!-- Customer Id -->
+                              <div class="form-group" ng-class="{ 'has-error' : postRequirementForm.responseMessage.$invalid &amp;&amp; !postRequirementForm.responseMessage.$pristine }">
+                                 <label>Response Message</label>
+                                 <textarea class="form-control" ng-model="requirementDetails.responseMessage" placeholder="Response Message" required=""></textarea>
+                                 <p ng-show="postRequirementForm.responseMessage.$touched &amp;&amp; postRequirementForm.responseMessage.$invalid" class="help-block ng-hide">Response Message is required</p>
+                              </div>
+                           </div>
+                           <div class="clearfix"></div>
+                        </form>
+                     </div>
+                     <div class="modal-footer">
+                       <button type="button" title="Respond" class="btn btn-danger" data-target=".confirmPopup" ng-click="postReqRespond(requirementDetails)" ng-disabled="postRequirementForm.$invalid">Respond</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+                  <!-- /.modal-content -->
+               </div>
+            </div>
+            <!-- Success Message Popup -->
+            <div class="modal fade successPopup" id="SuccessModal" tabindex="-1" role="dialog">
+               <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Success</h4>
+                     </div>
+                     <div class="modal-body">
+                        <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Error Message Popup -->
+            <div class="modal fade" id="ErrdealModal" tabindex="-1" role="dialog">
+               <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Error</h4>
+                     </div>
+                     <div class="modal-body">
+                        <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+            <div class="modal fade confirmPopup" tabindex="-1" role="dialog">
+               <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Delete Sub Category</h4>
+                     </div>
+                     <div class="modal-body">
+                        Do you want to Delete Sub Category?
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="deleteSubCat(subCatData)">Delete</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

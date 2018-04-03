@@ -1,0 +1,124 @@
+<div class="body-bg">
+   <div class="container-fluid-full">
+      <div class="row-fluid">
+         <div class="content-box add-product">
+            <h2 class="main-title"><span>Approve Vendor Products</span></h2>
+         </div>
+         <div class="gridStyle"
+            ui-grid="vendorProductsGrid" ui-grid-cellnav  ui-grid-auto-resize>
+         </div>
+         <div class="clearfix"></div>
+         <div class="text-center">
+            <div paging
+               page="1" 
+               page-size="10"
+               total=vendorProductsCount
+               paging-action="vendorProductsPaging(page, pageSize, total)">
+            </div>
+         </div>
+         <!-- Vendor Wise Products Listing Popup -->
+         <div class="modal fade vendorProductsPopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title">{{vendorProductDetails.vendorName}} - [{{vendorProductDetails.vendorId}}]</h4>
+                  </div>
+                  <div class="modal-body">
+                     <form name="vendorDetailsForm" novalidate>
+                        <div class="modal-top">
+                          <table class="vendorProdTable">
+							<tr text-align="center">
+							  <th>Product Id</th>
+							  <th>Product</th>
+							  <th>Product Image</th>
+							  <th>Select</th>
+							</tr>
+							<tr ng-repeat="productDetails in vendorProductDetails">
+							  <td>{{productDetails.productId}}</td>
+							  <td>{{productDetails.productName}}</td>
+							  <td><img src="{{productDetails.imageURL}}"></td>
+							  <td><span class="vendor-chk-select"><input id="{{productDetails.vendorProductId}}" value="{{productDetails.vendorProductId}}" type="checkbox" ng-model="productDetails.status" ng-click="vendorselect(productDetails)" /><label for="{{productDetails.vendorProductId}}"></label></span></td>
+							</tr>
+						  </table>
+						</div>
+						  <!--<div class="gridStyle"
+							ui-grid="productsGrid" ui-grid-cellnav  ui-grid-auto-resize>
+						  </div>-->
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="text-center">
+                           <div paging
+                              page="1" 
+                              page-size="6"
+                              total=productsCount
+                              paging-action="productsPaging(page, pageSize, total)">
+                           </div>
+                        
+                     </form>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" title="Approve" class="btn btn-primary" ng-click="approveProducts(vendorProfile)">Approve</button>
+                     <button type="button" title="Decline" class="btn btn-danger" ng-click="declineProducts(vendorProfile)">Decline</button>
+                     <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+               <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+         </div>
+         <!-- Success Message Popup -->
+         <div class="modal fade successPopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog  modal-sm" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Success</h4>
+                  </div>
+                  <div class="modal-body">
+                     <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Error Message Popup -->
+         <div class="modal fade errorPopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog  modal-sm" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Error</h4>
+                  </div>
+                  <div class="modal-body">
+                     <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Confirm Popup To Delete -->
+         <div class="modal fade confirmPopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog  modal-sm" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Deline requested products</h4>
+                  </div>
+                  <div class="modal-body">
+                     Sure to decline products?
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                     <button type="button" class="btn btn-danger" ng-click="confirmDelete(brandImageInfo)">Yes</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

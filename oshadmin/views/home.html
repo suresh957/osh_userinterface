@@ -1,0 +1,48 @@
+<div class="body-bg">
+<div class="container-fluid-full">
+   <div class="row-fluid">
+      <div class="content-box home">
+			<h2 class="main-title"><span>Store Information</span></h2>
+            <div class="box-address">
+               <address>
+                  <strong>{{storeDetails.storeName}}</strong> <br>
+                  {{storeDetails.storeAddress}}, <br>
+                  {{storeDetails.storeCity}}, {{storeDetails.storePostalCode}}, <br>
+                  {{storeDetails.storeCountry}}, <br>
+                  {{storeDetails.storePhone}}.
+               </address>
+               <h5><i class="fa fa-user"></i> Admin</h5>
+               <p><i class="fa fa-calendar"></i> Last access: {{storeDetails.lastAccess | date:'MMMM-dd-yyyy HH:mm:ss a'}}</p>
+            </div>
+         <!--<div class="box-content exp">
+            <h2 class="main-title"><span>Recent Orders</span></h2>
+            <h4 class="show-title">Orders</h4>
+            <table id="example" class="hide-content table table-striped table-bordered bootstrap-datatable datatable">
+               <thead>
+                  <tr>
+                     <th>Id</th>
+                     <th>Customer Name</th>
+                     <th>Total</th>
+                     <th>Order Date</th>
+                     <th>Status</th>
+                     <th>Payment Module</th>
+                     <th>Details</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td class="center">1</td>
+                     <td class="center">Leonardo DiCaprio</td>
+                     <td class="center">23.99</td>
+                     <td class="center">2017-06-03</td>
+                     <td class="center">Delivered</td>
+                     <td class="center"></td>
+                     <td class="center"><a title="Details" class="btn btn-primary" href="#">Details</a></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>-->
+      </div>
+	  </div>
+   </div>
+</div>

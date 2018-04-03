@@ -1,0 +1,170 @@
+<div class="body-bg">
+   <div class="container-fluid-full">
+      <div class="row-fluid">
+         <div class="content-box add-product">
+         <div class="advertisement-page">
+            <h2 class="main-title"><span>Advertisement Management</span></h2>
+            <!--
+               <div class="gridStyle"
+                           ui-grid="advertisementsGrid" ui-grid-cellnav  ui-grid-auto-resize>
+                        </div>
+               -->
+            <table id="example" class="hide-content table table-striped table-bordered bootstrap-datatable datatable">
+               <thead>
+                  <tr>
+                     <th align="center">Section No</th>
+                     <th align="center">Advertisement</th>
+                     <th align="center">Actions</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="rowDetails in tableData">
+                     <td align="center" class="center" ng-model="rowDetails.sectionNo">{{rowDetails.sectionNo}}</td>
+                     <td align="center" class="center">
+						<div class="sec-block">
+                        <select ng-model="rowDetails.selectedValue">
+                           <option value="">Select Section</option>
+                           <option value="{{row.value}}" ng-repeat="row in rowDetails.selection">{{row.type}}</option>
+                        </select>
+						</div>
+                     </td>
+                     <td align="center" class="center">
+                        <a class="btn btn-primary" ng-click="getSectionDetails(rowDetails)">Details</a>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Section Details Popup -->
+<div class="modal fade sectionPopup" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-1" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content dealmgm-view">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="text-left modal-title">{{rowInfo.sectionNo}} - {{rowInfo.selectedValue}}</h4>
+         </div>
+         <div class="modal-body">
+            <form name="sectionForm" novalidate="" class="ng-pristine ng-valid ng-valid-required">
+               <div class="modal-top">
+                  <div class="col-xs-12 col-sm-6 pull-left">
+                     <div class="input" title="Select Category" ng-show="catDropBox">
+                        <div class="form-group">
+						<label>Select Category</label>
+						<div class="sec-block">
+                           <select ng-change="categoryChange()" ng-model="catvalue">
+                              <option value="">Select Category</option>
+                              <option ng-repeat="category in categoryData">{{category.title}}</option>
+                           </select>
+                        </div>
+                        </div>
+                     </div>
+                     <div class="input" title="Select Sub Category" ng-show="catDropBox">
+                        <div class="form-group">
+						<label>Select Sub Category</label>
+						<div class="sec-block">
+                           <select ng-model="subCatValue">
+                              <option value="">Select Sub Category</option>
+                              <option ng-repeat="subCat in categorySub">{{subCat.title}}</option>
+                           </select>
+                        </div>
+                        </div>
+                     </div>
+                     <div class="input" title="Select Sub Category" ng-show="serviceDropBox">
+                        <div class="form-group">
+						<label>Select Service</label>
+						<div class="sec-block">
+                           <select ng-model="rowInfo.serviceType">
+                              <option value="">Select Service</option>
+                              <option ng-repeat="service in serviceData">{{service.serviceType}}</option>
+                           </select>
+                        </div>
+                        </div>
+                     </div>
+					 <div class="form-group">
+                        <input type="file" id="sectionImage" name="sectionImage" upload-files class="inputfile inputfile-2"/>
+                        <label for="sectionImage"><span>Select Image</span></label>
+                        <ul>
+                           <li ng-repeat="fileName in files">{{fileName.name}}</li>
+                        </ul>
+                     </div>
+					 <div class="form-group dmtns_sec">
+						<p ng-if="rowInfo.sectionNo == 'section1'"><b>Note:</b>Image Dimensions:- <br>Width:<b>590</b>px & Height: <b>500</b>px</p>
+						<p ng-if="rowInfo.sectionNo == 'section2'"><b>Note:</b>Image Dimensions:- <br>Width:<b>290</b>px & Height: <b>233</b>px</p>
+						<p ng-if="rowInfo.sectionNo == 'section3'"><b>Note:</b>Image Dimensions:- <br>Width:<b>280</b>px & Height: <b>233</b>px</p>
+						<p ng-if="rowInfo.sectionNo == 'section4'"><b>Note:</b>Image Dimensions:- <br>Width:<b>590</b>px & Height: <b>149</b>px</p>
+					 </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 pull-right">
+                     <!-- Vendor Name -->
+                     <div class="form-group" ng-class="{ 'has-error' : sectionForm.categoryTitle.$invalid &amp;&amp; !sectionForm.categoryTitle.$pristine }">
+                        <label>Category Title</label>
+                        <input type="text" name="categoryTitle" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="rowInfo.categoryTitle" placeholder="Category Title" required="">
+                        <p ng-show="sectionForm.categoryTitle.$touched &amp;&amp; sectionForm.categoryTitle.$invalid" class="help-block ng-hide">Category Title is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <!-- Vendor Name -->
+                     <div class="form-group" ng-class="{ 'has-error' : sectionForm.description.$invalid &amp;&amp; !sectionForm.description.$pristine }">
+                        <label>Description</label>
+                        <input type="text" name="description" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="rowInfo.description" placeholder="Description" required="">
+                        <p ng-show="sectionForm.description.$touched &amp;&amp; sectionForm.description.$invalid" class="help-block ng-hide">Description is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <!-- Product Price -->
+                     <div class="form-group" ng-class="{ 'has-error' : sectionForm.discount.$invalid &amp;&amp; !sectionForm.discount.$pristine }">
+                        <label>Discount</label>
+                        <input type="text" name="discount" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="rowInfo.discount" placeholder="Discount" required="">
+                        <p ng-show="sectionForm.discount.$touched &amp;&amp; sectionForm.discount.$invalid" class="help-block ng-hide">Discount is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" title="Create" class="btn btn-primary"ng-click="createAdd(catvalue, subCatValue, rowInfo)">Create</button>
+         </div>
+      </div>
+      <!-- /.modal-content -->
+   </div>
+</div>
+
+<!-- Success Message Popup -->
+<div class="modal fade successPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Success</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Error Message Popup -->
+<div class="modal fade failurePopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Error</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>

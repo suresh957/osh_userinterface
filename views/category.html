@@ -1,0 +1,27 @@
+<div class="container" ng-controller="categoryCtrl">
+   <div class="category-menu" style="display: ;">
+            <ul>
+               <li>
+                  <a class="cat-link">All Categories</a>
+                  <ul class="dropdown bgcover " ng-style="set_bg()" >
+				 <li ><a class="scroll-up"><i class="fa fa-caret-up" aria-hidden="true"></i></a></li>
+				  <div class="category-scroll" ng-scrollbars ng-scrollbars-config="scrollbarConfig">
+                     <li ng-repeat="x in menuitem" >
+                        <a id="{{$index}}" href="#{{x.url}}" ng-mouseover="mouseOverCat(x,$event)"> {{ x.title  }}</a>
+                        <ul class="dropdown  subcategory-scroll submenuitem{{$index}}" ng-attr-style="top: {{topPosition}}">
+						 <li ><a class="sub-scroll-up"><i class="fa fa-caret-up" aria-hidden="true"></i></a></li>
+						 <span>
+                           <li ng-repeat="sub in x.subCategory">
+                              <a href="#/{{sub.type}}/{{ x.title  }}{{sub.url}}" ng-mouseover="mouseOver(sub)">{{sub.title}}</a>                            
+                           </li>
+						   </span>
+						   <li ><a class="sub-scroll-down"><i class="fa fa-caret-down" aria-hidden="true"></i></a></li>
+                        </ul>
+                     </li>
+					 </div>
+					<li ><a class="scroll-down"><i class="fa fa-caret-down" aria-hidden="true"></i></a></li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
+      </div>

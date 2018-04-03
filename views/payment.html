@@ -1,0 +1,225 @@
+<!--<div class="wrap bg">
+<!-- Static navbar    
+<section class="top" id="top-header">
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-12 col-sm-6 hidden-xs shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+         <div class="col-xs-12 col-sm-6 links"> <a href="#contact">Contact Us</a> <span ng-hide="userlogged"><a href="#/login" >Login </a> / <a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+			
+			<!--=== LOGOUT SECTION ===
+			
+		<div class="myprofile-block">
+		<div class="mypro-brdr">
+			<div class="pro-top">
+				<!--<a href="#" class="pro-pic">
+					<img src="img/tst-pic.jpg"/>
+					<span>Change</span>
+				</a>-
+				<div class="pro-txt">
+					<h3>{{loggedInUserName}}</h3>
+					<h4>{{loggedInUser}}</h4>
+				</div>
+			</div>
+			<div class="pro-btm">
+				<span class="mypro-btn" ng-click="myProfile()"><a>My Profile</a></span>
+				<span class="mypro-logout" ng-click="logout()"><a>Log Out</a></span>
+			</div>
+		</div>
+		</div>
+			<a href="#cart" class="cart activelink"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> <span class="cart-value"> {{lengthofcart}}</span> </a></div></div>
+      </div>
+</section>
+<header class="header">
+   <nav class="navbar navbar-default">
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 ">
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>                     <a class="navbar-brand" href="#/"></a>                     
+                  <figure> </figure>                 
+               </div>
+               <div id="navbar" class="navbar-collapse collapse">
+                  <ul class="nav navbar-nav">
+                     <li><a href="#/todaydeals">Today's Deals</a></li>
+                     <li><a href="#">Buy/Sell</a></li>
+                     <li><a href="#services">Services</a></li>
+                     <li><a href="#">About Us</a></li>
+                     <li class="store"><a href="#">Our Store</a></li>
+                     <li><a href="#/myaccount">My Account</a></li>
+                     <li>
+                        <div class="search">
+                           <div class="input">                                 <input type="text" placeholder="Search">                              </div>
+                        </div>
+                     </li>
+                     <li class="post" ><a href="#"><span>Post A Requirement</span></a></li>
+                  </ul>
+               </div>
+               <!--.nav-collapse              
+            </div>
+         </div>
+      </div>
+      <!--/.container-fluid 	       
+   </nav>
+   <category-Directive></category-Directive>
+</header>
+<!--<div class="breadcrumbs"><a href="">Home</a> &gt; &nbsp; Cart &nbsp; &gt; &nbsp; Payment  </div>
+<section class="cart-top">
+   <div class="container">
+      <div class="home">
+         <ul class="cart-links">
+            <li class=" cart">				
+			<a href="#/cart"><img src="img/cart.png"/> 	
+			Items<span>Step 1</span>	</a>	
+			</li>
+            <li class="dvry">
+			<a href="#/delivery"><img src="img/delivery.png"/> 		
+			SHIPMENT<span>Step 2</span></a>
+			</li>
+            <li class="active pay">
+			<a href="#/payment"><img src="img/payment-active.png"/> 	
+			Payment<span>Step 3</span></a>
+			</li>
+            <li class="btn-coupon"><a href="#"> Apply Coupon</a></li>
+         </ul>
+      </div>
+   </div>
+</section>
+<section class="cart">
+   <div class="container">
+   <div class="pay-block">
+      <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 left">
+         <div class="cart-block pay">
+            <div class="table-responsive cart-table payment">
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <th class="col-span-2">Item Description</th>
+                        <th></th>
+                        <th>Options</th>
+                        <th>Price</th>
+                     </tr>
+                  </thead>
+                  <tbody ng-repeat="payment in paymentlist">
+                     <tr>
+                        <td>{{payment.ccord}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <td>{{payment.dcard}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <td>{{payment.ncard}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <td>{{payment.cod}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <td>{{payment.ppay}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <td>{{payment.ptm}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <td>{{payment.em}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 right">
+         <div class="cart-block">
+            <h5>Order Summary</h5>
+            <div class="table-responsive">
+               <table class="table order-summary">
+                  <tr>
+                     <td>Bag Total</td>
+                     <td><i class="fa fa-inr" aria-hidden="true"></i> 799</td>
+                  </tr>
+                  <tr>
+                     <td>Bag Discount</td>
+                     <td class="gray">- <i class="fa fa-inr" aria-hidden="true"></i> 999</td>
+                  </tr>
+                  <tr>
+                     <td>Estimated Tax</td>
+                     <td><i class="fa fa-inr" aria-hidden="true"></i> 50</td>
+                  </tr>
+                  <tr>
+                     <td>Coupon Discount</td>
+                     <td><i class="fa fa-inr" aria-hidden="true"></i> 199</td>
+                  </tr>
+                  <tr>
+                     <td>Delivery</td>
+                     <td class="gray">Free</td>
+                  </tr>
+                  <tr>
+                     <td>Order Total</td>
+                     <td><i class="fa fa-inr" aria-hidden="true"></i> 799</td>
+                  </tr>
+               </table>
+              <button type="submit" class="btn-order">Continue to Payment</button>			
+            </div>
+            <div class="right-btm">
+               <div class="help-block estimated">
+                  <h6>Estimated Delivery</h6>
+                  <h6><span>AUG - 25 - 2017</span></h6>
+               </div>
+               <div class="help-block">
+                  <h6>Need Help</h6>
+                  <h6>
+                     Call 
+                     <a href="#">
+                        040 - 235345</>
+                  </h6>
+               </div>
+               <div class="cards">
+			   <ul>
+				<li><a href="#"><img src="img/visa.png"/></a></li>				<li><a href="#"><img src="img/master-card.png"/></a></li>				<li><a href="#"><img src="img/american-express.png"/></a></li>
+				<li><a href="#"><img src="img/cash-on-delivery.png"/></a></li>
+			   </ul>
+			   </div>   
+            </div>
+         </div>
+      </div>
+      </div>
+   <div class="cart-terms">
+		<div class="col-xs-12 col-md-9 col-sm-9 col-lg-9">
+		<h6>Terms & Conditions</h6>
+		<p>This following sets out the terms and conditions on which you may use the content on bother digital publishing services www.osh.com owned by business standard content services.</p>
+		</div>
+	</div>
+   <div class="secure-links">
+          <ul>
+              <li><img src="img/secure.png"/>100% Secure	</li>
+             <li><img src="img/assured.png"/>Assured Quality	</li>
+            <li><img src="img/easy-returns.png"/>	Easy Returns</li>
+        </ul>
+   </div>
+   </div>
+</section>
+</div>
+<script>
+$(".login-btn").click(function(){
+    $(".myprofile-block").toggle();
+});
+</script>-->

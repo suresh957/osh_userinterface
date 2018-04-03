@@ -1,0 +1,291 @@
+<div class="wrap">
+   <div class="container">
+      <section class="login mid vendor-reg" >
+         <div class="row">
+            <div class="col-xs-12">
+               <h2 class="sec-title"><strong>Register A Vendor</strong></h2>
+               <div class="login-inner">
+                  <form class="form-horizontal" name="vendorForm">
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
+                        <h4>Vendor Information</h4>
+                        <!-- VENDOR NAME -->
+                        <div class="form-group" ng-class="{ 'has-error' : vendorForm.companyName.$invalid && !vendorForm.companyName.$pristine }">
+                           <input type="text" name="companyName" class="form-control" ng-model="vendor.companyName"placeholder="Vendor Name" required>
+                           <!--<p ng-show="vendorForm.companyName.$invalid && !vendorForm.companyName.$pristine" class="help-block">Vendor Name is required</p>-->
+                           <p ng-show="vendorForm.companyName.$touched && vendorForm.companyName.$invalid" class="help-block">Vendor Name  is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+						<!-- EMAIL -->
+                        <div class="form-group" ng-class="{ 'has-error' : vendorForm.email.$invalid && !vendorForm.email.$pristine }">
+                           <input type="email" name="email" id="email" class="form-control" ng-model="vendor.email" placeholder="Email (Your User Id)"  pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                           <p class="help-block" ng-show="vendorForm.email.$touched && vendorForm.email.$error.required">Email is required</p>
+                           <p class="help-block" ng-show="vendorForm.email.$error.pattern">Invalid Email</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <!-- PASSWORD -->
+                        <div class="form-group">
+                           <input type="password" class="form-control" id="password" placeholder="Password" name="password" ng-model="vendor.password" ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,16}$/" required>
+                           <p ng-show="vendorForm.password.$touched && vendorForm.password.$error.required" class="help-block">Password is required</p>
+						   <p class="help-block" ng-show="vendorForm.password.$error.pattern">Length should be 8 to 15 (including upper, lower & special)</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                        <!--CONFIRM PASSWORD -->
+                        <div class="form-group">
+                           <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" name="confirmPassword" ng-model="vendor.confirmPassword" ng-pattern="{{vendor.password}}" required>
+                           <p ng-show="vendorForm.confirmPassword.$touched && vendorForm.confirmPassword.$error.required" class="help-block">Confirm Password is required</p>
+						   <p class="help-block" ng-show="vendorForm.confirmPassword.$error.pattern">Password not matched</p>    
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                           <p id="id1" class="help-block"></p>
+                        </div>
+                      
+                       
+						 <!--country-->
+                        <div class="form-group" ng-class="{ 'has-error' : vendorForm.country.$invalid && !vendorForm.country.$pristine }">
+                           <input type="text"  name="country" class="form-control" value="INDIA"  placeholder="Country " readonly>
+                           <p ng-show="vendorForm.country.$touched && vendorForm.country.$invalid" class="help-block">Country is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+						
+						
+												 <!--state-->
+												  <div class="form-group">
+                        <div class="sec-block">
+                           <select id="state" ng-model="vendor.state" required>
+                             <option value="">Select State</option>
+                              <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                              <option value="Andhra Pradesh">Andhra Pradesh</option>
+                              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                              <option value="Assam">Assam</option>
+                              <option value="Bihar">Bihar</option>
+                              <option value="Chandigarh">Chandigarh</option>
+                              <option value="Chhattisgarh">Chhattisgarh</option>
+                              <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                              <option value="Daman and Diu">Daman and Diu</option>
+                              <option value="Delhi">Delhi</option>
+                              <option value="Goa">Goa</option>
+                              <option value="Gujarat">Gujarat</option>
+                              <option value="Haryana">Haryana</option>
+                              <option value="Himachal Pradesh">Himachal Pradesh</option>
+                              <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                              <option value="Jharkhand">Jharkhand</option>
+                              <option value="Karnataka">Karnataka</option>
+                              <option value="Kenmore">Kenmore</option>
+                              <option value="Kerala">Kerala</option>
+                              <option value="Lakshadweep">Lakshadweep</option>
+                              <option value="Madhya Pradesh">Madhya Pradesh</option>
+                              <option value="Maharashtra">Maharashtra</option>
+                              <option value="Manipur">Manipur</option>
+                              <option value="Meghalaya">Meghalaya</option>
+                              <option value="Mizoram">Mizoram</option>
+                              <option value="Nagaland">Nagaland</option>
+                              <option value="Narora">Narora</option>
+                              <option value="Natwar">Natwar</option>
+                              <option value="Odisha">Odisha</option>
+                              <option value="Paschim">Paschim Medinipur</option>
+                              <option value="Pondicherry">Pondicherry</option>
+                              <option value="Punjab">Punjab</option>
+                              <option value="Rajasthan">Rajasthan</option>
+                              <option value="Sikkim">Sikkim</option>
+                              <option value="Tamil Nadu">Tamil Nadu</option>
+                              <option value="Telangana">Telangana</option>
+                              <option value="Tripura">Tripura</option>
+                              <option value="Uttar Pradesh">Uttar Pradesh</option>
+                              <option value="Uttarakhand">Uttarakhand</option>
+                              <option value="Vaishali">Vaishali</option>
+                              <option value="West Bengal">West Bengal</option>
+                           </select>
+                        </div>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <p id="id2" class="help-block"></p>
+                     </div>
+
+						<!--CIty-->
+					  <div class="form-group" ng-class="{ 'has-error' : vendorForm.city.$invalid && !vendorForm.city.$pristine }">
+                           <input type="text"  name="city" class="form-control" ng-model="vendor.city" placeholder="City " required>
+                           <p ng-show="vendorForm.city.$touched && vendorForm.city.$invalid" class="help-block">City is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+						
+												  <!--area-->
+                        <div class="form-group" ng-class="{ 'has-error' : vendorForm.area.$invalid && !vendorForm.area.$pristine }">
+                           <input type="text"  name="area" class="form-control" ng-model="vendor.area" placeholder="Area " required>
+                           <p ng-show="vendorForm.area.$touched && vendorForm.area.$invalid" class="help-block">Area is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+						  <!--street-->
+                        <div class="form-group" ng-class="{ 'has-error' : vendorForm.street.$invalid && !vendorForm.street.$pristine }">
+                           <input type="text" name="street" class="form-control" ng-model="vendor.street" placeholder="Street" required>
+                           <p ng-show="vendorForm.street.$touched && vendorForm.street.$invalid" class="help-block">Street is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                                  <!--house Number-->
+                        <div class="form-group" ng-class="{ 'has-error' : vendorForm.houseNumber.$invalid && !serviceForm.houseNumber.$pristine }">
+                           <input type="text"  name="houseNumber" class="form-control" ng-model="vendor.houseNumber" placeholder="Office Address " required>
+                           <p ng-show="vendorForm.houseNumber.$touched && vendorForm.houseNumber.$invalid" class="help-block">Office Address is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+						
+		              <!--pinCode-->
+                        <div class="form-group" ng-class="{ 'has-error' : vendorForm.pinCode.$invalid && !vendorForm.pinCode.$pristine }">
+                           <input type="text"  name="pinCode" class="form-control tin_box" ng-model="vendor.pinCode" placeholder="Pincode " ng-pattern-restrict="^[0-9]*$" maxlength="6" required>
+                           <p ng-show="vendorForm.pinCode.$touched && vendorForm.pinCode.$invalid" class="help-block">Pincode is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+						<!--MOBILE NUMBER-->
+						 <div class="form-group" ng-class="{ 'has-error' : vendorForm.contactNumber.$invalid && !vendorForm.contactNumber.$pristine }">
+					   <input type="text"  name="contactNumber"class="form-control" ng-model="vendor.contactNumber" id="contactNumber" placeholder="Mobile Number"  ng-pattern-restrict="^[0-9]*$" maxlength="10" required>
+                       <span ng-show="vendorForm.contactNumber.$error.pattern"class="help-block"></span>
+	                     <p ng-show="vendorForm.contactNumber.$touched && vendorForm.contactNumber.$invalid" class="help-block">Mobile Number is required</p>
+					   <i class="fa fa-star" aria-hidden="true"></i>
+					</div>
+                     </div>
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
+                        <h4>Company Information</h4>
+                        <div class="form-group">
+                           <div class="sec-block">
+                              <select  id="ConstitutionofFirm" ng-model="vendor.vendorConstFirm" required ng-change="constitutionchange(vendor.vendorConstFirm)">
+                                 <option value="">Select Constitution of Firm</option>                                
+                                 <option value="Manufacture">Manufacturer</option>
+                                 <option value="Dealer">Dealer</option>
+                                 <option value="Retailer">Retailer</option>
+								 <option value="Services">Services</option>
+								 <option value="Architects">Architects</option>
+								 <option value="Machinery">Machinery & Equipment </option>
+								 <option value="Wallpaper">Wallpaper </option>
+                              </select>
+                           </div>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                           <p id="id5" class="help-block"></p>
+                        </div>						
+						<vendor-Directive ng-if="vendor.vendorConstFirm!='Services'&& vendor.vendorConstFirm!='Architects' && vendor.vendorConstFirm!='Machinery' && vendor.vendorConstFirm!='Wallpaper'"></vendor-Directive>
+                        <servicesreg-Directive ng-if="vendor.vendorConstFirm=='Services'"></servicesreg-Directive>
+                        <architects-Directive ng-if="vendor.vendorConstFirm=='Architects'"></architects-Directive>
+                        <machinery-Directive ng-if="vendor.vendorConstFirm=='Machinery'"></machinery-Directive>
+                        <wallpaper-Directive ng-if="vendor.vendorConstFirm=='Wallpaper'"></wallpaper-Directive>
+						 <div class="form-group">
+                        <input type="checkbox" name="remember" id="agr" value="Agreed" ng-model="vendor.termsAndConditions" required=""><label for="agr">I agree to OneSevenHome agreement</label>
+                     </div>
+					 <div ng-show="form.$submitted || form.agreeSign.$touched">
+						<p class="help-block">Please agree and sign.</p>
+					</div>
+					</div>
+					<div class="form-group btn-sign">
+                        <button type="submit" class="btn btn-primary" ng-disabled="vendorForm.$invalid" ng-click="regvendor(vendor)" ng-if="vendor.vendorConstFirm!='Services' && vendor.vendorConstFirm!='Architects' && vendor.vendorConstFirm!='Machinery' && vendor.vendorConstFirm!='Wallpaper'">SIGN UP</button>
+						<button type="submit" class="btn btn-primary" ng-disabled="vendorForm.$invalid" ng-click="regservices(vendor)" ng-if="vendor.vendorConstFirm=='Services'">SIGN UP</button>
+						<button type="submit" class="btn btn-primary" ng-disabled="vendorForm.$invalid" ng-click="Arcvendor(vendor)" ng-if="vendor.vendorConstFirm=='Architects'">SIGN UP</button>
+						<button type="submit" class="btn btn-primary" ng-disabled="vendorForm.$invalid" ng-click="Machineryvendor(vendor)" ng-if="vendor.vendorConstFirm=='Machinery'">SIGN UP</button>
+						<button type="submit" class="btn btn-primary" ng-disabled="vendorForm.$invalid" ng-click="wallpapervendor(vendor)" ng-if="vendor.vendorConstFirm=='Wallpaper'">SIGN UP</button>
+					</div>
+					<div class="alert alert-warning " ng-if="errmsg"> 
+						<span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>
+						<strong>Error! </strong>{{errmessage}}</div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </section>
+   </div>
+
+   <script>
+
+$("#vendormobile").keyup(function() {
+  var regex = /^[0-9]+$/;
+if (regex.test(this.value) !== true)
+  this.value = this.value.replace(/[^0-9]+/, '');
+});
+$("#vendortelephone").keyup(function() {
+  var regex = /^[0-9]+$/;
+if (regex.test(this.value) !== true)
+  this.value = this.value.replace(/[^0-9]+/, '');
+});
+$('#ConstitutionofFirm').on('change', function() {
+	var ConstitutionofFirm = $('#ConstitutionofFirm').val();
+	if(ConstitutionofFirm==""){
+	var error="Please select Constitution of Firm";
+		$("#id5").html(error);
+		$("#id5").show();
+	}
+	else{
+		$("#id5").hide();
+	}
+});
+$('#ConstitutionofFirm').bind('blur', function() {
+	var ConstitutionofFirm = $("#ConstitutionofFirm").val();
+	if(ConstitutionofFirm==""){
+	var error="Please select Constitution of Firm";
+		$("#id5").html(error);
+	}
+});
+$('#NatureofCompany').on('change', function() {
+	var NatureofCompany = $('#NatureofCompany').val();
+	if(NatureofCompany==""){
+	var error="Please select Nature of Company";        
+        $("#id6").html(error);
+        $("#id6").show();
+	}
+	else {
+		$("#id6").hide();
+	}
+});
+$('#NatureofCompany').bind('blur', function() {
+	var NatureofCompany = $("#NatureofCompany").val();
+	if(NatureofCompany==""){
+	var error="Please select Nature of Company";
+		$("#id6").html(error);
+	}
+}); 
+ $('#state').on('change', function() {
+                var state = $('#state').val();
+        		 if(state==""){
+        		 var error="Please select state";
+          
+          
+          $("#id2").html(error);
+          $("#id2").show();
+        		 }
+        		 else{
+        		 $("#id2").hide();
+        		 }
+        });
+        $('#state').bind('blur', function() {
+          var state = $("#state").val();
+          if(state==""){
+          var error="Please select state";
+          $("#id2").html(error);
+          }
+        });
+        $('#city').on('change', function() {
+          var city = $('#city').val();
+        	if(city==""){
+        	var error="Please select city";
+      $("#id3").html(error);
+      $("#id3").show();
+        	 }
+        	else{
+      $("#id3").hide();
+        	 }
+        });
+        $('#city').bind('blur', function() {
+          var city = $("#city").val();
+          if(city==""){
+          var error="Please select city";
+      $("#id3").html(error);
+          }
+         });
+</script>
+<script>
+$(function(){
+	$('.tin_box').keyup(function()
+	{
+		var yourInput = $(this).val();
+		re = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+});
+</script>
+</div>

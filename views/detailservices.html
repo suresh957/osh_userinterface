@@ -1,0 +1,311 @@
+<div class="wrap bg">
+<!-- Static navbar -->
+<section class="top" id="top-header">
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-12 col-sm-6 shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+         <div class="col-xs-12 col-sm-6 links"> 
+		 <a href="#contact" class="right-links">Contact Us</a>
+		 <span ng-hide="userlogged">
+		 <a href="#/login" class="right-links">Login </a>
+		<a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+			
+			<!--=== LOGOUT SECTION ===-->
+			
+		<div class="myprofile-block">
+		<div class="mypro-brdr">
+			<div class="pro-top">
+				<!--<a href="#" class="pro-pic">
+					<img src="img/tst-pic.jpg"/>
+					<span>Change</span>
+				</a>-->
+				<div class="pro-txt">
+					<h3>{{loggedInUserName}}</h3>
+					<h4>{{loggedInUser}}</h4>
+				</div>
+			</div>
+			<div class="pro-btm">
+				<span class="mypro-btn" ng-click="myProfile()"><a>My Profile</a></span>
+				<span class="mypro-logout" ng-click="logout()"><a>Logout</a></span>
+			</div>
+		</div>
+		</div>
+			 <a href="#cart" class="cart">
+			<!--<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> -->
+			   <img src="img/cart1.png">
+				   <span class="cart-value">{{lengthofcart}}</span> </a>
+			
+			</div>
+			</div>
+			</div>
+
+</section>
+<header class="header">
+   <nav class="navbar navbar-default">
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 ">
+               <div class="navbar-header">
+			    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+					<a class="navbar-brand" href="#/"></a>
+						 <figure> </figure>
+						 <div class="search mobile-search">
+							<div class="input">
+							<i class="fa fa-search"></i>
+								<input type="text" placeholder="Search">
+							</div>
+						 </div>
+					  </div>
+              <div id="navbar" class="navbar-collapse collapse">
+						 <ul class="nav navbar-nav">
+							<li><a href="#/todaydeals">Today's Deals</a></li>
+							<li><a>Buy/Sell</a></li>
+							<li><a href="#services">Services</a></li>
+							<li><a>About Us</a></li>
+							<li class="store"><a>Our Store</a></li>
+							<li><a href="#/myaccount">My Account</a></li>
+							<li class="menu-search">
+							<div class="search">
+							  <div class="input">
+								<i class="fa fa-search"></i>
+								  <div class="menu-in" ng-controller="TypeSearchCtrl">
+								  <div class="sec-block">
+									<select ng-init="searchType = typeOfSearch[0]"
+											ng-model="searchType"
+											ng-options="option.name for option in typeOfSearch">
+									</select>
+								  </div>
+                                    <input type="text" id="modalValue" ng-keypress="searchFunctions(searchSelected,$event,searchType.value,$model)" value="searchSelected" ng-model="searchSelected" autofocus="autofocus" placeholder="Search" uib-typeahead="item for item in getSearch($viewValue, searchType.value)" typeahead-focus-first="false" typeahead-wait-ms="1000" typeahead-min-length="3" typeahead-on-select="onSearchSelect(searchSelected, $item, $model, $label, $event, searchType.value, titleArray)" typeahead-no-results="noResults"/>
+									<span class="menu-in-search" ng-click="searchFunction(searchSelected, searchType.value)"><i class="fa fa-search"></i></span>
+									<span class="menu-in-clear" ng-click="clearString(searchSelected)"><i class="fa fa-times-circle"></i></span>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+							<li class="post" ><a href="#/postrequire"><span>Post A Requirement</span></a></li>
+						 </ul>
+					  </div>
+               <!--.nav-collapse -->
+            </div>
+         </div>
+      </div>
+      <!--/.container-fluid -->
+   </nav>
+   <category-Directive></category-Directive>
+</header>
+<div class="container">
+   <section class="services-list title">
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12  ">
+               <h2 class="sec-title"><strong>{{selectedtype}}</strong></h2>
+               <p class="sub-tag">From an idea to an unforgettable and measurable digital experience.
+                  Choose from an wide variety of services we offer.
+               </p>
+            </div>
+         </div>
+      </div>
+   </section>
+   <section class="services-list dtlsrvce">
+         <div class="head col-md-12">
+               <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 left">
+                  <strong>Showing all <span>{{selectedtype}}</span></strong>
+               </div>
+               <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 right">
+                  <div class="text-left service-location">
+                     <form ng-submit="searchVendor(searchStr)">
+                        <div class="form-group">
+                          <input type="text" placeholder="Search" ng-model="searchStr" placeholder="Enter a location"/>
+                        </div>
+                     </form>
+                  </div>
+				  <!-- <span ng-show="locvalue" class="filter-location pull-left"><b>{{fillocation}}</b> <i class="fa fa-remove" ng-click="removelocation()" aria-hidden="true"></i></span> -->
+                  <div class="text-right ">
+                     <div class="sort">
+                        <label>Sort By</label>
+                        <div class="selectbox">
+                           <select>
+							  <option value="">Popularity</option>
+							  <option value="">5 Star Vendors</option>
+							  <option value="">Lower Cost Vendors</option>
+							  <option value="">Top Rated Vendors</option>
+                           </select>
+						</div>
+						<div class="selectbox">
+						   <select>
+							  <option value="">Distance</option>
+							  <option value="">0-2 KMS</option>
+							  <option value="">2-5 KMS</option>
+							  <option value="">5-10 KMS</option>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+		 </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+               <div class="todaydeal-sorting">
+                  <div ng-repeat="x in workers">
+                     <input id="{{ x.serviceType }}" type="checkbox" ng-model="x.checked" ng-click="updateSelection($index,workers, x.serviceType,x.id,x.checked)"/><label for="{{ x.serviceType }}">{{ x.serviceType }}</label>
+                  </div>
+               </div>
+               <div class="todaydeals rp">
+                  <div class="rp-block">
+                     <h2 class="sec-title2"><strong>Recommended Products </strong></h2>
+                     <slick settings="slickrecommendedprocutsConfig" ng-if="RecomendLoaded">
+                        <li class="block" ng-repeat="image in recommend">
+                          <div class="t-pro">
+                              <figure>
+                           <a href="#/productpage/{{image.productId}}"><img data-lazy="{{image.imageURL}}"></a>
+                           <span class="dis">{{image.discountPercentage}}% OFF</span>
+                           </figure>
+                           <h3> {{image.productName}}</h3>
+                           <h4><i class="fa fa-inr" aria-hidden="true"></i> {{image.productDiscountPrice}}</h4>
+                           <a href="#/productpage/{{image.productId}}" class="va">View Details</a>
+                          </div>
+                        </li>
+                     </slick>
+                  </div>
+               </div>
+            </div>
+            <div class="list-view col-xs-12 col-sm-8 col-md-9 col-lg-9">
+               <ul>
+                  <li ng-repeat="detailsevice in servicedetails | filter:searchlocation">
+				  <div class="t-pro">
+                     <figure><a href="#"><img ng-src="{{detailsevice.imageUrl}}"></a></figure>
+                     <h3> {{detailsevice.companyName}}</h3>
+                     <!-- <h4> {{detailsevice.houseNumber}},{{detailsevice.street}},{{detailsevice.area}}<br>{{detailsevice.city}},{{detailsevice.state}}-{{detailsevice.pinCode}}<br> -->
+                        <!-- Phone: +91 {{detailsevice.contactNumber}} -->
+                     <!-- </h4> -->
+                     <span class="rating line sm">
+                        <span star-rating rating-value="detailsevice.avgRating" max="5" on-rating-selected="getSelectedRating(rating)"></span>
+                      |
+                     <span>{{detailsevice.totalRating}} Votes</span> |
+                     <span class="rate"> Rate
+                     <span class="rating line sm srv-show">
+                     <jk-rating-stars 
+                                 max-rating="5" 
+                                 rating="secondRate" 
+                                 on-rating="onItemRating(rating, detailsevice,x)">
+                              </jk-rating-stars>
+                     </span>
+                     </span>
+                     </span>
+                     <div class="push-right">
+                        <!--<button class="like">Like</button>-->
+                       <!-- <button class="booknow">Book Now</button>-->
+						 <button type="button" class="booknow" data-toggle="modal" data-target=".booknow-popup" ng-click="mechpopup(detailsevice)">Book Now</button>
+                     </div>
+                  </div>
+				  </li>
+               </ul>
+				<div>
+				  <div paging
+					page="1" 
+					page-size="5" 
+					total=totalCount
+					paging-action="detailsPagingAct(page, pageSize, total)">
+				  </div>
+			   </div>
+            </div>
+   </section>
+   <section class="services-slide">
+      <div class="container">
+         <div class="row">
+            <h2 class="sec-title"><strong>Recommended Vendors</strong></h2>
+            <ul>
+               <slick settings="slickrecommendedvendorsConfig" ng-if="RecommendvendorLoaded">
+                  <li ng-repeat="vendor in vendorrecommended">
+                    
+					 <figure>
+                        <a href="#"><img ng-src="{{vendor.imgUrl}}"></a>
+                        <!--<a class="prd-str"><i class="fa fa-star" aria-hidden="true"></i></a>-->
+                     </figure>
+                     <h4>{{vendor.title}}</h4>
+                     <p>{{vendor.location}}{{vendor.address}}</p>
+					 
+                  </li>
+               </slick>
+            </ul>
+         </div>
+      </div>
+   </section>
+   <div id="back-top">
+	<a href="javascript:" id="return-to-top"><i class="fa fa-arrow-circle-o-up"></i></a>
+</div>
+</div>
+</div>
+
+<script>
+$(".login-btn").click(function(){
+    $(".myprofile-block").toggle();
+});
+</script>
+<script>
+$(".mobile-search .fa-search").click(function(){
+    $(".mobile-search input").toggle();
+});
+</script>
+
+<!-- Modal -->
+<div class="modal fade booknow-popup" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-1" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content postrequire-view">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="text-left modal-title">Confirm Booking</h4>
+         </div>
+         <div class="modal-body">
+            <form class="booknowpopup" name="bookNowPopupForm" novalidate>
+               <div class="col-xs-12 col-sm-6 pull-left">
+                  <!-- Customer Name -->
+                  <div class="form-group" ng-class="{ 'has-error' : bookNowPopupForm.vendorName.$invalid &amp;&amp; !bookNowPopupForm.vendorName.$pristine }">
+                     <label><b>Vendor Name</b></label>
+                     <input type="text" name="vendorName" class="form-control" ng-model="vendorName" placeholder="Vendor Name" required="" ng-readonly="true" readonly="readonly">
+                     <p ng-show="bookNowPopupForm.vendorName.$touched &amp;&amp; bookNowPopupForm.vendorName.$invalid" class="help-block ng-hide">Vendor Name is required</p>
+                  </div>
+                  <!-- Customer Name -->
+                  <div class="form-group" ng-class="{ 'has-error' : bookNowPopupForm.customerName.$invalid &amp;&amp; !bookNowPopupForm.customerName.$pristine }">
+                     <label><b>Customer Name</b></label>
+                     <input type="text" name="customerName" class="form-control" ng-model="customerName" placeholder="Customer Id" required="" ng-readonly="true" readonly="readonly">
+                     <p ng-show="bookNowPopupForm.customerName.$touched &amp;&amp; bookNowPopupForm.customerName.$invalid" class="help-block ng-hide">Customer Name is required</p>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error' : bookNowPopupForm.appointmentDate.$invalid &amp;&amp; !bookNowPopupForm.appointmentDate.$pristine }">
+                     <label><b>Appointment Date</b></label>
+                     <input type="text" id="appointmentDate" name="appointmentDate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="popupDetails.appointmentDate" placeholder="Appointment Date" required="">
+                     <p ng-show="bookNowPopupForm.appointmentDate.$touched &amp;&amp; bookNowPopupForm.appointmentDate.$invalid" class="help-block ng-hide">Appointment Date is required</p>
+                     <i class="fa fa-star" aria-hidden="true"></i>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-6 pull-right">
+				  <!-- Description -->
+				  <div class="form-group" ng-class="{ 'has-error' : bookNowPopupForm.Descrption.$invalid &amp;&amp; !bookNowPopupForm.Descrption.$pristine }">
+                     <label><b>Description</b></label>
+                     <input type="text" name="description" class="form-control" ng-model="popupDetails.Descrption" placeholder="Booking Description" required="">
+                     <p ng-show="bookNowPopupForm.Descrption.$touched &amp;&amp; bookNowPopupForm.Descrption.$invalid" class="help-block ng-hide">Description is required</p>
+					  <i class="fa fa-star" aria-hidden="true"></i>
+                  </div>
+				  <div class="form-group" ng-class="{ 'has-error' : bookNowPopupForm.Descrption.$invalid &amp;&amp; !bookNowPopupForm.Descrption.$pristine }">
+                     <label><b></b></label>
+                     <input type="hidden" name="description" class="form-control" ng-model="popupDetails.id" placeholder="Booking Description" >
+                
+                  </div>
+                  <!-- Contact Informaation -->
+                  <div class="form-group" ng-class="{ 'has-error' : bookNowPopupForm.contactinformation.$invalid &amp;&amp; !bookNowPopupForm.contactinformation.$pristine }">
+                     <label><b>Contact Information</b></label>
+                     <textarea class="form-control" ng-model="popupDetails.contactinformation" placeholder="Contact Info (If Any)"></textarea>
+                     <p ng-show="bookNowPopupForm.contactinformation.$touched &amp;&amp; bookNowPopupForm.contactinformation.$invalid" class="help-block ng-hide">Contact Information is required</p>                  
+                  </div>
+                  
+               </div>
+               <div class="clearfix"></div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" title="Respond" class="btn btn-danger" ng-click="detailsOfService(popupDetails)" ng-disabled="bookNowPopupForm.$invalid">Book Now</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+      <!-- /.modal-content -->
+   </div>
+</div>

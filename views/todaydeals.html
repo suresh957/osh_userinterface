@@ -1,0 +1,229 @@
+<div class="wrap">
+   <!-- Static navbar -->
+   <section class="top" id="top-header">
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-12 col-sm-6 shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+         <div class="col-xs-12 col-sm-6 links"> 
+		 <a href="#contact" class="right-links">Contact Us</a>
+		 <span ng-hide="userlogged">
+		 <a href="#/login" class="right-links">Login </a>
+		<a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+			
+			<!--=== LOGOUT SECTION ===-->
+			
+		<div class="myprofile-block">
+		<div class="mypro-brdr">
+			<div class="pro-top">
+				<!--<a href="#" class="pro-pic">
+					<img src="img/tst-pic.jpg"/>
+					<span>Change</span>
+				</a>-->
+				<div class="pro-txt">
+					<h3>{{loggedInUserName}}</h3>
+					<h4>{{loggedInUser}}</h4>
+				</div>
+			</div>
+			<div class="pro-btm">
+				<span class="mypro-btn" ng-click="myProfile()"><a>My Profile</a></span>
+				<span class="mypro-logout" ng-click="logout()"><a>Logout</a></span>
+			</div>
+		</div>
+		</div>
+			 <a href="#cart" class="cart">
+			<!--<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> -->
+			   <img src="img/cart1.png">
+				   <span class="cart-value"> {{lengthofcart}}</span> </a>
+			
+			</div>
+			</div>
+			</div>
+
+</section>
+<header class="header">
+   <nav class="navbar navbar-default">
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 ">
+               <div class="navbar-header">
+			    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                  
+            <a class="navbar-brand" href="#/"></a>
+						 <figure> </figure>
+						 <div class="search mobile-search">
+							<div class="input">
+							<i class="fa fa-search"></i>
+								<input type="text" placeholder="Search">
+							</div>
+						 </div>
+					  </div>
+              <div id="navbar" class="navbar-collapse collapse">
+						 <ul class="nav navbar-nav">
+							<li><a href="#/todaydeals">Today's Deals</a></li>
+							<li><a>Buy/Sell</a></li>
+							<li><a href="#services">Services</a></li>
+							<li><a>About Us</a></li>
+							<li class="store"><a>Our Store</a></li>
+							<li><a href="#/myaccount">My Account</a></li>
+							<li class="menu-search">
+							<div class="search">
+							  <div class="input">
+								<i class="fa fa-search"></i>
+								  <div class="menu-in" ng-controller="TypeSearchCtrl">
+								  <div class="sec-block">
+									<select ng-init="searchType = typeOfSearch[0]"
+											ng-model="searchType"
+											ng-options="option.name for option in typeOfSearch">
+									</select>
+								  </div>
+                                    <input type="text" id="modalValue" ng-keypress="searchFunctions(searchSelected,$event,searchType.value,$model)" value="searchSelected" ng-model="searchSelected" autofocus="autofocus" placeholder="Search" uib-typeahead="item for item in getSearch($viewValue, searchType.value)" typeahead-focus-first="false" typeahead-wait-ms="1000" typeahead-min-length="3" typeahead-on-select="onSearchSelect(searchSelected, $item, $model, $label, $event, searchType.value, titleArray)" typeahead-no-results="noResults"/>
+									<span class="menu-in-search" ng-click="searchFunction(searchSelected, searchType.value)"><i class="fa fa-search"></i></span>
+									<span class="menu-in-clear" ng-click="clearString(searchSelected)"><i class="fa fa-times-circle"></i></span>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+							<li class="post" ><a href="#/postrequire"><span>Post A Requirement</span></a></li>
+						 </ul>
+					  </div>
+               <!--.nav-collapse -->
+            </div>
+         </div>
+      </div>
+      <!--/.container-fluid -->
+   </nav>
+   <category-Directive></category-Directive>
+</header>
+   <div class="container">
+      <section class="todaydeals title" >
+         <div class="row">
+            <div class="col-xs-12  ">
+               <h2 class="sec-title"><strong>Hot Deals - Save upto 50%</strong></h2>
+               <p class="sub-tag">Great Savings. Every Day. Shop from our Deal of the Day, Lightning Deals and avail other great 
+                  offers. <span ng-show="showSignUp"><a href="#registration">Sign up</a> for deal notifications.</span>
+               </p>
+                <div class="links"> 
+                  <a href=""  ng-click="active()"class="active">Active </a> 
+                  <a href="" ng-click="Upcoming(x)" >Upcoming</a>
+                  <a href="" ng-click="Expired(x)">Expired</a> 
+               </div>
+            </div>
+         </div>
+      </section>
+      <section class="todaydeals mid">
+         <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 left">
+            <div class="todaydeal-sorting">
+               <p>Showing 1-21of 99 Results</p>
+                 <div ng-repeat="x in menuitem track by $index">
+                  <input id="{{ x.title }}" type="checkbox" ng-model="x.checked" ng-click="todaycat($index , menuitem , x )" /><label for="{{ x.title }}">{{ x.title }}</label>
+               </div>
+            </div>
+            <div class="todaydeals rp">
+               <div class="rp-block">
+                  <h2 class="sec-title2"><strong>Recommended Products </strong></h2>
+                  <section  id="fp">
+                     <slick settings="slickrecommendedprocutsConfig" ng-if="RecomendLoaded">
+                        <li class="block" ng-repeat="image in recommend">
+                        <div class="t-pro">
+                           <figure>
+                           <a href="#/productpage/{{image.productId}}"><img data-lazy="{{image.imageURL}}"></a>
+                           <span class="dis">{{image.discountPercentage}}% OFF</span>
+                           </figure>
+                           <h3> {{image.productName}}</h3>
+                           <h4><i class="fa fa-inr" aria-hidden="true"></i> {{image.productDiscountPrice}}</h4>
+                           <a href="#/productpage/{{image.productId}}" class="va">View Details</a>
+                        </div>
+                        </li>
+                     </slick>
+                  </section>
+               </div>
+			   
+			   <!--== Pagination Removed ==-->
+			   
+               <!--<div class="pagination">
+                  <ul>
+                     <li><a href="#">1</a></li>
+                     <li class="active"><a href="#">2</a></li>
+                     <li><a href="#">3</a></li>
+                     <li><a href="#">4</a></li>
+                  </ul>
+               </div>-->
+            </div>
+         </div>
+         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9 tdm-block">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 todaydeal-block" ng-repeat="todaydeal in deal">
+               <div class="t-pro">
+			   <figure>
+                  <a href="#/productpage/{{todaydeal.productId}}"><img ng-src="{{todaydeal.imageURL}}"></a>
+                  <span class="dis">{{todaydeal.discountPercentage}}% OFF</span>
+               </figure>
+               <h3>{{todaydeal.productName}}</h3>
+               <h4><i class="fa fa-inr" aria-hidden="true"></i> {{todaydeal.productPrice}}</h4>
+               <a href="#/productpage/{{todaydeal.productId}}" class="va">View Details</a>
+				</div>
+            </div>
+			 <div paging
+			page="1" 
+			page-size="15" 
+			total=totalCount
+			paging-action="PagingAct(page, pageSize, total)">
+		</div>
+         </div>
+		 
+		 <!--== Pagination Removed ==-->
+		 
+		 <!--<div class="pagination">
+               <ul>
+                  <li class="prev"><a href="#">Prev</a></li>
+                  <li><a href="#">1</a></li>
+                  <li class="active"><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li class="dots"><a href="#">...</a></li>
+                  <li class="last"><a href="#">8</a></li>
+                  <li class="nxt"><a href="#">Next</a></li>
+               </ul>
+            </div>-->
+      </section>
+      <section class="todaydeals rview">
+         <div class="row">
+            <div class="col-xs-12">
+               <h2 class="sec-title"><strong>Recently Bought</strong></h2>
+			    <ul class="all">
+               <slick settings="slickrecentbroughtConfig" ng-if="RecentlyLoaded">
+                     <li ng-repeat="brought in recently">
+                        <div class="t-pro">
+						<figure>
+                           <a href="#/productpage/{{brought.productId}}"><img data-lazy="{{brought.imageURL}}"></a>
+                           <span class="dis">{{brought.discountPercentage}}% OFF</span>
+                        </figure>
+                        <h3>{{brought.productName}}</h3>
+                        <h4><i class="fa fa-inr" aria-hidden="true"></i> {{brought.productDiscountPrice}}</h4>
+                        <a href="#/productpage/{{brought.productId}}" class="va">View Details</a>
+						</div>
+                     </li>
+                 
+               </slick>
+			    </ul>
+            </div>
+         </div>
+      </section>
+	  <div id="back-top">
+	<a href="javascript:" id="return-to-top"><i class="fa fa-arrow-circle-o-up"></i></a>
+</div>
+   </div>
+</div>
+
+<script>
+$(".login-btn").click(function(){
+    $(".myprofile-block").toggle();
+});
+$(".mobile-search .fa-search").click(function(){
+	$(".mobile-search input").toggle();
+});
+$('.links').ready(function(){
+	$(' a').click(function(){
+		$(' a').removeClass("active");
+		$(this).addClass("active");
+	});
+});
+</script>

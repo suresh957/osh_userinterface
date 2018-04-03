@@ -1,0 +1,467 @@
+<div class="wrap">
+<!-- Static navbar -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<section class="top" id="top-header">
+   <div class="container">
+      <div class="row">
+         <div class="col-xs-12 col-sm-6 shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+         <div class="col-xs-12 col-sm-6 links"> 
+		 <a href="#contact" class="right-links">Contact Us</a>
+		 <span ng-hide="userlogged">
+		 <a href="#/login" class="right-links">Login </a>
+		<a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+			
+			<!--=== LOGOUT SECTION ===-->
+			
+		<div class="myprofile-block">
+		<div class="mypro-brdr">
+			<div class="pro-top">
+				<!--<a href="#" class="pro-pic">
+					<img src="img/tst-pic.jpg"/>
+					<span>Change</span>
+				</a>-->
+				<div class="pro-txt">
+					<h3>{{loggedInUserName}}</h3>
+					<h4>{{loggedInUser}}</h4>
+				</div>
+			</div>
+			<div class="pro-btm">
+				<span class="mypro-btn" ng-click="myProfile()"><a>My Profile</a></span>
+				<span class="mypro-logout" ng-click="logout()"><a>Logout</a></span>
+			</div>
+		</div>
+		</div>
+			 <a href="#cart" class="cart">
+			<!--<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> -->
+			   <img src="img/cart1.png">
+				   <span class="cart-value">{{lengthofcart}}</span> </a>
+			
+			</div>
+			</div>
+			</div>
+
+</section>
+<header class="header">
+   <nav class="navbar navbar-default">
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 ">
+               <div class="navbar-header">
+			    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                  
+            <a class="navbar-brand" href="#/"></a>
+						 <figure> </figure>
+						 <div class="search mobile-search">
+							<div class="input">
+							<i class="fa fa-search"></i>
+								<input type="text" placeholder="Search">
+							</div>
+						 </div>
+					  </div>
+              <div id="navbar" class="navbar-collapse collapse">
+						 <ul class="nav navbar-nav">
+							<li><a href="#/todaydeals">Today's Deals</a></li>
+							<li><a>Buy/Sell</a></li>
+							<li><a href="#services">Services</a></li>
+							<li><a>About Us</a></li>
+							<li class="store"><a>Our Store</a></li>
+							<li><a href="#/myaccount">My Account</a></li>
+							<li class="menu-search">
+							<div class="search">
+							  <div class="input">
+								<i class="fa fa-search"></i>
+								  <div class="menu-in" ng-controller="TypeSearchCtrl">
+								  <div class="sec-block">
+									<select ng-init="searchType = typeOfSearch[0]"
+											ng-model="searchType"
+											ng-options="option.name for option in typeOfSearch">
+									</select>
+								  </div>
+                                    <input type="text" id="modalValue" ng-keypress="searchFunctions(searchSelected,$event,searchType.value,$model)" value="searchSelected" ng-model="searchSelected" autofocus="autofocus" placeholder="Search" uib-typeahead="item for item in getSearch($viewValue, searchType.value)" typeahead-focus-first="false" typeahead-wait-ms="1000" typeahead-min-length="3" typeahead-on-select="onSearchSelect(searchSelected, $item, $model, $label, $event, searchType.value, titleArray)" typeahead-no-results="noResults"/>
+									<span class="menu-in-search" ng-click="searchFunction(searchSelected, searchType.value)"><i class="fa fa-search"></i></span>
+									<span class="menu-in-clear" ng-click="clearString(searchSelected)"><i class="fa fa-times-circle"></i></span>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+							<li class="post" ><a href="#/postrequire"><span>Post A Requirement</span></a></li>
+						 </ul>
+					  </div>
+               <!--.nav-collapse -->
+            </div>
+         </div>
+      </div>
+      <!--/.container-fluid -->
+   </nav>
+   <category-Directive></category-Directive>
+</header>
+<div class="breadcrumbs" ng-show = "list">
+   <a href="#/">Home</a>&gt;<a href="#/categories/{{categorytype}}">{{categorytype}}</a><span  ng-show="subcattype" >&gt;</span><span class="text-capitalize">{{subcategorytype}}</span>
+</div>
+<div class="breadcrumbs" ng-show = "arccat">
+   <a href="#/">Home</a>&gt;<a href="">Architects</a><span  ng-show="subcattype" >&gt;</span><span class="text-capitalize">{{subcategorytype}}</span>
+</div>
+<div class="breadcrumbs" ng-show = "meccat">
+   <a href="#/">Home</a>&gt;<a href="">Machinery & Equipment</a><span  ng-show="subcattype" >&gt;</span><span class="text-capitalize">{{subcategorytype}}</span>
+</div>
+<div class="breadcrumbs" ng-show = "walcat">
+   <a href="#/">Home</a>&gt;<a href="">Wall Paper</a><span  ng-show="subcattype" >&gt;</span><span class="text-capitalize">{{subcategorytype}}</span>
+</div>
+<section class="plist mid">
+   <div class="container">
+      <div id="subcat-block">
+         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+            <div class="subcat-check blck">
+                <h5>{{categorytype}}</h5>
+			<div ng-repeat="subCategory in categorySub">
+               <input id="{{subCategory.title}}" type="checkbox" ng-model="subCategory.checked" ng-click="fil(subCategory)" />
+			   <label for="{{ subCategory.title }}">{{ subCategory.title }}</label>
+            </div>
+            </div>
+            <div class="subcat-check s-link blck" ng-repeat="itembrand in branditem">
+               <h5 class="show-brand active">{{itembrand.filterName}}</h5>
+               <div class="scrollbar-inner">
+				<ul class="subcat-link brand">
+				  <li ng-repeat="brandName in itembrand.filterType">
+						<input class="filcheck" type="checkbox" name="selectedBrands[]" value="{{brandName.id}}"  ng-model="brandName.checked" ng-click="filteritem(brandName.id,brandName.checked)" id="{{brandName.filterTypeName}}" />
+						<label for="{{brandName.filterTypeName}}">{{brandName.filterTypeName}}</label>
+				  </li>
+				</ul>
+               </div>
+            </div>
+			 <div class="subcat-check blck" ng-show="Novels">
+                <h5>Price</h5>
+				
+ <!-- <div ng-controller="ProductlistCtrl as vm">
+    <p><b>Last updated:</b> {{vm.lastSliderUpdated}}</p>
+    <rzslider rz-slider-model="vm.slider.min" rz-slider-high="vm.slider.max" rz-slider-options="vm.slider.options"></rzslider>
+  </div>-->
+   <form class="form-horizontal" name="priceForm" novalidate>
+   <p class="pricing">
+		<input type="text"  ng-model="priceValue.minPrice" placeholder="min" ng-pattern-restrict="^[0-9]*$" required> to
+		<input type="text"  ng-model="priceValue.maxPrice" placeholder="max" ng-pattern-restrict="^[0-9]*$" required>
+			
+                        <button type="GO" class="btn btn-primary" ng-disabled="priceForm.$invalid" value="GO" title="GO" ng-click="pricing(priceValue)" >GO</button>
+			</p>
+			</form>
+ <rzslider
+ rz-slider-model="minRangeSlider.minPrice"
+ rz-slider-high="maxProductPrice" 
+ rz-slider-options="minRangeSlider.options" ></rzslider>
+ 
+	
+    </div>
+
+	
+    <div class="subcat-check blck ">
+    <div class="rating-block">
+    <h5>Rating</h5>
+	   
+     <jk-rating-stars 
+        max-rating="5" 
+        rating="secondRate" 
+        on-rating="onItemRating(rating)">
+      </jk-rating-stars>
+     <!-- <div style="width: 100px"> Stars :{{rating}} </div> -->
+	</div>
+
+</div>
+<div class="text-left service-location" ng-show="searchloc">
+                     <form ng-submit="searchVendor(searchStr)">
+                        <div class="form-group">
+                          <input type="text" placeholder="Search" ng-model="searchStr" placeholder="Enter a location"/>
+                        </div>
+                     </form>
+
+                  </div></br></br>
+<div class="form-group">
+                        <!--<a href="" class="btn btn-primary" id="reset">RESET</a>-->
+						 <input type="reset" ng-click='resetSlider()'  id="reset" value="Reset"> 
+					</div>
+					<!--<h2><a href=""  ng-click="reload(reset)">RESET</a></h2>-->
+				
+</div>
+
+         <!-- product list -->
+         
+         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 " ng-show = "list">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 plist-blck" ng-repeat="pl in plist">
+               <div class="t-pro" >
+                  <figure>
+                    <a href="#/productpage/{{pl.productId}}"><img ng-src="{{pl.imageURL}}"></a>
+                    <span ng-show="vendoradd" class="vendor-chk-select"><input id="{{pl.productId}}" value="{{pl.productId}}" type="checkbox" ng-model="pl.checked" ng-click="vendorselect(pl)" /><label for="{{pl.productId }}"></label></span>
+			
+					 <span class="dis" ng-show="display{{$index}}" >{{pl.discountPercentage}}% OFF</span>
+                  </figure>
+                  <h3 title="{{pl.productName}}">{{pl.productName}}</h3>
+                   <h6 class="no-disc" ng-hide="display{{$index}}"><span> <i class="fa fa-inr" aria-hidden="true"></i> {{pl.productPrice}} </span></h6>
+				   <h6 class="disc-prd" ng-show="display{{$index}}"><span> <i class="fa fa-inr" aria-hidden="true"></i> {{pl.productPrice}} </span></h6>
+				  
+                  <h4   class="dis1" ng-show="display{{$index}}"> <i class="fa fa-inr" aria-hidden="true"></i> {{pl.productDiscountPrice}} </h4>
+   	 <a href="#/productpage/{{pl.productId}}" class="va">View Details</a>
+               </div>
+			 
+            </div>
+			  <h1 ng-show="prodshow">No results found for the category "{{subcategorytype}}"</h1>
+			  <!-- <h1 ng-show="filtershow">{{errormsg}}</h1> -->
+			 <div paging 
+			 page="1"  
+			 page-size="15"  
+			 total=totalCount 
+			 paging-action="PagingAct(page, pageSize, total)"> 
+		 </div> 
+         </div>
+		 
+		 <!-- ARCHITECTS-->	  
+         <div class="list-view col-xs-12 col-sm-9 col-md-9 col-lg-9" ng-show="arc">
+               <ul>
+                  <li ng-repeat="ARCHITECTS in arclist|filter:search">
+                     <div class="t-pro">
+					 <figure><a href="#/arcproduct/{{ARCHITECTS.id}}"><img ng-src="{{ARCHITECTS.imageUrl}}"></a></figure>
+                     <h3> {{ARCHITECTS.companyName}}</h3>
+                     <p> {{ARCHITECTS.shortDescription}}</p>
+                     <div class="push-right">
+                     <a href="#/arcproduct/{{ARCHITECTS.id}}" class="booknow">View Details</a>
+                     </div>
+					 <p> <span class="rating line sm">
+                        <span star-rating rating-value="ARCHITECTS.avgRating" max="5" on-rating-selected="getSelectedRating(rating)"></span>
+                      |
+                     <span>{{ARCHITECTS.totalRating}} Votes</span> |
+                     
+                     </span></p>
+					 </div>
+                  </li>
+               </ul>
+			    <h1 ng-show="arclistshow">No results found for the category "{{subcategorytype}}"</h1>
+			    <!-- <h1 ng-show="prodshow">No results found for the category "{{subcategorytype}}"</h1> -->
+				<div paging
+			page="1" 
+			page-size="5" 
+			total=Count
+			paging-action="PagingAct(page, pageSize, total)">
+		</div>
+            </div>
+		 
+		 <!-- MECHINORY-->
+		 <div class="list-view col-xs-12 col-sm-9 col-md-9 col-lg-9" ng-show = "mechinory">
+               <ul>
+                  <li ng-repeat="mechinory in mechlist">
+				  <div class="t-pro">
+                     <figure><a href="#/mechinerylist/{{mechinory.id}}"><img ng-src="{{mechinory.imageUrl}}"></a></figure>
+                     <h3> {{mechinory.companyName}}</h3>
+					 <p> {{mechinory.shortDescription}}</p>
+					 <!-- <h4> {{mechinory.city}},{{mechinory.state}}</h4> -->
+                     <!-- <h4> {{ARCHITECTS.houseNumber}},{{ARCHITECTS.street}},{{ARCHITECTS.area}}<br>{{ARCHITECTS.city}},{{ARCHITECTS.state}}-{{ARCHITECTS.pinCode}}<br> -->
+                        <!-- Phone: +91 {{ARCHITECTS.contactNumber}} -->
+                     <!-- </h4> -->
+                     
+                     <div class="push-right">
+<a href="#/mechinerylist/{{mechinory.id}}" class="va">View Details</a>
+                     </div>
+					  <p> <span class="rating line sm">
+                        <span star-rating rating-value="mechinory.avgRating" max="5" on-rating-selected="getSelectedRating(rating)"></span>
+                      |
+                     <span>{{mechinory.totalRating}} Votes</span> |
+                     
+                     </span></p>
+					 </div>
+                  </li>
+               </ul>
+			    <!-- <h1 ng-show="prodshow">No results found for the category "{{subcategorytype}}"</h1> -->
+				<h1 ng-show="mechlistshow">No results found for the category "{{subcategorytype}}"</h1>
+				<div paging
+			page="1" 
+			page-size="5" 
+			total=mechCount
+			paging-action="MechAct(page, pageSize, total)">
+		</div>
+            </div>
+		 
+		 <!--WALLPAPER-->
+		 <div class="list-view col-xs-12 col-sm-9 col-md-9 col-lg-9" ng-show = "wal">
+               <ul>
+                  <li ng-repeat="wallpaper in wallist">
+				  <div class="t-pro">
+                     <figure><a href="#/wallpaperlist/{{wallpaper.id}}"><img ng-src="{{wallpaper.imageUrl}}"></a></figure>
+                     <h3> {{wallpaper.companyName}}</h3>
+					 <p> {{wallpaper.shortDescription}}</p>
+					 <!-- <h4> {{wallpaper.city}},{{wallpaper.state}}</h4> -->
+                     <!-- <h4> {{ARCHITECTS.houseNumber}},{{ARCHITECTS.street}},{{ARCHITECTS.area}}<br>{{ARCHITECTS.city}},{{ARCHITECTS.state}}-{{ARCHITECTS.pinCode}}<br> -->
+                        <!-- Phone: +91 {{ARCHITECTS.contactNumber}} -->
+                     <!-- </h4> -->
+                     
+                     <div class="push-right">
+<a href="#/wallpaperlist/{{wallpaper.id}}" class="va">View Details</a>
+                     </div>
+					 <p> <span class="rating line sm">
+                        <span star-rating rating-value="wallpaper.avgRating" max="5" on-rating-selected="getSelectedRating(rating)"></span>
+                      |
+                     <span>{{wallpaper.totalRating}} Votes</span> |
+                     
+                     </span></p>
+					 </div>
+                  </li>
+               </ul>
+			    <!-- <h1 ng-show="prodshow">No results found for the category "{{subcategorytype}}"</h1> -->
+				<h1 ng-show="walllistshow">No results found for the category "{{subcategorytype}}"</h1>
+				<div paging
+			page="1" 
+			page-size="15" 
+			total=walCount
+			paging-action="walAct(page, pageSize, total)">
+		</div>
+            </div>
+		 
+	<!-- <div class="clearfix"></div> -->
+	<br>
+	<button ng-show="vendorproductadd" class="btn va addprod" ng-click="vendoraddprod()" ng-disabled ="hide">Add Products</button>
+	<button ng-show="vendorwishproductadd" class="btn va addprod" ng-click="vendoraddwish()" ng-disabled ="hide">Add Wishlist</button>
+		
+	</div>
+    </div>
+</section>
+
+<h2 class="sec-title3 margintb10" ><strong>Recommended Products </strong></h2>
+<section id="fp" class="f-block mar0 ">
+  <div class="container">
+	<slick settings="slickrecommendedprocutsConfig" ng-if="RecomendLoaded">
+		<li class="block" ng-repeat="image in recommend">
+		<div class="t-pro">
+			<figure>
+				<a href="#/productpage/{{image.productId}}"><img data-lazy="{{image.imageURL}}"></a>
+				<span class="hspace20"></span>
+				<span class="dis">{{image.discountPercentage}}% OFF</span>
+			</figure>
+				<h3> {{image.productName}}</h3>
+				<h4><i class="fa fa-inr" aria-hidden="true"></i> {{image.productPrice}}</h4>
+				<a href="#/productpage/{{image.productId}}" class="va">View Details</a>
+		</div>
+		</li>
+	</slick>
+  </div>
+</section>
+<section id="fp" class="f-block" >
+<div class="container">
+	<h2 class="sec-title margintb10"><strong>Recently Bought</strong></h2>
+	  <ul class="all">
+		<slick settings="slickrecentbroughtConfig" ng-if="RecentlyLoaded">
+		  <li ng-repeat="brought in recently">
+			<div class="t-pro">
+			  <figure>
+				<a href="#/productpage/{{brought.productId}}"><img data-lazy="{{brought.imageURL}}"></a>
+				<span class="dis">{{brought.discountPercentage}}% OFF</span>
+			  </figure>
+				<h3>{{brought.productName}}</h3>
+				<h4><i class="fa fa-inr" aria-hidden="true"></i> {{brought.productDiscountPrice}}</h4>
+				<a href="#/productpage/{{brought.productId}}" class="va">View Details</a>
+			</div>
+		  </li>  
+		</slick>
+	  </ul>
+  </div>
+</section>
+<div id="back-top">
+	<a href="javascript:" id="return-to-top"><i class="fa fa-arrow-circle-o-up"></i></a>
+</div>
+</div>
+<link href="css/jquery.scrollbar.css" rel="stylesheet" type="text/css"/>
+<!--<script data-require="angular.js@1.2.x" src="http://code.angularjs.org/1.2.4/angular.js" data-semver="1.2.4"></script>-->
+<script src="js/jquery.scrollbar.js"></script>
+<script src="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.js"></script>
+ 
+<script>
+   $(".login-btn").click(function(){
+       $(".myprofile-block").toggle();
+   });
+   $(".cat-link").click(function(){
+       $(".category-menu ul li:hover > ul.dropdown").toggle();
+   });
+   $(".cat-link").click(function(){
+       $(".cat-link").toggleClass("active");
+   });
+   $(".show-brand").click(function(){
+       $(".subcat-link.brand").toggle();
+	   $(".type").hide();
+	   $(".qty").hide();
+   });
+   $(".show-brand").click(function(){
+       $(".show-brand").toggleClass("active");
+   });
+   $(".show-type").click(function(){
+       $(".subcat-link.type").toggle();
+	   $(".brand").hide();
+	   $(".qty").hide();
+   });
+   $(".show-type").click(function(){
+       $(".show-type").toggleClass("active");
+   });
+   $(".show-quality").click(function(){
+       $(".subcat-link.qty").toggle();
+	   $(".brand").hide();
+	   $(".type").hide();
+   });
+   $(".show-quality").click(function(){
+       $(".show-quality").toggleClass("active");
+   });
+   $(document).ready(function(){
+       $(".scrollbar-inner").scrollbar();
+   });
+  $('#reset').click(function(e) {
+  //alert('Hii');
+    $('.s-link input:checked').removeAttr('checked');
+	
+	$('.star-button').removeClass( "star-on").addClass("star-off");
+	//$(".rzslider span").html("");
+    
+ });
+</script>
+<script>
+$( document ).ready(function() {
+	$('input[name="rating"]').click(function(){
+		var r = $('input[name="rating"]:checked').val();
+		$("#id3").html(r);
+		console.log(r);
+		
+	});
+});
+</script>
+<script>
+$(".mobile-search .fa-search").click(function(){
+    $(".mobile-search input").toggle();
+});
+</script>
+ <!-- Success mech Popup On Update -->
+   <div class="modal fade successPopup" tabindex="-1" role="dialog">
+               <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Success</h4>
+                     </div>
+                     <div class="modal-body">
+                        <p><i class="fa fa-check fa-3x"></i><span>{{successmessage}}</span></p>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+			
+			<!-- Error Popup -->
+			<div class="modal fade errormechPopup" tabindex="-1" role="dialog">
+               <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Error</h4>
+                     </div>
+                     <div class="modal-body">
+                        <p><i class="fa fa-check fa-3x"></i><span>{{errmessage}}</span></p>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>

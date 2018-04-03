@@ -1,0 +1,156 @@
+<div class="body-bg">
+   <div class="container-fluid-full">
+      <div class="row-fluid">
+         <div class="content-box add-product">
+            <h2 class="main-title"><span>Approve Vendor Products</span></h2>
+            <h4 class="show-title">Vendor List</h4>
+            <table id="example" class="hide-content table table-striped table-bordered bootstrap-datatable datatable">
+               <thead>
+                  <tr>
+                     <th>S.No</th>
+                     <th>Vendor Name</th>
+                     <th>Vendor Id</th>
+                     <th>Product Name</th>
+                     <th>Product Id</th>
+                     <th>Actions</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="appDec in approve">
+                     <td class="center">{{$index+1}}</td>
+                     <td class="center">{{appDec.vendorName}}</td>
+                     <td class="center">{{appDec.vendorId}}</td>
+                     <td class="center">{{appDec.productName}}</td>
+                     <td class="center">{{appDec.productId}}</td>
+                     <td class="center">
+                        <a class="btn btn-primary" data-toggle="modal" data-target=".approveVendorPopup" ng-click="vendorApprove(appDec)">Details</a>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+			<div class="text-center">
+				<div paging
+					page="1" 
+					page-size="15" 
+					total=totalCount
+					paging-action="PagingAct(page, pageSize, total)">
+				</div>
+			</div>
+            <div class="modal fade approveVendorPopup" id="getDealModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-1" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content dealmgm-view">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="text-left modal-title">{{approveProdReq.prodName}} [{{approveProdReq.prodId}}]</h4>
+                     </div>
+                     <div class="modal-body">
+                        <form name="approveVendorForm" novalidate="" class="ng-pristine ng-valid ng-valid-required">
+                           <div class="modal-top">
+                              <div class="col-xs-12 col-sm-6 pull-left">
+                                <!--Product Image -->
+                                <figure class="dealpimg text-center">
+									<img class="img-responsive" src="{{approveProdReq.imagePath}}" />
+                                </figure>
+                              </div>
+                              <div class="col-xs-12 col-sm-6  pull-right">
+                                <!-- Product Description -->
+                                <div class="form-group">
+									<p>{{approveProdReq.prodDescription}}</p>
+								</div>
+                              </div>
+                           </div>
+						   <div class="col-xs-12 col-sm-6 pull-left">
+							  <!-- Vendor Name -->
+                              <div class="form-group" ng-class="{ 'has-error' : approveVendorForm.vendorName.$invalid &amp;&amp; !approveVendorForm.vendorName.$pristine }">
+                                 <label>Vendor Name</label>
+								 <input type="text" name="vendorName" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="approveProdReq.vendorName" placeholder="Vendor Name" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="approveVendorForm.vendorName.$touched &amp;&amp; approveVendorForm.vendorName.$invalid" class="help-block ng-hide">Vendor Name is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+							  <!-- Vendor Id -->
+                              <div class="form-group" ng-class="{ 'has-error' : approveVendorForm.vendorIdValue.$invalid &amp;&amp; !approveVendorForm.vendorIdValue.$pristine }">
+                                 <label>Vendor Id</label>
+								 <input type="text" name="vendorIdValue" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="approveProdReq.vendorIdValue" placeholder="Enter Product Name" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="approveVendorForm.vendorIdValue.$touched &amp;&amp; approveVendorForm.vendorIdValue.$invalid" class="help-block ng-hide">Vendor Id is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+                           </div>
+                           <div class="col-xs-12 col-sm-6  pull-right">
+                              <!-- Vendor Mobile -->
+                              <div class="form-group" ng-class="{ 'has-error' : approveVendorForm.mobileNumber.$invalid &amp;&amp; !approveVendorForm.mobileNumber.$pristine }">
+                                 <label>Vendor Mobile</label>
+								 <input type="text" name="mobileNumber" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="approveProdReq.mobileNumber" placeholder="Enter Product Name" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="approveVendorForm.mobileNumber.$touched &amp;&amp; approveVendorForm.mobileNumber.$invalid" class="help-block ng-hide">Vendor Mobile is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+							  <div class="form-group" ng-class="{ 'has-error' : approveVendorForm.address.$invalid &amp;&amp; !approveVendorForm.address.$pristine }">
+                                 <label>Vendor Address</label>
+								 <textarea name="address" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" placeholder="Vendor Address" required="" ng-readonly="true" readonly="readonly">{{approveProdReq.houseNumber}}{{approveProdReq.area}}, {{approveProdReq.street}}, {{approveProdReq.city}}, {{approveProdReq.state}}-{{approveProdReq.pinCode}} </textarea>
+                                 <p ng-show="approveVendorForm.address.$touched &amp;&amp; approveVendorForm.address.$invalid" class="help-block ng-hide">Vendor Address is required</p>
+                                 <i class="fa fa-star" aria-hidden="true"></i>
+                              </div>
+                           </div>
+                           <div class="clearfix"></div>
+                           <!-- ngIf: errmsg -->
+                           <div class="clearfix"></div>
+                        </form>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" title="Approve" class="btn btn-primary" ng-disabled="approveVendorForm.$invalid" ng-click="approveVendorReq(approveProdReq)">Approve</button>
+                        <button type="button" title="Decline" class="btn btn-danger" data-target=".confirmPopup" ng-disabled="approveVendorForm.$invalid" ng-click="declineRequest()">Decline</button>
+                     </div>
+                  </div>
+                  <!-- /.modal-content -->
+               </div>
+            </div>
+			
+			<!-- Success Popup -->
+			<div class="modal fade successPopup" id="SuccessModal" tabindex="-1" role="dialog">
+               <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Success</h4>
+                     </div>
+                     <div class="modal-body">
+                        <p><i class="fa fa-check fa-3x"></i><span>{{errmessage}}</span></p>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+			
+            <!-- Decline Request -->
+            <div class="modal fade" id="confirmPopup" tabindex="-1" role="dialog">
+               <div class="modal-dialog  modal-sm" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Decline Request</h4>
+                     </div>
+                     <div class="modal-body">
+                        Do you want to Decline request?
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" ng-click="declineVendorReq(approveProdReq)">Decline</button>
+						<div class="alert alert-warning " ng-if="errmsg"> 
+							<span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>
+							<strong> {{errmessage}}</strong>
+						</div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+   $('.dropmenu').click(function(){
+   	$(this).parent().find('ul').slideToggle();  
+   });
+</script>

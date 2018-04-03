@@ -1,0 +1,122 @@
+<div class="body-bg">
+   <div class="container-fluid-full">
+      <div class="row-fluid">
+         <div class="content-box add-product">
+            <h2 class="main-title"><span>History Management</span></h2>
+			 <form name="historyForm" novalidate="" class="ng-pristine ng-valid ng-valid-required" style="overflow:hidden;">
+               <div class="col-md-12">
+                  <div class="col-md-3 pad0">
+                     <div class="form-group" ng-class="{ 'has-error' : historyForm.fromdate.$invalid &amp;&amp; !historyForm.fromdate.$pristine }">
+                        <label>From Date</label>
+						<input type="text" id="historyfromdate" name="fromdate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="historyDates.fromdate" placeholder="From Date" required="">
+                        <p ng-show="historyForm.fromdate.$touched &amp;&amp; historyForm.fromdate.$invalid" class="help-block ng-hide">From Date is required</p>
+                     </div>
+                  </div>
+                  <div class="col-md-3 pad0">
+                     <div class="form-group" ng-class="{ 'has-error' : historyForm.todate.$invalid &amp;&amp; !historyForm.todate.$pristine }">
+                        <label>To Date</label>
+						<input type="text" id="historytodate" name="todate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="historyDates.todate" placeholder="To Date" required="">
+                        <p ng-show="historyForm.todate.$touched &amp;&amp; historyForm.todate.$invalid" class="help-block ng-hide">To Date is required</p>
+                     </div>
+                  </div>
+                  <div class="col-md-3 pad0">
+                     <div class="form-group">
+                        <div class="button-login"></br>
+                           <button id="submit" type="submit" class="btn orderBtn" ng-disabled="historyForm.$invalid" ng-click="historyByDate(historyDates)">View History</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </form> 
+            <div class="gridStyle"
+               ui-grid="historyMgmtGrid" ui-grid-cellnav  ui-grid-auto-resize>
+            </div>
+            <div class="clearfix"></div>
+            <div class="text-center">
+               <div paging
+                  page="1" 
+                  page-size="10"
+                  total=historyCount
+                  paging-action="historyPagingAct(page, pageSize, total, historyDates)">
+               </div>
+            </div>
+            <div class="modal fade historyMgntPopup" tabindex="-1" role="dialog">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"> Product History Details
+						<!-- History Management ID : {{prodDetails.historyManagementId	}} -->
+						</h4>
+                     </div>
+                     <div class="modal-body">
+                        <form name="testmonialForm" novalidate>
+                           <div class="col-xs-12 col-sm-6 pull-left">
+                              <!-- Testimonial Id -->
+                              <div class="form-group">
+                                 <label>Product Name</label>
+                                 <input type="text" name="productName" class="form-control" ng-model="prodDetails.productName" placeholder="Product Name" required="" ng-readonly="true" readonly="readonly">
+                              </div>
+                              <div class="form-group">
+                                 <label>Product Id</label>
+                                 <input type="text" name="productId" class="form-control" ng-model="prodDetails.productId" placeholder="Product Id" required="" ng-readonly="true" readonly="readonly">
+                              </div>
+							  <div class="form-group">
+                                 <label>History Management Id</label>
+                                 <input type="text" name="historyManagementId" class="form-control" ng-model="prodDetails.historyManagementId" placeholder="History Management Id" required="" ng-readonly="true" readonly="readonly">
+                              </div>
+							  <div class="form-group">
+                                 <label>Enabled For</label>
+                                 <input type="text" name="enableFor" class="form-control" ng-model="prodDetails.enableFor" placeholder="Enabled For" required="" ng-readonly="true" readonly="readonly">
+                              </div>
+                           </div>
+                           <div class="col-xs-12 col-sm-6 pull-right">
+                              <div class="form-group">
+                                 <label>Product Price</label>
+                                 <input type="text" name="productPrice" class="form-control" ng-model="prodDetails.productPrice | currency:'&#8377; '" placeholder="Product Price" required="" ng-readonly="true" readonly="readonly">
+                              </div>
+							  <div class="form-group">
+                                 <label>Discount Product</label>
+                                 <input type="text" name="productDiscountPrice" class="form-control" ng-model="prodDetails.productDiscountPrice | currency:'&#8377; '" placeholder="Discount Price" required="" ng-readonly="true" readonly="readonly">
+                              </div>
+							  <div class="form-group">
+                                 <label>Offer Started On</label>
+                                 <input type="text" name="productPriceStartDate" class="form-control" ng-model="prodDetails.productPriceStartDate" placeholder="Offer Started Date" required="" ng-readonly="true" readonly="readonly">
+                              </div><div class="form-group">
+                                 <label>Offer Ended On </label>
+                                 <input type="text" name="productPriceEndDate" class="form-control" ng-model="prodDetails.productPriceEndDate" placeholder="Offer Ended Date" required="" ng-readonly="true" readonly="readonly">
+                              </div>
+                           </div>
+                           <div class="clearfix"></div>
+                        </form>
+                     </div>
+                      <div class="modal-footer">
+                        <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+                  <!-- /.modal-content -->
+               </div>
+               <!-- /.modal-dialog -->
+            </div>
+			
+			<!--Date Error Popup -->
+			<div class="modal fade errorPopup" tabindex="-1" role="dialog">
+                  <div class="modal-dialog modal-sm" role="document">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                           <h4 class="modal-title" id="myModalLabel">Error</h4>
+                        </div>
+                        <div class="modal-body">
+                           <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+         </div>
+      </div>
+   </div>
+</div>

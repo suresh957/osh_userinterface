@@ -1,0 +1,144 @@
+<div class="body-bg">
+   <div class="container-fluid-full">
+      <div class="row-fluid">
+         <div class="content-box add-product">
+            <h2 class="main-title"><span>Brand Images</span></h2>
+            <form class="prof form-login prodMgmt" name="barndImageUploadForm" novalidate>
+               <fieldset>
+                  <div class="input col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                     <input class="input-large span10" name="brandName" id="brandName" ng-model="brandImg.brandName" placeholder="Brand Name" required>
+                     <p ng-show="barndImageUploadForm.brandName.$touched && barndImageUploadForm.brandName.$error.required" class="help-block">Brand Name is required</p>
+                  </div>
+                  <div class="input-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                     <input type="file" id="brandImage" name="brandImage" upload-files class="inputfile inputfile-2"/>
+                     <label for="brandImage"><span>Select Image</span></label>
+                     <ul>
+                        <li ng-repeat="brandImage in files">{{brandImage.name}}</li>
+                     </ul>
+                  </div>
+                  <div class="button-login col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                     <button type="submit" class="btn btn-primary" ng-disabled="barndImageUploadForm.$invalid" value="Upload" ng-click="brandImageUpload(brandImg)">
+                     <span>Upload</span>
+                     </button>
+                  </div>
+               </fieldset>
+            </form>
+         </div>
+         <div class="selectDropdown">
+            <div class="selectedValueClass">
+               <select ng-init="selectedValue = options[0]" 
+                  ng-model="selectedValue" 
+                  ng-options="option.name for option in options" ng-change="selectToFilter(selectedValue)">
+               </select>
+            </div>
+         </div>
+         <div class="gridStyle"
+            ui-grid="brandImagegrid" ui-grid-cellnav  ui-grid-auto-resize>
+         </div>
+         <div class="clearfix"></div>
+         <div class="text-center">
+            <div paging
+               page="1" 
+               page-size="15"
+               total=brandImageCount
+               paging-action="brandImagePagingAct(page, pageSize, total)">
+            </div>
+         </div>
+         <div class="modal fade" id="brandImagePopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title">{{brandImageInfo.brandName}} - [{{brandImageInfo.brandId}}]</h4>
+                  </div>
+                  <div class="modal-body">
+                     <form name="brandImageForm" novalidate>
+                        <div class="modal-top">
+                           <div class="col-xs-12 col-sm-6 pull-left">
+                              <!--Product Image -->
+                              <figure class="dealpimg text-center">
+                                 <img class="img-responsive" src="{{brandImageInfo.brangImage}}" alt="Brand Logo"/>
+                              </figure>
+                           </div>
+                           <div class="col-xs-12 col-sm-6  pull-right">
+                              <!-- Product Description -->
+                              <div class="form-group" ng-class="{ 'has-error' : brandImageForm.brandName.$invalid &amp;&amp; !brandImageForm.brandName.$pristine }">
+                                 <label>Brand Name</label>
+                                 <input type="text" name="brandName" class="form-control" ng-model="brandImageInfo.brandName" placeholder="Customer Name" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="brandImageForm.brandName.$touched &amp;&amp; brandImageForm.brandName.$invalid" class="help-block ng-hide">Brand Name is required</p>
+                              </div>
+                              <div class="form-group" ng-class="{ 'has-error' : brandImageForm.brandId.$invalid &amp;&amp; !brandImageForm.brandId.$pristine }">
+                                 <label>Brand Id</label>
+                                 <input type="text" name="brandId" class="form-control" ng-model="brandImageInfo.brandId" placeholder="Brand Id" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="brandImageForm.brandId.$touched &amp;&amp; brandImageForm.brandId.$invalid" class="help-block ng-hide">Brand Id is required</p>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="clearfix"></div>
+                     </form>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                     <button type="button" title="Enable" class="btn btn-primary" ng-show="enableShow" ng-click="enableBrandImg(brandImageInfo)">Enable</button>
+                     <button type="button" title="Disable" class="btn btn-danger" ng-show="disableShow" ng-click="disableBrandImg(brandImageInfo)">Disable</button>
+                     <button type="button" title="Delete" class="btn btn-danger" ng-click="deletebrandImage(brandImageInfo)">Delete</button>
+                  </div>
+               </div>
+               <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+         </div>
+         <!-- Success Message Popup -->
+         <div class="modal fade successPopup" id="SuccessModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog  modal-sm" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Success</h4>
+                  </div>
+                  <div class="modal-body">
+                     <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Error Message Popup -->
+         <div class="modal fade" id="ErrdealModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog  modal-sm" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Error</h4>
+                  </div>
+                  <div class="modal-body">
+                     <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="modal fade" id="confirmPopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog  modal-sm" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Delete Brand Image</h4>
+                  </div>
+                  <div class="modal-body">
+                     Do you want to delete brand image?
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                     <button type="button" class="btn btn-danger" ng-click="confirmDelete(brandImageInfo)">Yes</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

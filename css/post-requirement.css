@@ -1,0 +1,370 @@
+@media screen and (min-width: 1400px) {
+	.post-banner figcaption {
+		font-size: 60px;
+		right: 2%;
+		bottom: 14%;
+	}
+	.post-banner figcaption b {
+		font-size: 120px;
+		line-height: 85px;
+	}
+	.post-content form{
+		width: 94%;
+		padding:40px;
+		margin-top: -460px;
+	}
+	.post-content form .form-group {
+		margin: 0px 0 35px 0;
+	}
+	.post-content form .form-group:first-child{
+		margin-top:10px;
+	}
+	.post-content form .form-group input{
+		padding:0 0 15px 0;
+		font-size:22px;
+	}
+	.post-content form .sec-block::before {
+		right: 40px;
+	}
+	.post-content form .form-group.query-block{
+		margin: 68px 0 40px 0;
+	}
+	.post-content form .form-group.query-block textarea{
+		height:170px;
+		font-size:22px;
+		padding: 20px 20px 20px 15px;
+	}
+	.post-content form .form-group.send-btn button, .post-content form .form-group.send-btn button:hover, .post-content form .form-group.send-btn:focus{
+		font-size:20px;
+		padding:15px 25px;
+	}
+	.post-content form .form-group.send-btn button .fa{
+		padding:0 0 0 30px;
+		font-size:24px;
+	}
+	.post-content .right {
+		margin: 80px 0 0 0px;
+	}
+	.post-content .right h3 {
+		font-size: 44px;
+		margin: 0 0px 35px;
+		font-weight: bold;
+		line-height: 52px;
+	}
+	.post-content .right p {
+		font-size: 33px;
+		line-height: 38px;
+	}
+	#top-brands{
+		margin:75px 0 100px 0;
+	}
+	
+}
+
+/**.category-menu ul li a {
+    border-bottom: 3px solid #ffffff;
+    border-right: 3px solid #ffffff;
+}**/
+#post-requirement .row{
+	margin:0;
+}
+.post-block{
+	overflow:hidden;
+}
+
+.post-banner {
+    position: relative;
+}
+.post-banner figure{
+	height:370px;
+	overflow:hidden;
+	position:relative;
+	border-top: 3px solid #ffffff;
+}
+.post-banner figure img{
+	height:auto;
+	width:100%;
+}
+.post-banner figcaption {
+    font-family: arial;
+    font-size: 40px;
+    color: #FEFEFE;
+    text-transform: uppercase;
+    font-weight: 100;
+    position: absolute;
+    right: 2%;
+    bottom: 14%;
+    text-shadow: 0px -1px 8px rgba(150, 150, 150, 1);
+}
+.post-banner figcaption b {
+    display: block;
+    font-weight: bold;
+    font-size: 80px;
+    line-height: 60px;
+    text-align: center;
+}
+.post-banner figcaption::after {
+    position: absolute;
+    content: "";
+    background-color: red;
+    width: 140px;
+    height: 4px;
+    bottom: -10px;
+    left: 37%;
+}
+
+.post-content {
+    display: block;
+}
+.post-content .left{
+	padding: 0 50px;
+	margin-bottom:40px;
+}
+.post-content form{
+	background-color:#ffffff;
+	border-radius:5px;
+	border:none;
+	width: 94%;
+	padding:25px;
+	margin-top: -300px;
+	-webkit-box-shadow: -2px 5px 16px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: -2px 5px 16px 0px rgba(0,0,0,0.75);
+	box-shadow: -2px 5px 16px 0px rgba(0,0,0,0.75);
+}
+.post-content form .form-group:first-child{
+	margin-top:5px;
+}
+.post-content form .form-group {
+    position: relative;
+    margin: 0px 0 20px 0;
+    overflow: hidden;
+}
+.post-content form .form-group input{
+	width:100%;
+	border-width:0 0 1px;
+	border-style:solid;
+	border-color:#F7B003;
+	padding:0 0 10px 0;
+	color:#5C5C5C;
+	font-size:18px;
+}
+.post-content form .form-group input::-webkit-input-placeholder,
+.post-content form .form-group textarea::-webkit-input-placeholder {
+  color:#5C5C5C;
+  opacity:1;
+}
+.post-content form .form-group input::-moz-placeholder, 
+.post-content form .form-group textarea::-moz-placeholder {
+  color:#5C5C5C;
+  opacity:1;
+}
+.post-content form .form-group input:-ms-input-placeholder,
+.post-content form .form-group textarea:-ms-input-placeholder { 
+  color:#5C5C5C;
+  opacity:1;
+}
+.post-content form .form-group input:-moz-placeholder,
+.post-content form .form-group textarea:-moz-placeholder {
+  color:#5C5C5C;
+  opacity:1;
+}
+.post-content form .form-group .fa.fa-star{
+	color:#ff9416;
+	position:absolute;
+	top:10px;
+	right:10px;
+	font-size:9px;
+}
+.post-content form .sec-block {
+    background-color: #ffffff;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+    width: 100%;
+}
+.post-content form .sec-block::before {
+    content: "\f107";
+    font-family: fontawesome;
+    font-size: 30px;
+	color:#A8ACB3;
+    position: absolute;
+    right: 30px;
+    top: -3px;
+    z-index: -1;
+}
+.post-content form select {
+    border-width:0 0 1px;
+	border-style:solid;
+	border-color:#F7B003;
+    background-color: transparent;
+	font-family: arial;
+	color:#5C5C5C;
+	font-size:18px;
+    width: 100%;
+	cursor:pointer;
+    padding: 0 0px 15px;
+    z-index: 0;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+.post-content form .form-group.query-block {
+    margin: 35px 0 20px 0;
+}
+.post-content form .form-group.query-block textarea {
+    background-color: #ffffff;
+    border: 1px solid #F7B003;
+	padding: 15px 20px 15px 15px;
+    width: 100%;
+    height: 150px;
+    color: #5c5c5c;
+    font-size: 18px;
+	cursor: text;
+}
+.post-content form .form-group.send-btn {
+    position: relative;
+    margin: 0px;
+    overflow: hidden;
+	text-align:center;
+}
+.post-content form .form-group.send-btn button, .post-content form .form-group.send-btn button:hover, .post-content form .form-group.send-btn:focus {
+    background-color: #000000;
+    border-radius: 5px;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    border-bottom: 2px solid #c80000;
+}
+.post-content form .form-group.send-btn button .fa {
+    color: #ff0000;
+    padding: 0 0 0 20px;
+    font-size: 20px;
+}
+.post-content .right {
+    padding: 0px 0 0 35px;
+    margin: 40px 0 0 0px;
+}
+.post-content .right h3 {
+    font-size: 35px;
+    margin: 0 0px 30px;
+    color: #666666;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 43px;
+}
+.post-content .right p {
+    font-size: 26px;
+    margin: 0px;
+    color: #666666;
+    font-style: italic;
+    font-weight: 100;
+    line-height: 34px;
+}
+
+
+#top-brands {
+    margin: 50px 0 50px 0;
+    overflow: hidden;
+}
+#top-brands h2{
+	font-size:20px;
+	color:#000000;
+	font-weight:bold;
+	text-align:center;
+	text-transform:uppercase;
+	margin:0;
+	padding-bottom:10px;
+	border-bottom:1px solid #e4e4e4;
+}
+#top-brands .brand-logos{
+	margin:0;
+	padding:0;
+}
+#top-brands .brand-logos li{
+	list-style:none;
+	display:inline-block;
+	padding:0 12px 0 0;
+}
+#top-brands .brand-logos li:last-child{
+	padding:0;
+}
+
+@media screen and (max-width: 1300px) {
+	.post-banner figure{
+			height:auto;
+	}
+}
+@media screen and (max-width: 767px) {
+	.post-banner figure{
+		height:auto;
+	}
+	.post-banner figcaption {
+		font-size: 20px;
+		bottom: 40%;
+	}
+	.post-banner figcaption b {
+		font-size: 25px;
+		line-height: 30px;
+	}
+	.post-banner figcaption::after {
+		left: 6%;
+	}
+	.post-content .left {
+		padding: 0 10px;
+		margin-bottom: 30px;
+	}
+	.post-content form {
+		width: 100%;
+		padding: 15px;
+		margin-top: -80px;
+		-webkit-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.75);
+		box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.75);
+	}
+	.post-content form .form-group {
+		margin: 0px 0 10px 0;
+	}
+	.post-content form .form-group input, .post-content form select {
+		padding: 0 0 5px 0;
+		font-size: 16px;
+	}
+	.post-content form .sec-block::before {
+		font-size: 24px;
+	}
+	.post-content form .form-group.query-block textarea{
+		font-size: 16px;
+	}
+	.post-content .right {
+		padding: 0px 0 0 0px;
+		margin: 15px 0 0 0px;
+	}
+	.post-content .right h3 {
+		font-size: 26px;
+		margin: 0 0px 20px;
+		line-height: 35px;
+	}
+	.post-content .right p {
+		font-size: 18px;
+		line-height: 27px;
+	}
+	#top-brands {
+		margin: 30px 0;
+	}
+	
+}
+
+@media screen and (max-width: 600px) {
+	.post-content form {
+		margin-top: -30px;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	#top-brands .brand-logos li:nth-child(2n) {
+		padding: 0;
+	}
+}

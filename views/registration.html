@@ -1,0 +1,400 @@
+<div class="wrap">
+   <!-- Static navbar -->
+   <section class="top" id="top-header">
+		  <div class="container">
+			 <div class="row">
+				<div class="col-xs-12 col-sm-6 shipping-text"> Free Shipping on Orders <i class="fa fa-rupee"></i> 5000 and Above </div>
+				<div class="col-xs-12 col-sm-6 links">
+				   <a href="#contact" class="right-links">Contact Us</a> <span ng-hide="userlogged"><a href="#/login" class="right-links">Login </a>  <a href="#/registration" > Signup</a></span><span class="login-btn" ng-show="userlogged">{{loggedInUserName}}</span>
+				   <!--=== LOGOUT SECTION ===-->
+				   <div class="myprofile-block">
+					  <div class="mypro-brdr">
+						 <div class="pro-top">
+							<!--<a href="#" class="pro-pic">
+							   <img src="img/tst-pic.jpg"/>
+							   <span>Change</span>
+							   </a>-->
+							<div class="pro-txt">
+							   <h3>{{loggedInUserName}}</h3>
+							   <h4>{{loggedInUser}}</h4>
+							</div>
+						 </div>
+						 <div class="pro-btm">
+							<span class="mypro-btn" ng-click="myProfile()"><a>My profile</a></span>
+							<span class="mypro-logout" ng-click="logout()"><a>Log Out</a></span>
+						 </div>
+					  </div>
+				   </div>
+				   <a href="#cart" class="cart">
+				   <!--<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i> -->
+				   <img src="img/cart1.png">
+				   <span class="cart-value"> {{lengthofcart}}</span> </a>
+				</div>
+			 </div>
+		  </div>
+	   </section>
+	   <header class="header">
+		  <nav class="navbar navbar-default">
+			 <div class="container">
+				<div class="row">
+				   <div class="col-xs-12 ">
+					  <div class="navbar-header">
+						 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+						 <a class="navbar-brand" href="#/"></a>
+						 <figure> </figure>
+						 <div class="search mobile-search">
+							<div class="input">
+								<i class="fa fa-search"></i>
+								<input type="text" placeholder="Search">
+							</div>
+						</div>
+					  </div>
+					  <div id="navbar" class="navbar-collapse collapse">
+						 <ul class="nav navbar-nav">
+							<li><a href="#/todaydeals">Today's Deals</a></li>
+							<li><a>Buy/Sell</a></li>
+							<li><a href="#services">Services</a></li>
+							<li><a>About Us</a></li>
+							<li class="store"><a>Our Store</a></li>
+							<li><a href="#/myaccount">My Account</a></li>
+							<li class="menu-search">
+							<div class="search">
+							  <div class="input">
+								<i class="fa fa-search"></i>
+								  <div class="menu-in" ng-controller="TypeSearchCtrl">
+								  <div class="sec-block">
+									<select ng-init="searchType = typeOfSearch[0]"
+											ng-model="searchType"
+											ng-options="option.name for option in typeOfSearch">
+									</select>
+								  </div>
+                                    <input type="text" id="modalValue" ng-keypress="searchFunctions(searchSelected,$event,searchType.value,$model)" value="searchSelected" ng-model="searchSelected" autofocus="autofocus" placeholder="Search" uib-typeahead="item for item in getSearch($viewValue, searchType.value)" typeahead-focus-first="false" typeahead-wait-ms="1000" typeahead-min-length="3" typeahead-on-select="onSearchSelect(searchSelected, $item, $model, $label, $event, searchType.value, titleArray)" typeahead-no-results="noResults"/>
+									<span class="menu-in-search" ng-click="searchFunction(searchSelected, searchType.value)"><i class="fa fa-search"></i></span>
+									<span class="menu-in-clear" ng-click="clearString(searchSelected)"><i class="fa fa-times-circle"></i></span>
+                              </div>
+                           </div>
+                        </div>
+                     </li>
+							<li class="post" ><a href="#postrequire"><span>Post A Requirement</span></a></li>
+						 </ul>
+					  </div>
+					  <!--.nav-collapse -->
+				   </div>
+				</div>
+			 </div>
+			 <!--/.container-fluid -->
+		  </nav>
+		  <category-Directive></category-Directive>
+	   </header>
+   <div class="container">
+      <section class="login title">
+         <div class="row">
+            <div class="col-xs-12">
+               <h2 class="main-title"><strong>Signup</strong></h2>
+               <div class="links">
+                  <a href="" class="active">User</a>
+                  <a href="#/vendorreg">Vendor</a>
+               </div>
+            </div>
+         </div>
+         <section class="login mid registration">
+            <form name="regForm" novalidate>
+               <h2 class="sec-title"><strong>New Customer</strong></h2>
+               <div class="login-mid-block">
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
+                     <h4>Personal Information</h4>
+                     <!-- First Name-->
+                     <div class="form-group" ng-class="{ 'has-error' : regForm.firstName.$invalid && !regForm.firstName.$pristine }">
+                        <input type="text" name="firstName"  class="form-control" id="e"ng-model="user.firstName"placeholder="First Name" required>
+                        <p ng-show="regForm.firstName.$touched && regForm.firstName.$invalid" class="help-block">First name is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <!-- Last Name-->
+                     <div class="form-group" ng-class="{ 'has-error' : regForm.firstName.$invalid && !regForm.firstName.$pristine }">
+                        <input type="text" name="lastName"  class="form-control" ng-model="user.lastName" id="f" placeholder="Last Name" required>
+                        <p ng-show="regForm.lastName.$touched && regForm.lastName.$invalid" class="help-block">Last name is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <!-- DATE PICKER-->
+                     <div class="form-group" ng-class="{ 'has-error' : regForm.dob.$invalid && !regForm.dob.$pristine }">
+                        <div class="reg-date">
+                           <div class="input-group date" data-provide="datepicker" data-date-end-date="0d" data-date-format="YYYY-MM-DD">
+                              <input type="text" class="form-control" placeholder="DOB (DD/MM/YYYY)"id="g" ng-model="user.dob">                           
+                              <p ng-show="regForm.dob.$touched && regForm.dob.$invalid" class="help-block">DOB is required</p>
+                              <div class="input-group-addon">
+                                 <span class="glyphicon glyphicon-th"></span>
+                              </div>
+                           </div>
+                           <!--<i class="fa fa-star" aria-hidden="true"></i>-->
+                        </div>
+                     </div>
+                     <div class="form-group" ng-class="{ 'has-error' : regForm.phone.$invalid && !regForm.phone.$pristine }">
+                        <input type="text" class="form-control mobilenumber" ng-model="user.phone" placeholder="Mobile Number" id="j" name="phone" ng-pattern="/^[0-9]{1,10}$/" maxlength="10" required>
+                        <span ng-show="regForm.phone.$error.pattern"class="help-block"></span>
+                        <p ng-show="regForm.phone.$touched && regForm.phone.$invalid" class="help-block">Mobile Number is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <!-- Gender-->
+                     <div class="form-group gender">
+                        Gender
+                        <div class="radio-item">
+                           <input type="radio" name="gender" ng-model="user.gender" value="M" id="male" required>
+                           <label for="male">Male</label>
+                        </div>
+                        <div class="radio-item">
+                           <input type="radio" name="gender" ng-model="user.gender" value="F" id="female" required>
+                           <label for="female">Female</label>
+                        </div>
+                     </div>
+                     <!-- EMAIL-->
+                     <div class="form-group" ng-class="{ 'has-error' : regForm.email.$invalid && !regForm.email.$pristine }">
+                        <input type="email" name="email" id="email" class="form-control" ng-model="user.email" placeholder="Email (Your User Id)"  pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                        <p class="help-block" ng-show="regForm.email.$touched && regForm.email.$error.required">Email is required</p>
+                        <p class="help-block" ng-show="regForm.email.$error.pattern">Invalid Email</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <!--PASSWORD -->
+                     <div class="form-group" ng-class="{ 'has-error' : regForm.password.$invalid && !regForm.password.$pristine }">
+                        <input type="password"  name="password" id="pass" class="form-control" placeholder="Password" ng-model="user.password" ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,16}$/" required>
+                        <p ng-show="regForm.password.$touched && regForm.password.$error.required" class="help-block">Password is required</p>
+                        <p class="help-block" ng-show="regForm.password.$error.pattern">Length should be 8 to 15 (including upper, lower & special)</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <!--CONFIRM PASSWORD -->                    
+                     <div class="form-group" ng-class="{ 'has-error' : regForm.confirmPassword.$invalid && !regForm.confirmPassword.$pristine }">
+                        <input type="password"  name="confirmPassword" ng-model="user.confirmPassword" ng-pattern="{{user.password}}" id="conformPassword" class="form-control" placeholder="Confirm Password" required>
+                        <p ng-show="regForm.confirmPassword.$touched && regForm.confirmPassword.$error.required" class="help-block">Confirm Password is required</p>
+                        <p class="help-block" ng-show="regForm.confirmPassword.$error.pattern">Password not matched</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>                        
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
+                     <h4>Contact Information</h4>
+                     <!--ADDRESS -->
+                     <div class="form-group" ng-class="{ 'has-error' : regForm.address.$invalid && !regForm.address.$pristine }">
+                        <textarea name="address" class="form-control" placeholder="Address" ng-model="user.address" required></textarea>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <!-- <p ng-show="regForm.address.$invalid && !regForm.address.$pristine" class="help-block">Address is required</p>-->
+                        <p ng-show="regForm.address.$touched && regForm.address.$invalid" class="help-block">Address is required</p>
+                     </div>
+                     <!--POSTAL CODE -->
+                     <div class="form-group" ng-class="{ 'has-error' : regForm.postalCode.$invalid && !regForm.postalCode.$pristine }">
+                        <input type="text" name="postalCode" class="form-control postalCode" ng-model="user.postalCode"placeholder="Postal Code" id="m" maxlength="6" required>
+                        <p ng-show="regForm.postalCode.$touched && regForm.postalCode.$invalid" class="help-block postalCodeErr">Postal Code is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+						
+                     </div>
+					  <!-- Country -->
+					 <div class="form-group" ng-class="{ 'has-error' : regForm.country.$invalid &amp;&amp; !regForm.country.$pristine }">
+						<input type="text" id="F" name="country" class="form-control" value="India" placeholder="Country " readonly="">
+						<p ng-show="regForm.country.$touched &amp;&amp; regForm.country.$invalid" class="help-block ng-hide">Country is required</p>
+						<i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <div class="form-group">
+                        <div class="sec-block">
+                           <select id="state" ng-model="user.state" required>
+                              <option value="">Select State</option>
+                              <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                              <option value="Andhra Pradesh">Andhra Pradesh</option>
+                              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                              <option value="Assam">Assam</option>
+                              <option value="Bihar">Bihar</option>
+                              <option value="Chandigarh">Chandigarh</option>
+                              <option value="Chhattisgarh">Chhattisgarh</option>
+                              <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                              <option value="Daman and Diu">Daman and Diu</option>
+                              <option value="Delhi">Delhi</option>
+                              <option value="Goa">Goa</option>
+                              <option value="Gujarat">Gujarat</option>
+                              <option value="Haryana">Haryana</option>
+                              <option value="Himachal Pradesh">Himachal Pradesh</option>
+                              <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                              <option value="Jharkhand">Jharkhand</option>
+                              <option value="Karnataka">Karnataka</option>
+                              <option value="Kenmore">Kenmore</option>
+                              <option value="Kerala">Kerala</option>
+                              <option value="Lakshadweep">Lakshadweep</option>
+                              <option value="Madhya Pradesh">Madhya Pradesh</option>
+                              <option value="Maharashtra">Maharashtra</option>
+                              <option value="Manipur">Manipur</option>
+                              <option value="Meghalaya">Meghalaya</option>
+                              <option value="Mizoram">Mizoram</option>
+                              <option value="Nagaland">Nagaland</option>
+                              <option value="Narora">Narora</option>
+                              <option value="Natwar">Natwar</option>
+                              <option value="Odisha">Odisha</option>
+                              <option value="Paschim">Paschim Medinipur</option>
+                              <option value="Pondicherry">Pondicherry</option>
+                              <option value="Punjab">Punjab</option>
+                              <option value="Rajasthan">Rajasthan</option>
+                              <option value="Sikkim">Sikkim</option>
+                              <option value="Tamil Nadu">Tamil Nadu</option>
+                              <option value="Telangana">Telangana</option>
+                              <option value="Tripura">Tripura</option>
+                              <option value="Uttar Pradesh">Uttar Pradesh</option>
+                              <option value="Uttarakhand">Uttarakhand</option>
+                              <option value="Vaishali">Vaishali</option>
+                              <option value="West Bengal">West Bengal</option>
+                           
+                           </select>
+                        </div>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <p id="id2" class="help-block"></p>
+                     </div>
+					 <!--CIty-->
+					  <div class="form-group" ng-class="{ 'has-error' : regForm.city.$invalid && !regForm.city.$pristine }">
+                           <input type="text" id="F" name="city" class="form-control" ng-model="user.city" placeholder="City " required>
+                           <p ng-show="regForm.city.$touched && regForm.city.$invalid" class="help-block">City is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+					 						  <!--area-->
+                        <div class="form-group" ng-class="{ 'has-error' : regForm.area.$invalid && !regForm.area.$pristine }">
+                           <input type="text" id="F" name="area" class="form-control" ng-model="user.area" placeholder="Area " required>
+                           <p ng-show="regForm.area.$touched && regForm.area.$invalid" class="help-block">Area is required</p>
+                           <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                   <div class="form-group">
+                        <input type="checkbox" name="remember" id="agr" value="" ng-model="user.agreeSign" required=""><label for="agr">I agree to OneSevenHome agreement</label>
+                     </div>
+                     <div ng-show="form.$submitted || form.agreeSign.$touched">
+                        <p class="help-block">Please agree and sign.</p>
+                     </div>
+                  </div>
+                  <div class="clearfix"></div>
+				   <div class="form-group btn-sign">
+                        <button type="submit" class="btn btn-primary" ng-disabled="regForm.$invalid" ng-click="register(user)">SIGN UP</button>
+                   </div>
+                  <div class="alert alert-warning " ng-if="errmsg"> 
+                     <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span><strong>Error! </strong>{{errmessage}}
+                  </div>
+               </div>
+            </form>
+         </section>
+      </section>
+	  <div id="back-top">
+	<a href="javascript:" id="return-to-top"><i class="fa fa-arrow-circle-o-up"></i></a>
+</div>
+   </div>
+   <script>
+      function validate(regForm)
+      {
+      var gender=regForm.gender_male;
+      var gender=regForm.gender_female;
+      
+      if(genderM.checked==false && genderF.checked==false ) {
+          alert("You must select male or female");
+          return false;
+      }   
+      }
+         $('#state').on('change', function() {
+                var state = $('#state').val();
+        		 if(state==""){
+        		 var error="Please select state";
+          
+          
+          $("#id2").html(error);
+          $("#id2").show();
+        		 }
+        		 else{
+        		 $("#id2").hide();
+        		 }
+        });
+        $('#state').bind('blur', function() {
+          var state = $("#state").val();
+          if(state==""){
+          var error="Please select state";
+          $("#id2").html(error);
+          }
+        });
+        $('#city').on('change', function() {
+          var city = $('#city').val();
+        	if(city==""){
+        	var error="Please select city";
+      $("#id3").html(error);
+      $("#id3").show();
+        	 }
+        	else{
+      $("#id3").hide();
+        	 }
+        });
+        $('#city').bind('blur', function() {
+          var city = $("#city").val();
+          if(city==""){
+          var error="Please select city";
+      $("#id3").html(error);
+          }
+         });
+         $('#area').on('change', function() {
+                var area = $('#area').val();
+        		 if(area==""){
+        		 var error="Please select area";
+         $("#id4").html(error);
+         $("#id4").show();
+      }
+      else{
+        		 $("#id4").hide();
+        		 }
+        });
+        $('#area').bind('blur', function() {
+          var area = $("#area").val();
+          if(area==""){
+          var error="Please select area";
+      $("#id4").html(error);
+         }
+        });
+        $(".login-btn").click(function(){
+            $(".myprofile-block").toggle();
+        });
+		$(".mobile-search .fa-search").click(function(){
+	$(".mobile-search input").toggle();
+});
+        $(document).ready(function () {
+			$('.date').datepicker({
+				format: "yyyy-mm-dd"
+			});
+        	$('.date').on('changeDate', function(ev){
+        		$(this).datepicker('hide');
+        	});
+      });
+      $("#e,#f").keyup(function() {
+      var regex = /^[a-zA-Z]+$/;
+      if (regex.test(this.value) !== true)
+      this.value = this.value.replace(/[^a-zA-Z]+/, '');
+      });
+      
+      $("#g,#j,#m").keyup(function() {
+      var regex = /^[0-9]+$/;
+      if (regex.test(this.value) !== true)
+      this.value = this.value.replace(/[^0-9]+/, '');
+      });
+     
+   </script>
+    <script>
+   $('.postalCode').keyup(function() {
+	var postalCode = $('.postalCode').val();
+	if(postalCode.length ==6)
+	{
+	$('.postalCodeErr').hide();
+	}
+   });
+   </script>
+   <script>
+$(function(){
+
+	$('.postalCode,.mobilenumber').keyup(function()
+	{
+		var yourInput = $(this).val();
+		re = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi;
+		var isSplChar = re.test(yourInput);
+		if(isSplChar)
+		{
+			var no_spl_char = yourInput.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+			$(this).val(no_spl_char);
+		}
+	});
+
+});
+
+
+</script>
+</div>

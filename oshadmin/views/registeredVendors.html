@@ -1,0 +1,182 @@
+<div class="body-bg">
+   <div class="container-fluid-full">
+      <div class="row-fluid">
+         <div class="content-box add-product">
+            <h2 class="main-title"><span>Registered Vendors</span></h2>
+         </div>
+		 <div class="rv-top">
+         <div class="selectDropdown">
+            <div class="selectedValueClass">
+               <select ng-init="selectedValue = options[0]" 
+                  ng-model="selectedValue" 
+                  ng-options="option.name for option in options" ng-change="selectToFilter(selectedValue)">
+               </select>
+            </div>
+         </div>
+         <p class="ar-para" ng-show="pending">
+            <!--<i class="fa fa-eye fa-2x" aria-hidden="true"></i>--> Showing all <b>Approval Pending</b> Vendors
+         </p>
+         <p class="ar-para" ng-show="approved"> Showing all <b>Approved</b> Vendors</p>
+         <p class="ar-para" ng-show="allVendors">Showing <b>All Registered</b> Vendors</p>
+         </div>
+		 <div class="gridStyle"
+            ui-grid="registerVendorsGrid" ui-grid-cellnav  ui-grid-auto-resize>
+         </div>
+         <div class="clearfix"></div>
+         <div class="text-center">
+            <div paging
+               page="1" 
+               page-size="10"
+               total=vendorsCount
+               paging-action="vendorListPaging(page, pageSize, total)">
+            </div>
+         </div>
+         <div class="modal fade vendorDetailsPopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title">{{vendorProfile.vendorName}} - [{{vendorProfile.vendorId}}]</h4>
+                  </div>
+                  <div class="modal-body">
+                     <form name="vendorDetailsForm" novalidate>
+                        <div class="modal-top">
+                           <div class="col-xs-12 col-sm-4">
+                              <!--Vendor Profile Picture -->
+                              <figure class="dealpimg text-center">
+                                 <img class="img-responsive" src="{{vendorProfile.userProfile}}" alt="Vendor Profile Picture"/>
+                              </figure>
+							  <!--Vendor Address -->
+							  <div class="form-group">
+                                 <label>Address</label>
+								 <p>{{vendorProfile.houseNumber}}, {{vendorProfile.street}}, {{vendorProfile.area}},</p>
+								 <p>{{vendorProfile.city}}, {{vendorProfile.state}}, {{vendorProfile.country}} - {{vendorProfile.pinCode}}</p>
+							  </div>
+							  <!-- Vendor Certificate -->
+							  <h3 ng-show="showCertificate"><a target="_blank" href="http://rainiersoft.com/clients/oshadmin/{{vendorProfile.vendorAuthCert}}"><b>View Certificate</b></a></h3>
+                           </div>
+                           <div class="col-xs-12 col-sm-4">
+							  <!-- Vendor Email -->
+							  <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.email.$invalid &amp;&amp; !vendorDetailsForm.email.$pristine }">
+                                 <label>Vendor Email</label>
+                                 <input type="text" name="email" class="form-control" ng-model="vendorProfile.email" placeholder="Vendor Email" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="vendorDetailsForm.email.$touched &amp;&amp; vendorDetailsForm.email.$invalid" class="help-block ng-hide">Vendor Email is required</p>
+                              </div>
+							  
+							  <!-- Vendor Telephone -->
+                              <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.vendorTelephone.$invalid &amp;&amp; !vendorDetailsForm.vendorTelephone.$pristine }">
+                                 <label>Telephone Number</label>
+                                 <input type="text" name="vendorTelephone" class="form-control" ng-model="vendorProfile.vendorTelephone" placeholder="Telephone Number" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="vendorDetailsForm.vendorTelephone.$touched &amp;&amp; vendorDetailsForm.vendorTelephone.$invalid" class="help-block ng-hide">Telephone Number is required</p>
+                              </div>
+                              <!-- Nature of Company -->
+                              <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.vendorCompanyNature.$invalid &amp;&amp; !vendorDetailsForm.vendorCompanyNature.$pristine }">
+                                 <label>Nature of company</label>
+                                 <input type="text" name="vendorCompanyNature" class="form-control" ng-model="vendorProfile.vendorCompanyNature" placeholder="Nature of company" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="vendorDetailsForm.vendorCompanyNature.$touched &amp;&amp; vendorDetailsForm.vendorCompanyNature.$invalid" class="help-block ng-hide">Nature of company is required</p>
+                              </div>
+							  <!-- Constitution of Firm -->
+                              <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.vendorConstFirm.$invalid &amp;&amp; !vendorDetailsForm.vendorConstFirm.$pristine }">
+                                 <label>Constitution of firm</label>
+                                 <input type="text" name="vendorConstFirm" class="form-control" ng-model="vendorProfile.vendorConstFirm" placeholder="Constitution of Firm" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="vendorDetailsForm.vendorConstFirm.$touched &amp;&amp; vendorDetailsForm.vendorConstFirm.$invalid" class="help-block ng-hide">Constitution of Firm is required</p>
+                              </div>
+                           </div>
+						   <div class="col-xs-12 col-sm-4">
+							  <!-- Vendor Registration Number -->
+							  <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.vendorRegistrationNo.$invalid &amp;&amp; !vendorDetailsForm.vendorRegistrationNo.$pristine }">
+                                 <label>Registration Number</label>
+                                 <input type="text" name="vendorRegistrationNo" class="form-control" ng-model="vendorProfile.vendorRegistrationNo" placeholder="Registration Number" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="vendorDetailsForm.vendorRegistrationNo.$touched &amp;&amp; vendorDetailsForm.vendorRegistrationNo.$invalid" class="help-block ng-hide">Registration Number is required</p>
+                              </div>
+							  <!-- GST Number -->
+							  <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.gst.$invalid &amp;&amp; !vendorDetailsForm.gst.$pristine }">
+                                 <label>GST Number</label>
+                                 <input type="text" name="gst" class="form-control" ng-model="vendorProfile.gst" placeholder="GST Number" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="vendorDetailsForm.gst.$touched &amp;&amp; vendorDetailsForm.gst.$invalid" class="help-block ng-hide">GST Number is required</p>
+                              </div>
+							  <!-- Vendor PAN Number -->
+							  <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.vendorPAN.$invalid &amp;&amp; !vendorDetailsForm.vendorPAN.$pristine }">
+                                 <label>PAN Number</label>
+                                 <input type="text" name="vendorPAN" class="form-control" ng-model="vendorProfile.vendorPAN" placeholder="PAN Number" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="vendorDetailsForm.vendorPAN.$touched &amp;&amp; vendorDetailsForm.vendorPAN.$invalid" class="help-block ng-hide">PAN Number is required</p>
+                              </div>
+							  <!-- Vendor Registration No -->
+							  <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.vendorLicense.$invalid &amp;&amp; !vendorDetailsForm.vendorLicense.$pristine }">
+                                 <label>License Number</label>
+                                 <input type="text" name="vendorLicense" class="form-control" ng-model="vendorProfile.vendorLicense" placeholder="License Number" required="" ng-readonly="true" readonly="readonly">
+                                 <p ng-show="vendorDetailsForm.vendorLicense.$touched &amp;&amp; vendorDetailsForm.vendorLicense.$invalid" class="help-block ng-hide">License Number is required</p>
+                              </div>
+						   </div>
+                        </div>
+                        <div class="clearfix"></div>
+                     </form>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                     <button type="button" title="Approve" class="btn btn-primary" ng-show="showApprove" ng-click="approveVendor(vendorProfile)">Approve</button>
+                     <button type="button" title="Decline" class="btn btn-danger" ng-click="declineVendor(vendorProfile)">Deactivate</button>
+                  </div>
+               </div>
+               <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+         </div>
+         
+		 <!-- Success Message Popup -->
+         <div class="modal fade successPopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog  modal-sm" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Success</h4>
+                  </div>
+                  <div class="modal-body">
+                     <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         
+		 <!-- Error Message Popup -->
+         <div class="modal fade errorPopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog  modal-sm" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Error</h4>
+                  </div>
+                  <div class="modal-body">
+                     <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+		 
+         <!-- Confirm Message Popup -->
+         <div class="modal fade confirmPopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog  modal-sm" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title" id="myModalLabel">Deactivate Vendor's request</h4>
+                  </div>
+                  <div class="modal-body">
+                     Sure to deactivate Vendor?
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                     <button type="button" class="btn btn-danger" ng-click="confirmDelete(vendorProfile)">Yes</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

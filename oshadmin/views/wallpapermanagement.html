@@ -1,0 +1,254 @@
+<div class="catalogue-view">
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="cataloguetabs" role="tablist">
+   <li role="presentation" class="active"><a href="" data-target="#approvals" aria-controls="home" role="tab" data-toggle="tab" >Portfolio Approvals</a></li>
+   <!--<li role="presentation"><a href="" data-target="#bookings" aria-controls="home" role="tab" data-toggle="tab" >Bookings</a></li>-->
+</ul>
+<!-- Tab panes -->
+<div class="tab-content">
+   <!-- Pending Approvals Tab Starts -->
+   <div role="tabpanel" class="tab-pane active" id="approvals">
+      <div id="content">
+         <div class="col-md-12">
+            <!-- Update Product -->
+            <div class="row">
+               <h2 class="main-title"><span>Portfolio Approvals</span></h2>
+			   <div class="rv-top">
+               <div class="selectDropdown">
+                  <div class="selectedValueClass">
+                     <select ng-init="selectedValue = options[0]" 
+                        ng-model="selectedValue" 
+                        ng-options="option.name for option in options" ng-change="selectToFilter(selectedValue)">
+                     </select>
+                  </div>
+               </div>
+               <p class="ar-para" ng-show="pending">
+                  <!--<i class="fa fa-eye fa-2x" aria-hidden="true"></i>--> Showing all <b>Pending</b> Portfolio Images
+               </p>
+               <p class="ar-para" ng-show="approved"> Showing all <b>Approved</b> Portfolio Images</p>
+               <p class="ar-para" ng-show="allPortfolio">Showing <b>All</b> Portfolio Images</p>
+               </div>
+			   <div class="gridStyle"
+                  ui-grid="wallpaperApprovalsGrid" ui-grid-cellnav  ui-grid-auto-resize>
+               </div>
+               <div class="clearfix"></div>
+               <div class="text-center">
+                  <div paging
+                     page="1" 
+                     page-size="10"
+                     total=wallpaperCount
+                     paging-action="approvalPagingAct(page, pageSize, total)">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Pending Approvals Tab Ends -->
+   
+   <!-- Booking Status Tab Starts -->
+   <div role="tabpanel" class="tab-pane" id="bookings">
+      <div id="content" class="row">
+         <div class="col-md-12">
+            <div class="row">
+               <h2 class="main-title"><span>Bookings</span></h2>
+			   <div class="gridStyle"
+                  ui-grid="bookingsGrid" ui-grid-cellnav  ui-grid-auto-resize>
+               </div>
+			   <div class="text-center">
+                  <div paging
+                     page="1" 
+                     page-size="10"
+                     total=bookingCount
+                     paging-action="bookingsPagingAct(page, pageSize, total)">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Booking Status Tab Ends -->
+   
+</div>
+<!-- Approvals Details Popup View -->
+<div class="modal fade approvalsPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">{{getDetails.vendorName}} - [{{getDetails.vendorId}}]</h4>
+         </div>
+         <div class="modal-body">
+            <form name="wallpaperPortForm" novalidate>
+               <div class="modal-top">
+                  <div class="col-xs-12 col-sm-6 pull-left">
+                     <!--Portfolio Image -->
+                     <figure class="dealpimg text-center" ng-show="showImage">
+                        <img class="img-responsive" src="{{imagePath}}" alt="Portfolio Image"/>
+                     </figure>
+                     <h3 class="portfolioView"><a ng-show="showFile" target="_blank" href="http://rainiersoft.com/clients/oshadmin/{{imagePath}}"><b>View Portfolio</b></a></h3>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 pull-right">
+                     <!-- Description -->
+                     <div class="form-group">
+                        <label>Description</label>
+                        <p>{{getDetails.portfolioName}}</p>
+                     </div>
+				  </div>
+				  <div class="col-xs-12 col-sm-6 pull-left">
+                     <!-- Brand -->
+                     <div class="form-group">
+                        <label>Brand</label>
+                        <input type="text" name="brand" class="form-control" ng-model="getDetails.brand" placeholder="Brand" ng-readonly="true">
+                     </div>
+					 <!-- Price -->
+					 <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" name="price" class="form-control" ng-model="getDetails.price" placeholder="Price" ng-readonly="true">
+                     </div>
+				  </div>
+				  <div class="col-xs-12 col-sm-6 pull-left">
+                     <!-- Thickness-->
+                     <div class="form-group">
+                        <label>Thickness</label>
+                        <input type="text" name="thickness" class="form-control" ng-model="getDetails.thickness" placeholder="Thickness" ng-readonly="true">
+                     </div>
+					 <!-- Size -->
+					 <div class="form-group">
+                        <label>Size</label>
+                        <input type="text" name="size" class="form-control" ng-model="getDetails.size" placeholder="Size"ng-readonly="true">
+                     </div>
+                  </div>
+               </div>
+               <div class="clearfix"></div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" title="Approve" class="btn btn-primary" ng-show="showApprove" ng-click="approvePortImg(getDetails, selectedValue)">Approve</button>
+            <button type="button" title="Decline" class="btn btn-danger" ng-click="deletePortImg(getDetails)">Decline</button>
+            <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+      <!-- /.modal-content -->
+   </div>
+   <!-- /.modal-dialog -->
+</div>
+
+<!-- Bookings Details Popup View -->
+<div class="modal fade bookingsPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">{{getBookedDetails.customerName}}</h4>
+         </div>
+         <div class="modal-body">
+            <form name="architectBookingForm" novalidate>
+               <div class="modal-top">
+                  <div class="col-xs-12 col-sm-6 pull-left">
+                     <!-- Architect Name -->
+                     <div class="form-group" ng-class="{ 'has-error' : architectBookingForm.vendorName.$invalid &amp;&amp; !architectBookingForm.vendorName.$pristine }">
+                        <label>Architect Name</label>
+                        <input type="text" name="vendorName" class="form-control" ng-model="getBookedDetails.vendorName" placeholder="Architect Name" required="" ng-readonly="true" readonly="readonly">
+                        <p ng-show="architectBookingForm.vendorName.$touched &amp;&amp; architectBookingForm.vendorName.$invalid" class="help-block ng-hide">Architect Name is required</p>
+                     </div>
+					 <!-- Address -->
+                     <div class="form-group" ng-class="{ 'has-error' : architectBookingForm.address.$invalid &amp;&amp; !architectBookingForm.address.$pristine }">
+                        <label>Address</label>
+                        <input type="text" name="address" class="form-control" ng-model="getBookedDetails.address" placeholder="Address" required="" ng-readonly="true" readonly="readonly">
+                        <p ng-show="architectBookingForm.address.$touched &amp;&amp; architectBookingForm.address.$invalid" class="help-block ng-hide">Address is required</p>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6  pull-right">
+                     <!-- Booking Date -->
+					 <div class="form-group" ng-class="{ 'has-error' : architectBookingForm.bookingDate.$invalid &amp;&amp; !architectBookingForm.bookingDate.$pristine }">
+                        <label>Booking Date</label>
+                        <input type="text" name="bookingDate" class="form-control" ng-model="getBookedDetails.bookingDate" placeholder="Booking Date" required="" ng-readonly="true" readonly="readonly">
+                        <p ng-show="architectBookingForm.bookingDate.$touched &amp;&amp; architectBookingForm.bookingDate.$invalid" class="help-block ng-hide">Booking Date is required</p>
+                     </div>
+					 <!-- Appointment Date -->
+					 <div class="form-group" ng-class="{ 'has-error' : architectBookingForm.appointmentDate.$invalid &amp;&amp; !architectBookingForm.appointmentDate.$pristine }">
+                        <label>Appointment Date</label>
+                        <input type="text" name="appointmentDate" class="form-control" ng-model="getBookedDetails.appointmentDate" placeholder="Appointment Date" required="" ng-readonly="true" readonly="readonly">
+                        <p ng-show="architectBookingForm.appointmentDate.$touched &amp;&amp; architectBookingForm.appointmentDate.$invalid" class="help-block ng-hide">Appointment Date is required</p>
+                     </div>
+                  </div>
+				  <!-- Description -->
+					 <div class="col-xs-12 col-sm-12 form-group" ng-class="{ 'has-error' : architectBookingForm.description.$invalid &amp;&amp; !architectBookingForm.description.$pristine }">
+                        <label>Description</label>
+                        <input type="text" name="description" class="form-control" ng-model="getBookedDetails.description" placeholder="Description" required="" ng-readonly="true" readonly="readonly">
+                        <p ng-show="architectBookingForm.description.$touched &amp;&amp; architectBookingForm.description.$invalid" class="help-block ng-hide">Description is required</p>
+                     </div>
+					 <!-- Comments By Admin -->
+				  <div class="col-xs-12 col-sm-12" ng-show="showOpened">
+                     <label>Comments</label>
+                     <input type="text" name="customerName" class="form-control" ng-model="bookedDetails.comment" placeholder="Comments over booking" required="">
+                  </div>
+               </div>
+               <div class="clearfix"></div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" title="Approve" class="btn btn-primary" ng-show="showApprove" ng-click="approvePortImg(getDetails)">Close</button>
+            <button type="button" title="Decline" class="btn btn-danger" ng-click="deletePortImg(getDetails)">Decline</button>
+            <button type="button" title="Cancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+         </div>
+      </div>
+      <!-- /.modal-content -->
+   </div>
+   <!-- /.modal-dialog -->
+</div>
+
+<!-- Success Message Popup -->
+<div class="modal fade successPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Success</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Error Message Popup -->
+<div class="modal fade ErrdealModal" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Error</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Confirmation To Delete or Decline Popup -->
+<div class="modal fade confirmPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Decline Portfolio</h4>
+         </div>
+         <div class="modal-body">
+            Are you sure to decline Portfolio?
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-danger" ng-click="confirmDelete(getDetails, selectedValue)">Yes</button>
+         </div>
+      </div>
+   </div>
+</div>
