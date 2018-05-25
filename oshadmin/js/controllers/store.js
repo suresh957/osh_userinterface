@@ -27,7 +27,6 @@ angular.module('newapp')
 			else {
 				$scope.errmsg=true;
 				$scope.errmessage = resp.data.errorMessage;
-				$location.path('/store');
 			}
 		});
 	}

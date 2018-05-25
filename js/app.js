@@ -79,7 +79,7 @@ var newapp=angular.module('newapp',['ngRoute','slickCarousel','ui.grid','bw.pagi
 	})
 	.when('/cart', {
 		templateUrl: 'views/cart.html',
-		controller: 'cartctrl'
+		controller: 'cartCtrl'
 	})
     .when('/delivery', {
 		templateUrl: 'views/delivery.html',

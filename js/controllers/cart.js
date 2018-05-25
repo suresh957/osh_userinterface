@@ -1,5 +1,5 @@
 angular.module('newapp') 
-  .controller('cartctrl', function ($scope, $http, $location,resturl) {
+  .controller('cartCtrl',['$scope', '$http', '$location','resturl',  function ($scope, $http, $location,resturl) {
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -15,7 +15,7 @@ angular.module('newapp')
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -85,7 +85,7 @@ angular.module('newapp')
 			}
 			});
 		});
-	}
+	};
 	}
 	if(localStorage.loggedInuserId == "undefined") {
 		$scope.lengthofcart =0;
@@ -98,7 +98,7 @@ angular.module('newapp')
 			$scope.category = $scope.cartlist.shoppingCartItems[i].category;
 			console.log($scope.qty);
 						if($scope.category == "Wallpaper"){
-		var eachCartProduct = {
+		$scope.eachCartProduct = {
 			"id" : $scope.cartlist.shoppingCartItems[i].id,
 			"code" : $scope.cartlist.code,
 			"category" : "Wallpaper",
@@ -107,14 +107,14 @@ angular.module('newapp')
 		};
 		}
 		else{
-			var eachCartProduct = {
+			$scope.eachCartProduct = {
 			"id" : $scope.cartlist.shoppingCartItems[i].id,
 			"code" : $scope.cartlist.code,
 			"quantity" : $scope.cartlist.shoppingCartItems[i].quantity
 			
 		};			
 		}
-			allUpdateCartsArr.push(eachCartProduct);
+			allUpdateCartsArr.push($scope.eachCartProduct);
 		}
 		$scope.updateCartsReq = allUpdateCartsArr;
 		$http.post(resturl+"/cart/updateShoppingCartItem?userId="+localStorage.loggedInuserId,$scope.updateCartsReq).then(function(resp) {
@@ -128,7 +128,7 @@ angular.module('newapp')
 			    console.log($scope.lengthofcart);
 			});
 		});
-		}
+		};
 	    $scope.increment = function (subcart) {
 			subcart.quantity++;
 		};
@@ -149,4 +149,4 @@ angular.module('newapp')
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-});
+}]);

@@ -1,5 +1,5 @@
 angular.module('newapp')
-  .controller('subscribedCtrl', function ($scope, $http, $location, $window, resturl, $rootScope) {
+  .controller('subscribedCtrl',['$scope', '$http', '$location', '$window', 'resturl', '$rootScope', function ($scope, $http, $location, $window, resturl, $rootScope) {
 	  $scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -22,7 +22,7 @@ angular.module('newapp')
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -45,4 +45,4 @@ angular.module('newapp')
 			$scope.lengthofcart = resp.data.shoppingCartItems.length;
 		}
 	});
-});
+}]);

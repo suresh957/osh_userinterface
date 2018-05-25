@@ -1,5 +1,5 @@
 angular.module('newapp')
-  .controller('forgetPassCtrl', function($scope, $http, $location,resturl) {
+  .controller('forgetPassCtrl',['$scope', '$http', '$location','resturl', function($scope, $http, $location,resturl) {
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -15,8 +15,8 @@ angular.module('newapp')
 			return {
 				"background-image": "url(/clients/onesevenhome/img/" + $scope.bgimg + ".jpg)"
 			};
-		}
-	}
+		};
+	};
 	$http.get(resturl+"/cart/displayCart?userId="+localStorage.loggedInuserId).then(function(resp){
 		console.log(resp);
 		$scope.cartlist=resp.data;
@@ -31,10 +31,10 @@ angular.module('newapp')
 	});
 	$scope.alerthide=function(){
 		$scope.errmsg=false;
-	}
+	};
 	$scope.forget = function (setnew) {
 		console.log(setnew);
-		setnew.forgotPwdURL = "http://onesevenhome.com/#/newpassword"
+		setnew.forgotPwdURL = "http://onesevenhome.com/#/newpassword";
 		$http.post(resturl+"/user/resetpwd", setnew).then(function(resp) {
 			if(resp.data.errorMessage == null) {
 				console.log(resp.data.errorMessage);
@@ -60,4 +60,4 @@ angular.module('newapp')
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-});
+}]);

@@ -1,5 +1,5 @@
  angular.module('newapp') 
-  .controller('paymentsuccessCtrl', function ($scope,$http, $location,$window,resturl) {
+  .controller('paymentsuccessCtrl',['$scope','$http', '$location','$window','resturl', function ($scope,$http, $location,$window,resturl) {
 	  $scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -15,7 +15,7 @@
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -39,4 +39,4 @@
 		}
 	});
 
-});
+}]);

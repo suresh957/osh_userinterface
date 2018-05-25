@@ -13,11 +13,11 @@ angular.module('newapp')
 	} else {
 		$scope.userlogged=false;
 	}
-	
+	$scope.isDisabled = false;
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -57,15 +57,9 @@ angular.module('newapp')
 		else {
 			$scope.showDescPoints = false;
 		}
-		
 	});
 	
-		
-	
-	
-		// Product Average Star Rating //
-	
-	
+	// Product Average Star Rating //
 	$http.get(resturl+"/products/"+$routeParams.prodid+"/reviews?pageNumber=1&pageSize=5").then(function(resp) {
 		console.log(resp);
 		$scope.prod=resp.data.reviewList;
@@ -91,7 +85,7 @@ angular.module('newapp')
 		$scope.totalreview=resp.data.totalratingCount;
 		$scope.ratings = [{number:$scope.averagereview}];
 	});
-	}
+	};
 	
 	$scope.getStars = function(rating) {
 		// Get the value
@@ -99,7 +93,7 @@ angular.module('newapp')
 		// Turn value into number/100
 		var size = val/5*100;
 		return size + '%';
-	}
+	};
 	if ($scope.userlogged==false) {
 		$scope.showReview = false;
 	}
@@ -111,6 +105,7 @@ angular.module('newapp')
 		console.log($scope.starValue);
 	};
 	$scope.submitReview = function(giveReview) {
+		$scope.isDisabled = true;
 		var reqObj ={
 			"userId" : $scope.loggedInuserId,
 			"productId" : $routeParams.prodid,
@@ -121,65 +116,94 @@ angular.module('newapp')
 		console.log(reqObj);
 		$http.post(resturl+"/products/reviews/save", reqObj).then(function(resp) {
 			console.log(resp);
+			$scope.isDisabled = false;
 			$http.get(resturl+"/products/"+$routeParams.prodid +"/reviews").then(function(resp) {
-		console.log(resp);
-		$scope.prod=resp.data;
-		$scope.averagereview=resp.data.avgReview;
-			console.log($scope.averagereview);
-			$scope.userRatings=resp.data.productReviews;
-			console.log($scope.reviewrate);
-		$scope.totalreview=resp.data.totalRatingCount;
-		$scope.ratings = [{number:$scope.averagereview}];
-	});
+				console.log(resp);
+				$scope.prod=resp.data;
+				$scope.averagereview=resp.data.avgReview;
+				console.log($scope.averagereview);
+				$scope.userRatings=resp.data.reviewList;
+				console.log($scope.reviewrate);
+				$scope.totalreview=resp.data.totalRatingCount;
+				$scope.ratings = [{number:$scope.averagereview}];
+			});
+			if(resp.data.status = true){
+				$scope.successMsg = resp.data.message;
+				$('.successPopup').modal('show');
+			}
+			else{
+				$scope.failureMsg = resp.data.message;
+				$('.errorPopup').modal('show');
+			}
+			$scope.firstRate = 0;
+			$scope.secondRate = 0;
+			$scope.readOnly = true;
+			giveReview.description="";
 		});
-		location.reload(); 
 	};
 	}
+	$scope.vendorimg=false;
+	$scope.normalimg =true;
 	if(localStorage.loggedInUser !=undefined) {
 		
 	
 	$http.get(resturl+"/pincodeWiseVendors/"+$routeParams.prodid+"?userId="+localStorage.loggedInuserId).then(function(resp) {
+		$scope.normalimg =true;
+		$scope.vendorimg =false;
 		console.log(resp);
-		
+		if (resp.data.vendorsDataForProduct == null) {
+			$scope.imgshow = false;
+		}else{
+			$scope.imgshow = true;
+		}
 		$scope.pagep= resp.data.vendorsDataForProduct;
 		if(resp.data.vendorsDataForProduct == null){
-			$scope.err = true
-			$scope.msg = false
+			$scope.err = true;
+			$scope.msg = false;
 			$scope.successmsg = resp.data.status;
 			console.log($scope.successmsg);
 			
 		}
 		console.log($scope.pagep);
 		$scope.productpageLoaded = true;
+		$scope.productvendorLoaded = false;
 		if(resp.data.vendorsDataForProduct.length < 10) {
 			$scope.slickproductpageConfig = {
 				slidesToShow: 5,
-				slidesToScroll: 5,
+				slidesToScroll: 1,
 				prevNext: true,
 				arrows: false,
 				dots: true,
 				autoplay: true,
-				autoplayspeed: 600
-			}
+				autoplaySpeed: 10000,
+				speed: 500,
+				slidesPerRow: 5,
+				rows: 2
+			};
 		}
 		else { $scope.slickproductpageConfig = {
 			dots: true,
+			arrows: false,
+			autoplay: true,
+			slidesToScroll: 1,
+			autoplaySpeed: 10000,
+			speed: 500,
 			slidesPerRow: 5,
 			rows: 2,
 			responsive: [{
-				breakpoint: 478,
+				breakpoint: 767,
 				settings: {
 					slidesPerRow: 1,
-					rows: 1,
+					rows: 1
 				}
 			}]
-		}
+		};
 	}
 	});
 	}else{
 		$scope.msg=true;
 		$scope.err=false;
-		$scope.msg = "Please login to view vendor(s) in your location (or) search for vendor(s) using Pincode..."
+		$scope.msg = "Please login to view vendor(s) in your location (or) search for vendor(s) using Pincode...";
 		console.log($scope.msg);
 	}
 		$scope.updateSelection = function(position, pagep, pagedesc) {
@@ -203,11 +227,14 @@ angular.module('newapp')
 		$location.path('/login');
 	}
 	else {
+
+		$location.path("/cart"); 
+
 	var cartproduct = {
 			"productId" : $routeParams.prodid,
 			"quantity"  : quantity,
 			"vendorId" : $scope.vendorIdValue
-		}
+		};
 	console.log(cartproduct);
 		$http.post(resturl+"/cart/addShoppingCartItem?userId="+localStorage.loggedInuserId, cartproduct).then(function(resp) {
 			console.log(resp);
@@ -222,7 +249,7 @@ angular.module('newapp')
 		});
 		});
 	}
-	}
+	};
 	$http.get(resturl+"/getRecommendedProduct").then(function(resp) {
 		console.log(resp);
 		$scope.recommend = resp.data.recommendedProducts;
@@ -306,48 +333,72 @@ angular.module('newapp')
 	};
 	
 	$scope.getpincode=function(postalCode){
-		$scope.postalCode=postalCode;
-		console.log($scope.postalCode);
-		$http.get(resturl+"/seachPincodeWiseVendors/"+$routeParams.prodid+"?postalCode="+$scope.postalCode).then(function(resp){
+		$scope.normalimg =false;
+		$scope.vendorimg =true;
+		$http.get(resturl+"/seachPincodeWiseVendors/"+$routeParams.prodid+"?postalCode="+postalCode).then(function(resp){
 	console.log(resp);
-		
-	$scope.postalCode="";
-	$scope.pagep= resp.data.vendorsDataForProduct;
-		console.log($scope.pagep);
-		$scope.err = false;
-		if (resp.data.vendorsDataForProduct == null) {
+	 
+	$scope.pageps= resp.data.vendorsDataForProduct;
+	if (resp.data.vendorsDataForProduct == null) {
 			$scope.err = true;
+			$scope.imgshow = false;
 			$scope.msg=false;
-			              $scope.successmsg =resp.data.status;
-                         }
-		 $scope.productpageLoaded = true;
+		 $scope.successmsg =resp.data.status;
+      }
+		else{
+           $scope.err = false;
+		   $scope.imgshow = true;
+		   $scope.msg=false; 
+						 
+	 $scope.productvendorLoaded = true;
+	 $scope.productpageLoaded = false;
+	 
 		if(resp.data.vendorsDataForProduct.length < 5) {
-			$scope.slickproductpageConfig = {
+			$scope.slickvendorConfig = {
 				slidesToShow: 5,
-				slidesToScroll: 5,
+				slidesToScroll: 1,
 				prevNext: true,
 				arrows: false,
+				
 				dots: true,
 				autoplay: true,
-				autoplayspeed: 600
-			}
-		}
-		else { $scope.slickproductpageConfig = {
+				autoplaySpeed: 10000,
+				speed: 500,
+				slidesPerRow: 5,
+				rows: 2
+			};
+		} else {
+			
+		$scope.slickvendorConfig = {
 			dots: true,
+			arrows: false,
+			autoplay: true,
+			
+			slidesToScroll: 1,
+			autoplaySpeed: 10000,
+			speed: 500,
 			slidesPerRow: 5,
 			rows: 2,
 			responsive: [{
-				breakpoint: 478,
+				breakpoint: 767,
 				settings: {
 					slidesPerRow: 1,
-					rows: 1,
+					rows: 1
 				}
 			}]
-		}
-	}
-	});
+		};
 		
-	}
+		}
+						 }
+						
+	$scope.postalCode="";
+	
+		console.log($scope.pagep);
+		
+		
+			});
+		
+	};
 	
 		// Page Navigation To Top Functionality //
 	jQuery(window).scroll(function() {

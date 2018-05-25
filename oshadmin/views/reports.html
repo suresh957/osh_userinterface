@@ -1,356 +1,355 @@
 <div class="catalogue-view">
    <!-- Nav tabs -->
    <ul class="nav nav-tabs" id="cataloguetabs" role="tablist">
-     
-      <li role="presentation" class="active"><a href="" data-target="#registeredVendors" aria-controls="home" role="tab" data-toggle="tab" > Vendor Reports</a></li>
-      <li role="presentation"><a href="" data-target="#vendorProducts" aria-controls="home" role="tab" data-toggle="tab" > Product Reports</a></li>
+      <li role="presentation" class="active"><a href="" data-target="#vendorReports" aria-controls="home" role="tab" data-toggle="tab" > Vendor Reports</a></li>
+      <li role="presentation"><a href="" data-target="#productReports" aria-controls="home" role="tab" data-toggle="tab" > Product Reports</a></li>
    </ul>
    <!-- Tab panes -->
    <div class="tab-content">
- 
-      <!-- Registered Vendors Starts -->
-      <div role="tabpanel" class="tab-pane active" id="registeredVendors">
+      <!-- Vendor Reports Starts -->
+      <div role="tabpanel" class="tab-pane active" id="vendorReports">
          <div id="content" class="row">
             <div class="col-md-12">
                <div class="row">
                   <h2 class="main-title"><span> Vendors Reports</span></h2>
                </div>
-			    <form name="historyForm" novalidate="" class="ng-pristine ng-valid ng-valid-required">
-               <div class="col-md-12 pr">
-			   <!-- <div class="col-md-3 pad0"> -->
-                     <!-- <div class="form-group" ng-class="{ 'has-error' : historyForm.vendorid.$invalid &amp;&amp; !historyForm.vendorid.$pristine }"> -->
-                        <!-- <label>Vendor Id</label> -->
-						<!-- <input type="text"  name="vendorid" class="form-control"  ng-model     ="reportDates.vendorid" placeholder="Vendor Id" > -->
-                        <!-- <p ng-show="historyForm.vendorid.$touched &amp;&amp; historyForm.vendorid.$invalid" class="help-block ng-hide">Vendor Id required</p> -->
-                     <!-- </div> -->
-                  <!-- </div> -->
-                  <div class="col-md-3 pad0">
-                     <div class="form-group" ng-class="{ 'has-error' : historyForm.startDate.$invalid &amp;&amp; !historyForm.startDate.$pristine }">
-                        <label>From Date</label>
-						<input type="text" id="historyfromdate" name="startDate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="reportDates.startDate" placeholder="From Date" required="">
-                        <p ng-show="historyForm.startDate.$touched &amp;&amp; historyForm.startDate.$invalid" class="help-block ng-hide">Start Date is Required</p>
+               <form name="historyForm" novalidate="" class="ng-pristine ng-valid ng-valid-required">
+                  <div class="col-md-12 pr-1">
+                     <div class="col-md-3 pad0">
+                        <div class="form-group" ng-class="{ 'has-error' : historyForm.startDate.$invalid &amp;&amp; !historyForm.startDate.$pristine }">
+                           <label>From Date</label>
+                           <input type="text" id="historyfromdate" name="startDate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="reportDates.startDate" placeholder="From Date" required="">
+                           <p ng-show="historyForm.startDate.$touched &amp;&amp; historyForm.startDate.$invalid" class="help-block ng-hide">Start Date is Required</p>
+                        </div>
                      </div>
-                  </div>
-                  <div class="col-md-3 pad0">
-                     <div class="form-group" ng-class="{ 'has-error' : historyForm.endDate.$invalid &amp;&amp; !historyForm.endDate.$pristine }">
-                        <label>To Date</label>
-						<input type="text" id="historytodate" name="endDate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="reportDates.endDate" placeholder="To Date" required="">
-                        <p ng-show="historyForm.endDate.$touched &amp;&amp; historyForm.endDate.$invalid" class="help-block ng-hide">End Date is Required</p>
+                     <div class="col-md-3 pad0">
+                        <div class="form-group" ng-class="{ 'has-error' : historyForm.endDate.$invalid &amp;&amp; !historyForm.endDate.$pristine }">
+                           <label>To Date</label>
+                           <input type="text" id="historytodate" name="endDate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="reportDates.endDate" placeholder="To Date" required="">
+                           <p ng-show="historyForm.endDate.$touched &amp;&amp; historyForm.endDate.$invalid" class="help-block ng-hide">End Date is Required</p>
+                        </div>
                      </div>
-                  </div>
-				 
-				   <div class="col-md-3 pad0">
-                     <div class="form-group">
-                        <div class="button-login"></br>
-                           <button id="submit" type="submit" class="btn orderBtn" ng-disabled="historyForm.$invalid" ng-click="vendorsDate(reportDates)">List Vendors</button>
+                     <div class="col-md-3 pad0">
+                        <div class="form-group">
+                           <div class="button-login"></br>
+                              <button id="submit" type="submit" class="btn orderBtn" ng-disabled="historyForm.startDate.$invalid || historyForm.endDate.$invalid" ng-click="vendorsDate(reportDates)">List Vendors</button>
+                           </div>
                         </div>
                      </div>
                   </div>
-                  </div>
-				   <div class="col-md-12 pr">
-				  <div class="col-md-3 pad0">
-				  <br>
-				  <div  ng-dropdown-multiselect="" options="example8data" selected-model="example8model" extra-settings="example8settings"></div>
-				  </div>
-				   <div class="col-md-3 pad0">
-				  <label></label>
-				  <div class="sec-block sort">
-					<select  ng-model="reportDates.sortBy" ng-change="constitutionchange(reportDates.sortBy)">
-						<!-- <option value="">Select Sort</option> -->
-						<option value="">Descending</option>
-						<option value="ASC">Ascending</option>
-					</select>
-				  </div>
-				  </div>
-				  <div class="col-md-2 pad0">
-                     <div class="form-group">
-                        <div class="button-login"></br>
-                           <button id="submit" type="submit" class="btn orderBtn" ng-disabled="historyForm.$invalid" ng-click="historyByDate(reportDates)">Vendors Report </button>
+                  <div class="clearfix"></div>
+                  <div class="col-md-12 pr">
+                     <div class="col-md-3 pad0">
+                        <br>
+                        <div ng-dropdown-multiselect="" options="example8data" selected-model="example8model" extra-settings="example8settings"></div>
+                     </div>
+                     <div class="col-md-3 pad0">
+                        <label></label>
+                        <div class="sec-block sort">
+                           <select  ng-model="reportDates.sortBy" ng-change="constitutionchange(reportDates.sortBy)">
+                              <!-- <option value="">Select Sort</option> -->
+                              <option value="">Descending</option>
+                              <option value="ASC">Ascending</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-md-2 pad0">
+                        <div class="form-group">
+                           <div class="button-login"></br>
+                              <button id="submit" type="submit" class="btn orderBtn" ng-disabled="historyForm.startDate.$invalid || historyForm.endDate.$invalid" ng-click="historyByDate(reportDates)">Vendors Report</button>
+                           </div>
                         </div>
                      </div>
                   </div>
-                 
-                 
+               <div class="clearfix"></div>
+               <div class="vm-top col-xs-12">
+                  <div class="selectDropdown col-sm-6">
+                     <div class="selectedValueClass">
+                        <select ng-init="vendorType = vendorArray[0]"
+                           ng-model="vendorType"
+                           ng-options="option.type for option in vendorArray">
+                        </select>
+                     </div>
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="vendorType.type == 'Vendor Name'">
+                     <input type="text" name="nameString" class="form-control" ng-model="vendorType.name" ng-pattern-restrict="^[A-Za-z0-9 ]*$" placeholder="Enter Vendor Name" ng-required="!vendorType.id">
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="vendorType.type == 'Vendor Id'">
+                     <input type="text" name="idString" class="form-control" ng-model="vendorType.id" ng-pattern-restrict="^[0-9]*$" placeholder="Enter Vendor Id" ng-required="!vendorType.name">
+                  </div>
+                  <div class="button-login col-sm-3">
+                     <button type="button" class="btn btn-primary" ng-disabled="historyForm.$invalid" ng-click="getVendorBySearch(vendorType, reportDates)">Search Vendor(s)</button>
+                  </div>
                </div>
-            </form> 
-			 <div class="gridStyle"
-               ui-grid="revenueGrid" ui-grid-cellnav  ui-grid-auto-resize>
-            </div>
-			<div class="clearfix"></div>
-            <div class="text-center">
-               <div paging
-                  page="1" 
-                  page-size="10"
-                  total=vendorsprodCount
-                  paging-action="vendorsPagingAct(page, pageSize, total, historyDates)">
+               <p style="text-align:center; color:#f00" ng-show="noVendor">No results found for '<b>{{noVendorRes}}</b>'</p>
+               </form>
+			   <div class="clearfix"></div>
+               <div class="gridStyle"
+                  ui-grid="revenueGrid" ui-grid-cellnav  ui-grid-auto-resize>
                </div>
-            </div>
-			<div class="text-center">
-			<fusioncharts 
-				width="600" 
-				height="400"
-				type="column2d"
-				datasource="{{myDataSource}}">
-			</fusioncharts>
-			</div>
+               <div class="clearfix"></div>
+               <div class="text-center">
+                  <div paging
+                     page="1" 
+                     page-size="10"
+                     total=vendorsprodCount
+                     paging-action="vendorsPagingAct(page, pageSize, total, historyDates)">
+                  </div>
+               </div>
+               <!--<div class="text-center">
+                  <fusioncharts 
+                     width="600" 
+                     height="400"
+                     type="column2d"
+                     datasource="{{myDataSource}}">
+                  </fusioncharts>
+                  </div>-->
                <div class="clearfix"></div>
             </div>
          </div>
       </div>
-      <!-- Registered Vendors Ends -->
-	  
-      <!-- report Products Starts -->
-      <div role="tabpanel" class="tab-pane" id="vendorProducts">
+      <!-- Vendor Reports Ends -->
+      <!-- Product Report Starts -->
+      <div role="tabpanel" class="tab-pane" id="productReports">
          <div id="content" class="row">
             <div class="col-md-12 pr">
                <div class="row">
                   <h2 class="main-title"><span> Product Reports </span></h2>
                </div>
-			   
-			   <form name="productForm" novalidate="" class="ng-pristine ng-valid ng-valid-required">
-               <div class="col-md-12">
-			   <!-- <div class="col-md-3 pad0">  -->
-                      <!-- <div class="form-group" ng-class="{ 'has-error' : productForm.productsku.$invalid &amp;&amp; !productForm.productsku.$pristine }"> -->
-                         <!-- <label>Product Sku</label>  -->
-						<!-- <input type="text"  name="productsku" class="form-control"  ng-model     ="reportproduct.productsku" placeholder="Product Sku" >  -->
-                      <!-- <p ng-show="productForm.productsku.$touched &amp;&amp; productForm.productsku.$invalid" class="help-block ng-hide">Vendor Id required</p>  -->
-                   <!-- </div>  -->
-                   <!-- </div>  -->
-                  <div class="col-md-3 pad0">
-                     <div class="form-group" ng-class="{ 'has-error' : productForm.startDate.$invalid &amp;&amp; !productForm.startDate.$pristine }">
-                        <label>From Date</label>
-						<input type="text" id="historyfromdate" name="startDate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="reportproduct.startDate" placeholder="From Date" required="">
-                        <p ng-show="productForm.startDate.$touched &amp;&amp; productForm.startDate.$invalid" class="help-block ng-hide">Start Date is Required</p>
+               <form name="productForm" novalidate="" class="ng-pristine ng-valid ng-valid-required">
+                  <div class="col-md-12 pr-1">
+                     <div class="col-md-3 pad0">
+                        <div class="form-group" ng-class="{ 'has-error' : productForm.startDate.$invalid &amp;&amp; !productForm.startDate.$pristine }">
+                           <label>From Date</label>
+                           <input type="text" id="historyfromdate" name="startDate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="reportproduct.startDate" placeholder="From Date" required="">
+                           <p ng-show="productForm.startDate.$touched &amp;&amp; productForm.startDate.$invalid" class="help-block ng-hide">Start Date is Required</p>
+                        </div>
                      </div>
-                  </div>
-                  <div class="col-md-3 pad0">
-                     <div class="form-group" ng-class="{ 'has-error' : productForm.endDate.$invalid &amp;&amp; !productForm.endDate.$pristine }">
-                        <label>To Date</label>
-						<input type="text" id="historytodate" name="endDate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="reportproduct.endDate" placeholder="To Date" required="">
-                        <p ng-show="productForm.endDate.$touched &amp;&amp; productForm.endDate.$invalid" class="help-block ng-hide">End Date is Required</p>
+                     <div class="col-md-3 pad0">
+                        <div class="form-group" ng-class="{ 'has-error' : productForm.endDate.$invalid &amp;&amp; !productForm.endDate.$pristine }">
+                           <label>To Date</label>
+                           <input type="text" id="historytodate" name="endDate" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="reportproduct.endDate" placeholder="To Date" required="">
+                           <p ng-show="productForm.endDate.$touched &amp;&amp; productForm.endDate.$invalid" class="help-block ng-hide">End Date is Required</p>
+                        </div>
                      </div>
-                  </div>
-				  
-				    <div class="col-md-2 pad0">
-                     <div class="form-group">
-                        <div class="button-login"></br>
-                           <button id="submit" type="submit" class="btn orderBtn" ng-disabled="productForm.$invalid" ng-click="Product(reportproduct)">List products</button>
+                     <div class="col-md-2 pad0">
+                        <div class="form-group">
+                           <div class="button-login"><br>
+                              <button id="submit" type="submit" class="btn orderBtn" ng-disabled="productForm.$invalid" ng-click="Product(reportproduct)">List products</button>
+                           </div>
                         </div>
                      </div>
                   </div>
-                  </div>
-				  
-				   <div class="col-md-12 pr">
-				   <div class="col-md-3 pad0">
-				<br> 
-				  <div  ng-dropdown-multiselect="" options="example8data" selected-model="example8model" extra-settings="example8settings"></div>
-				 </div> 
-				  <div class="col-md-3 pad0">
-				  <label></label>
-				  <div class="sec-block sort">
-					<select  ng-model="reportproduct.sortBy" ng-change="constitutionchange(reportproduct.sortBy)">
-						<!-- <option value="">Select Sort</option> -->
-						<option value="">Descending</option>
-						<option value="ASC">Ascending</option>
-					</select>
-				  </div>
-				  </div>
-				  <div class="col-md-2 pad0">
-                     <div class="form-group">
-                        <div class="button-login"></br>
-                           <button id="submit" type="submit" class="btn orderBtn" ng-disabled="productForm.$invalid" ng-click="ProductByDate(reportproduct)"> Product Report</button>
+                  <div class="col-md-12 pr-2">
+                     <div class="col-md-3 pad0">
+                        <div  ng-dropdown-multiselect="" options="example8data" selected-model="example8model" extra-settings="example8settings"></div>
+                     </div>
+                     <div class="col-md-3 pad0">
+                        <div class="sec-block sort">
+                           <select  ng-model="reportproduct.sortBy" ng-change="constitutionchange(reportproduct.sortBy)">
+                              <!-- <option value="">Select Sort</option> -->
+                              <option value="">Descending</option>
+                              <option value="ASC">Ascending</option>
+                           </select>
                         </div>
                      </div>
+                     <div class="col-md-2 pad0">
+                        <div class="form-group">
+                           <div class="button-login">
+                              <button id="submit" type="submit" class="btn orderBtn" ng-disabled="productForm.$invalid" ng-click="ProductByDate(reportproduct)"> Product Report</button>
+                           </div>
+                        </div>
                      </div>
                   </div>
-               </div>  
-			</form>			   
-             
-				   <div class="gridStyle"
+            </div>
+			<div class="clearfix"></div>
+               <div class="vm-top col-xs-12">
+                  <div class="selectDropdown col-sm-6">
+                     <div class="selectedValueClass">
+                        <select ng-init="productType = productArray[0]"
+                           ng-model="productType"
+                           ng-options="option.type for option in productArray">
+                        </select>
+                     </div>
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="productType.type == 'Product Name'">
+                     <input type="text" name="nameString" class="form-control" ng-model="productType.name" ng-pattern-restrict="^[A-Za-z0-9 ]*$" placeholder="Enter Product Name" required>
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="productType.type == 'Product Id'">
+                     <input type="text" name="idString" class="form-control" ng-model="productType.id" ng-pattern-restrict="^[0-9]*$" placeholder="Enter Product Id" required>
+                  </div>
+                  <div class="button-login col-sm-3">
+                     <button type="button" class="btn btn-primary" ng-click="getProductBySearch(productType, reportproduct)">Search Product(s)</button>
+                  </div>
+               </div>
+               <p style="text-align:center; color:#f00" ng-show="noProduct">{{noProductRes}}</p>
+            </form>
+            <div class="gridStyle"
                ui-grid="revenueproductGrid" ui-grid-cellnav  ui-grid-auto-resize>
             </div>
-                  <div paging
-                     page="1" 
-                     page-size="10" 
-                     total=vendorsprodCount
-                     paging-action="vendorListPaging(page, pageSize, total)">
-                  </div>
-               <!-- report Products ends -->
-               <div class="clearfix"></div>
+            <div paging
+               page="1" 
+               page-size="10" 
+               total=vendorsprodCount
+               paging-action="vendorListPaging(page, pageSize, total)">
+            </div>
+            <!-- report Products ends -->
+            <div class="clearfix"></div>
             <!-- </div> -->
-               <div class="clearfix"></div>
+            <div class="clearfix"></div>
+         </div>
+      </div>
+   </div>
+   <!--Date Error Popup -->
+   <div class="modal fade errorPopup" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-sm" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="myModalLabel">Error</h4>
+            </div>
+            <div class="modal-body">
+               <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
          </div>
       </div>
-     
-			   <!--Date Error Popup -->
-			<div class="modal fade errorPopup" tabindex="-1" role="dialog">
-                  <div class="modal-dialog modal-sm" role="document">
-                     <div class="modal-content">
-                        <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                           <h4 class="modal-title" id="myModalLabel">Error</h4>
-                        </div>
-                        <div class="modal-body">
-                           <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
-                        </div>
-                        <div class="modal-footer">
-                           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        </div>
-                     </div>
-                  </div>
-               </div>
    </div>
 </div>
-
-
+</div>
 <!--vendor reports pop-up-->
 <div class="modal fade historyMgntPopup" id="myModal" role="dialog">
    <div class="modal-dialog modal-lg">
       <!-- Modal content-->
-		<div class="modal-content">
+      <div class="modal-content">
          <div class="modal-header">
-		 <div class="vorder-main">
-			<ul>
-					<li>
-					<span>Vendor Id</span><br>
-						  <b>{{vendorid}}</b>
-						
-					</li>
-					<li>
-						<span>Vendor Name</span><br>
-						  <b>{{vendorName}}</b> 
-					</li>
-					<li>
-						<span>Total Revenue</span><br>
-						 <b><i class="fa fa-rupee"></i> {{finalAmount}}</b>
-					</li>
-					<li>
-					</li>
-				</ul>
-			<button type="button" class="close" data-dismiss="modal">&times;</button> 
-			</div>
-            
+            <div class="vorder-main">
+               <ul>
+                  <li>
+                     <span>Vendor Id</span><br>
+                     <b>{{vendorid}}</b>	
+                  </li>
+                  <li>
+                     <span>Vendor Name</span><br>
+                     <b>{{vendorName}}</b> 
+                  </li>
+                  <li>
+                     <span>Total Revenue</span><br>
+                     <b><i class="fa fa-rupee"></i> {{finalAmount}}</b>
+                  </li>
+                  <li>
+                  </li>
+               </ul>
+               <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            </div>
          </div>
          <div class="modal-body">
-		<div class="vorder-block">
-			
-			<div class="vorder-con">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 left">
-
-				<table class="table">
-               <thead>
-                  <tr>
-                     <th class="col-span-2">Order Id</th>
-                     <th>Product Id</th>
-                     <th>Product Name</th>
-                     <th>Quantity</th>
-                     <th>Product Price</th>
-                     <th>Product Revenue</th>
-                     
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr ng-repeat= "detailvendor in vendorbyprodbyrevenue">
-                     <!-- <td>{{detailorder.vendorDetails.vendorName}}</td> -->
-                     <td>{{detailvendor.orderId}}</td>
-                     <td>
-                       {{detailvendor.productId}} 
-                     </td>
-                     <td>
-                        {{detailvendor.productName}}
-                     </td>
-                     <td>{{detailvendor.productquantity}}</td>
-                     <td><i class="fa fa-rupee"></i>{{detailvendor.productPrice}}</td>
-                     <td><i class="fa fa-rupee"></i>{{detailvendor.productRevenue}}</td>
-                  </tr>
-               </tbody>
-            </table>
-			
-			</div>
-			</div>
-			<div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-	</div>
+            <div class="vorder-block">
+               <div class="vorder-con">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 left">
+                     <table class="table">
+                        <thead>
+                           <tr>
+                              <th class="col-span-2">Order Id</th>
+                              <th>Product Id</th>
+                              <th>Product Name</th>
+                              <th>Quantity</th>
+                              <th>Product Price</th>
+                              <th>Product Revenue</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat= "detailvendor in vendorbyprodbyrevenue">
+                              <!-- <td>{{detailorder.vendorDetails.vendorName}}</td> -->
+                              <td>{{detailvendor.orderId}}</td>
+                              <td>
+                                 {{detailvendor.productId}} 
+                              </td>
+                              <td>
+                                 {{detailvendor.productName}}
+                              </td>
+                              <td>{{detailvendor.productquantity}}</td>
+                              <td><i class="fa fa-rupee"></i> {{detailvendor.productPrice}}</td>
+                              <td><i class="fa fa-rupee"></i> {{detailvendor.productRevenue}}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
    </div>
 </div>
-
 <!-- product reports pop-up-->
 <div class="modal fade productModal" id="myModal" role="dialog">
    <div class="modal-dialog modal-lg">
       <!-- Modal content-->
-		<div class="modal-content">
+      <div class="modal-content">
          <div class="modal-header">
-		 <div class="vorder-main">
-			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 left">
-				<ul>
-					<li>
-					<span>Product Id:</span><br>
-						 <b> {{productid}} </b>
-						
-					</li>
-					<li>
-						<span>Product Sku:</span><br>
-						 <b> {{productSku}}</b> 
-					</li>
-					<li>
-						<span>Product Name</span><br>
-						  <b>{{productName}} </b>
-					</li>
-					
-				</ul>
-			</div>
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 right">
-			<li>
-						<span>Total Revenue</span><br>
-						 <i class="fa fa-rupee"></i> <b>{{finalAmount}}</b> 
-					</li>
-			</div>
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-             
+            <div class="vorder-main">
+               <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 left">
+                  <ul>
+                     <li>
+                        <span>Product Id:</span><br>
+                        <b> {{productid}} </b>
+                     </li>
+                     <li>
+                        <span>Product Sku:</span><br>
+                        <b> {{productSku}}</b> 
+                     </li>
+                     <li>
+                        <span>Product Name</span><br>
+                        <b>{{productName}} </b>
+                     </li>
+                  </ul>
+               </div>
+               <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 right">
+                  <li>
+                     <span>Total Revenue</span><br>
+                     <i class="fa fa-rupee"></i> <b>{{finalAmount}}</b> 
+                  </li>
+               </div>
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
          </div>
          <div class="modal-body">
-		<div class="vorder-block">
-			
-			<div class="vorder-con">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 left">
-			
-				<table class="table">
-               <thead>
-                  <tr>
-                    <th>Order Id</th>
-                     <th>Vendor Id</th> 
-                     <th>Vendor Name</th>
-                     
-                  </tr>
-               </thead>
-               <tbody>
-                   <tr ng-repeat= "detailproduct in prodbyvendorbyrevenue">
-                     <!-- <td>{{detailorder.vendorDetails.vendorName}}</td> -->
-                     <td>{{detailproduct.orderId}}</td>
-                     <td>
-                       {{detailproduct.vendorId}} 
-                     </td>
-                     <td>
-                        {{detailproduct.vendorName}}
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-			
-			</div>
-			</div>
-			<div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-	</div>
+            <div class="vorder-block">
+               <div class="vorder-con">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 left">
+                     <table class="table">
+                        <thead>
+                           <tr>
+                              <th>Order Id</th>
+                              <th>Vendor Id</th>
+                              <th>Vendor Name</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat= "detailproduct in prodbyvendorbyrevenue">
+                              <!-- <td>{{detailorder.vendorDetails.vendorName}}</td> -->
+                              <td>{{detailproduct.orderId}}</td>
+                              <td>
+                                 {{detailproduct.vendorId}}
+                              </td>
+                              <td>
+                                 {{detailproduct.vendorName}}
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
    </div>
 </div>
-
-

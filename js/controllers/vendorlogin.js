@@ -1,13 +1,15 @@
 angular.module('newapp')
- .controller('vendorlogCtrl', function($scope, $http, $location, $route,resturl) {
+ .controller('vendorlogCtrl',['$scope', '$http', '$location', '$route','resturl', function($scope, $http, $location, $route,resturl) {
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
 		{name : "Product", value : "Product"}
 	];
+	$scope.isDisabled = false;
 	$scope.vendorlog = function(vlogin) {
+		$scope.isDisabled = true;
 		console.log(vlogin);
-	$http.post(resturl+"/user/login ", vlogin)
+	$http.post(resturl+"/user/login", vlogin)
 		.then(function(resp) {
 	if(resp.data.success == true){
 		localStorage.setItem("loggedInUser", vlogin.userName);
@@ -26,13 +28,14 @@ angular.module('newapp')
 		$scope.errmsg=true;
 		$scope.errmessage = resp.data.errorMessage;  
 		$scope.vlogin.password ="";
+		$scope.isDisabled = false;
 		$location.path('/vendorlogin');
 	}
 	});
-	}
+	};
 	$scope.alerthide=function(){
 		$scope.errmsg=false;
-	}
+	};
 	$http.get(resturl+"/getAllCategories").then(function(resp) {
 		console.log(resp);
 		$scope.menuitem = resp.data.categoryData;
@@ -43,8 +46,8 @@ angular.module('newapp')
 			return {
 				"background-image": "url(/clients/onesevenhome/img/" + $scope.bgimg + ".jpg)"
 			};
-		}
-	}
+		};
+	};
 	$http.get(resturl+"/cart/displayCart?userId="+localStorage.loggedInuserId).then(function(resp){
 		console.log(resp);
 		$scope.cartlist=resp.data;
@@ -59,4 +62,4 @@ angular.module('newapp')
 			$scope.lengthofcart = resp.data.shoppingCartItems.length;
 		}
 	});
-});
+}]);

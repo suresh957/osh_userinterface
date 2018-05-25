@@ -195,7 +195,9 @@
                <div class="row">
                   <h2 class="main-title"><span>Registered Vendors</span></h2>
                </div>
-               <div class="vm-top">
+               <!-- Vendor Retrieval (By Type & Status) Inputs -->
+               <form name="regVendorForm">
+			   <div class="vm-top" id="v-top">
                   <div class="selectDropdown">
                      <div class="selectedValueClass">
                         <select ng-init="selectedValue = options[0]"
@@ -227,8 +229,30 @@
                   <p class="ar-para" ng-show="pending">Showing all <b>Approval Pending</b> Vendors</p>
                   <p class="ar-para" ng-show="approved"> Showing all <b>Approved</b> Vendors</p>
                   <p class="ar-para" ng-show="allVendors">Showing <b>All Registered</b> Vendors</p>
+			   </div>
+               <!-- Search Vendor Inputs -->
+               <div class="vm-top col-xs-12">
+                  <div class="selectDropdown col-sm-3">
+                     <div class="selectedValueClass">
+                        <select ng-init="searchType = searchBy[0]"
+                           ng-model="searchType"
+                           ng-options="option.type for option in searchBy">
+                        </select>
+                     </div>
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="searchType.type == 'Vendor Name'">
+                     <input type="text" name="nameString" class="form-control" ng-model="searchType.name" ng-pattern-restrict="^[A-Za-z0-9]*$" placeholder="Enter Vendor Name" ng-required="!searchType.id">
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="searchType.type == 'Vendor Id'">
+                     <input type="text" name="idString" class="form-control" ng-model="searchType.id" ng-pattern-restrict="^[0-9]*$" placeholder="Enter Vendor Id" required ng-required="!searchType.name">
+                  </div>
+                  <div class="button-login col-sm-3">
+                     <button type="button" class="btn btn-primary" ng-disabled="regVendorForm.$invalid" ng-click="getVendorByRegistration(searchType)">Search Vendor(s)</button>
+                  </div>
                </div>
-               <div class="gridStyle"
+               <p style="text-align:center; color:#f00" ng-show="noRegvendors">{{message}}</p>
+               </form>
+			   <div class="gridStyle"
                   ui-grid="registerVendorsGrid" ui-grid-cellnav  ui-grid-auto-resize>
                </div>
                <div class="clearfix"></div>
@@ -248,23 +272,29 @@
                            <h4 class="modal-title">{{vendorProfile.vendorName}} - [{{vendorProfile.vendorId}}]</h4>
                         </div>
                         <div class="modal-body">
-                           <form name="vendorDetailsForm" novalidate>
-                              <div class="modal-top">
-                                 <div class="col-xs-12 col-sm-3">
-                                    <!--Vendor Profile Picture -->
-                                    <figure class="dealpimg text-center">
-                                       <img class="img-responsive" src="{{vendorProfile.userProfile}}" alt="Vendor Profile Picture"/>
-                                    </figure>
+                        <form name="vendorDetailsForm" novalidate>
+                           <div class="modal-top">
+                              
+                              <div class="col-xs-12 asv">
+                                 <!--Vendor Profile Picture -->
+								 <div class="col-xs-12 col-sm-3 col-md-3">
+                                 <figure class="dealpimg text-center">
+                                    <img class="img-responsive" src="{{vendorProfile.userProfile}}" alt="Vendor Profile Picture"/>
+                                 </figure>
+                              </div>
+                                
+                                 <div class="col-xs-12 col-sm-3 col-md-3">
+                                    <h3 ng-show="showCertificate"><a target="_blank" href="http://www.onesevenhome.com/{{vendorProfile.vendorAuthCert}}"><b>View Certificate</b></a></h3>
+                                 </div>
+								  <div class="col-xs-12 col-sm-3 col-md-3">
                                     <div class="form-group" ng-show="hideUploadBtn">
                                        <input name="file" id="profilePic" upload-files class="inputfile inputfile-2 vendorpic" type="file" ng-model="vendor.vendorAuthCert">
                                        <label for="profilePic"><span>Change Picture</span></label>
-                                       <!-- <ul class="file-upload"> -->
-                                       <!-- <li ng-repeat="file in files">{{file.name}}</li> -->
-                                       <!-- </ul> -->
                                        <li id="vendorpicselect_file">{{profilePicture}}</li>
                                     </div>
-                                    <!-- Vendor Certificate -->
-                                    <h3 ng-show="showCertificate"><a target="_blank" href="http://rainiersoft.com/clients/oshadmin/{{vendorProfile.vendorAuthCert}}"><b>View Certificate</b></a></h3>
+                                 </div>
+                                 <!-- Vendor Certificate -->
+                                 <div class="col-xs-12 col-sm-3 col-md-3">
                                     <div class="form-group" ng-show="hideUploadBtn">
                                        <div class="sec-block v-info">
                                           <select
@@ -272,7 +302,6 @@
                                              ng-model="fileID"
                                              ng-options="option.value as option.name for option in fileOptions">
                                           </select>
-			
                                        </div>
                                        <!-- <span class="v-info upld"><i class="fa fa-upload" aria-hidden="true"></i></span> -->
                                        <!-- <button type="button" class="select-certificate btn btn-info btn-lg"><i class="fa fa-upload" aria-hidden="true"></i></button> -->
@@ -286,160 +315,194 @@
                                        </ul>
                                     </div>
                                  </div>
-                                 <div class="col-xs-12 col-sm-3">
-                                    <!-- Email -->
-                                    <div class="form-group">
-                                       <label>Email</label>
-                                       <input type="text" name="email" class="form-control" ng-model="vendorProfile.email" placeholder="Email(User Id)" ng-readonly="true" readonly="readonly">
+                                 </div>
+                                 <div class="g col-xs-12">
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <!-- Email -->
+                                       <div class="form-group">
+                                          <label>Email</label>
+                                          <input type="text" name="email" class="form-control" ng-model="vendorProfile.email" placeholder="Email(User Id)" ng-readonly="true" readonly="readonly">
+                                       </div>
                                     </div>
                                     <!-- Vendor Telephone -->
-                                    <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.vendorTelephone.$invalid &amp;&amp; !vendorDetailsForm.vendorTelephone.$pristine }">
-                                       <label>Telephone Number</label>
-                                       <input type="text" name="vendorTelephone" class="form-control" ng-model="vendorProfile.vendorTelephone" placeholder="Telephone Number" required="">
-                                       <p ng-show="vendorDetailsForm.vendorTelephone.$touched &amp;&amp; vendorDetailsForm.vendorTelephone.$invalid" class="help-block ng-hide">Telephone Number is required</p>
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>Telephone Number</label>
+                                          <input type="text" name="vendorTelephone" class="form-control" ng-model="vendorProfile.vendorTelephone" placeholder="Telephone Number" ng-readonly="true" readonly="readonly">
+                                       </div>
                                     </div>
                                     <!-- Constitution of Firm -->
-                                    <div class="form-group">
-                                       <label>Constitution of firm</label>
-                                       <input type="text" name="vendorConstFirm" class="form-control" ng-model="vendorProfile.vendorConstFirm" placeholder="Constitution of Firm" ng-readonly="true" readonly="readonly">
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>Constitution of firm</label>
+                                          <input type="text" name="vendorConstFirm" class="form-control" ng-model="vendorProfile.vendorConstFirm" placeholder="Constitution of Firm" ng-readonly="true" readonly="readonly">
+                                       </div>
                                     </div>
-                                    <!-- Select Options -->
+                                    <!-- Nature of Company -->
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label> Nature of Company</label>
+                                          <input type="text" name="vendorCompanyNature" class="form-control" ng-model="vendorProfile.vendorCompanyNature" placeholder="Nature of company" required="" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- Country -->
+                                 <div class="g col-xs-12">
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>Country</label>
+                                          <input type="text" name="country" class="form-control" ng-model="vendorProfile.country" placeholder="Country" required="" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                    <!-- State -->
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>State</label>
+                                          <div class="sec-block">
+                                             <select id="stateOfVendor" ng-model="vendorProfile.state" ng-readonly="true" readonly="readonly">
+                                                <option value="">Select State</option>
+                                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                <option value="Assam">Assam</option>
+                                                <option value="Bihar">Bihar</option>
+                                                <option value="Chandigarh">Chandigarh</option>
+                                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                                <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                                <option value="Daman and Diu">Daman and Diu</option>
+                                                <option value="Delhi">Delhi</option>
+                                                <option value="Goa">Goa</option>
+                                                <option value="Gujarat">Gujarat</option>
+                                                <option value="Haryana">Haryana</option>
+                                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                                <option value="Jharkhand">Jharkhand</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                                <option value="Kenmore">Kenmore</option>
+                                                <option value="Kerala">Kerala</option>
+                                                <option value="Lakshadweep">Lakshadweep</option>
+                                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Manipur">Manipur</option>
+                                                <option value="Meghalaya">Meghalaya</option>
+                                                <option value="Mizoram">Mizoram</option>
+                                                <option value="Nagaland">Nagaland</option>
+                                                <option value="Narora">Narora</option>
+                                                <option value="Natwar">Natwar</option>
+                                                <option value="Odisha">Odisha</option>
+                                                <option value="Paschim">Paschim Medinipur</option>
+                                                <option value="Pondicherry">Pondicherry</option>
+                                                <option value="Punjab">Punjab</option>
+                                                <option value="Rajasthan">Rajasthan</option>
+                                                <option value="Sikkim">Sikkim</option>
+                                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                                <option value="Telangana">Telangana</option>
+                                                <option value="Tripura">Tripura</option>
+                                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                <option value="Uttarakhand">Uttarakhand</option>
+                                                <option value="Vaishali">Vaishali</option>
+                                                <option value="West Bengal">West Bengal</option>
+                                             </select>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <!-- City -->
+                                       <div class="form-group">
+                                          <label>City</label>
+                                          <input type="text" name="city" class="form-control" ng-model="vendorProfile.city" placeholder="City" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                    <!-- Area -->
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>Area</label>
+                                          <input type="text" name="area" class="form-control" ng-model="vendorProfile.area" placeholder="Area" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- Street -->
+                                 <div class="g col-xs-12">
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>Street</label>
+                                          <input type="text" name="street" class="form-control" ng-model="vendorProfile.street" placeholder="Street" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                    <!-- Office Address -->
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>Office Address</label>
+                                          <input type="text" name="houseNumber" class="form-control" ng-model="vendorProfile.houseNumber" placeholder="Office Address" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                    <!-- Pincode -->
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>Pincode</label>
+                                          <input type="text" name="pinCode" class="form-control" ng-model="vendorProfile.pinCode" placeholder="Pincode" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                    <!-- Vendor Registration Number -->
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>Registration Number</label>
+                                          <input type="text" name="vendorRegistrationNo" class="form-control" ng-model="vendorProfile.vendorRegistrationNo" placeholder="Registration Number" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="g col-xs-12">
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <!-- GST Number -->
+                                       <div class="form-group">
+                                          <label>GST Number</label>
+                                          <input type="text" name="gst" class="form-control" ng-model="vendorProfile.gst" placeholder="GST Number" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                    <!-- PAN Number -->
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>PAN Number</label>
+                                          <input type="text" name="vendorPAN" class="form-control" ng-model="vendorProfile.vendorPAN" placeholder="PAN Number" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                    <!-- Vendor Registration No -->
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>License Number</label>
+                                          <input type="text" name="vendorLicense" class="form-control" ng-model="vendorProfile.vendorLicense" placeholder="License Number" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>FAX Number</label>
+                                          <input type="text" name="vendorFax" class="form-control" ng-model="vendorProfile.vendorFax" placeholder="FAX Number" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="g col-xs-12">
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>Experience in the industry</label>
+                                          <input type="text" name="vendorExpLine" class="form-control" ng-model="vendorProfile.vendorExpLine" placeholder="Experience in the industry" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+                                    <div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                       <div class="form-group">
+                                          <label>Major Clients</label>
+                                          <input type="text" name="vendorMajorCust" class="form-control" ng-model="vendorProfile.vendorMajorCust" placeholder="Major Clients" ng-readonly="true" readonly="readonly">
+                                       </div>
+                                    </div>
+									<div class="col-xs-12 col-sm-3 col-md-3">
                                     <div ng-show="architectSelectDiv" ng-dropdown-multiselect="" options="Architectdata" selected-model="architectmodel" extra-settings="architectsettings"></div>
                                     <div ng-show="serviceSelectDiv" ng-dropdown-multiselect="" options="servicesdata" selected-model="servicesmodel" extra-settings="servicessettings"></div>
                                     <div ng-show="machinerySelectDiv" ng-dropdown-multiselect="" options="machinerydata" selected-model="machinerymodel" extra-settings="machinerysettings"></div>
                                     <div ng-show="wallpaperSelectDiv" ng-dropdown-multiselect="" options="wallpaperdata" selected-model="wallpapermodel" extra-settings="wallpapersettings"></div>
-                                    <!-- Nature of Company -->
-                                    <div class="form-group">
-                                       <label> Nature of Company</label>
-                                       <input type="text" name="vendorCompanyNature" class="form-control" ng-model="vendorProfile.vendorCompanyNature" placeholder="Nature of company" required="" ng-readonly="true" readonly="readonly">
-                                    </div>
                                  </div>
-                                 <div class="col-xs-12 col-sm-3">
-                                    <!-- Country -->
-                                    <div class="form-group">
-                                       <label>Country</label>
-                                       <input type="text" name="country" class="form-control" ng-model="vendorProfile.country" placeholder="Country" required="" ng-readonly="true" readonly="readonly">
-                                    </div>
-                                    <!-- State -->
-                                    <div class="form-group">
-                                       <label>State</label>
-                                       <div class="sec-block">
-                                          <select id="vendorState" ng-model="vendorProfile.state" required>
-                                             <option value="">Select State</option>
-                                             <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                                             <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                             <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                             <option value="Assam">Assam</option>
-                                             <option value="Bihar">Bihar</option>
-                                             <option value="Chandigarh">Chandigarh</option>
-                                             <option value="Chhattisgarh">Chhattisgarh</option>
-                                             <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                                             <option value="Daman and Diu">Daman and Diu</option>
-                                             <option value="Delhi">Delhi</option>
-                                             <option value="Goa">Goa</option>
-                                             <option value="Gujarat">Gujarat</option>
-                                             <option value="Haryana">Haryana</option>
-                                             <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                             <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                                             <option value="Jharkhand">Jharkhand</option>
-                                             <option value="Karnataka">Karnataka</option>
-                                             <option value="Kenmore">Kenmore</option>
-                                             <option value="Kerala">Kerala</option>
-                                             <option value="Lakshadweep">Lakshadweep</option>
-                                             <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                             <option value="Maharashtra">Maharashtra</option>
-                                             <option value="Manipur">Manipur</option>
-                                             <option value="Meghalaya">Meghalaya</option>
-                                             <option value="Mizoram">Mizoram</option>
-                                             <option value="Nagaland">Nagaland</option>
-                                             <option value="Narora">Narora</option>
-                                             <option value="Natwar">Natwar</option>
-                                             <option value="Odisha">Odisha</option>
-                                             <option value="Paschim">Paschim Medinipur</option>
-                                             <option value="Pondicherry">Pondicherry</option>
-                                             <option value="Punjab">Punjab</option>
-                                             <option value="Rajasthan">Rajasthan</option>
-                                             <option value="Sikkim">Sikkim</option>
-                                             <option value="Tamil Nadu">Tamil Nadu</option>
-                                             <option value="Telangana">Telangana</option>
-                                             <option value="Tripura">Tripura</option>
-                                             <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                             <option value="Uttarakhand">Uttarakhand</option>
-                                             <option value="Vaishali">Vaishali</option>
-                                             <option value="West Bengal">West Bengal</option>
-                                          </select>
-                                       </div>
-                                       <i class="fa fa-star" aria-hidden="true"></i>
-                                       <p id="id2" class="help-block"></p>
-                                    </div>
-                                    <!-- City -->
-                                    <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.city.$invalid &amp;&amp; !vendorDetailsForm.city.$pristine }">
-                                       <label>City</label>
-                                       <input type="text" name="city" class="form-control" ng-model="vendorProfile.city" placeholder="City" required="">
-                                       <p ng-show="vendorDetailsForm.city.$touched &amp;&amp; vendorDetailsForm.city.$invalid" class="help-block ng-hide">City is required</p>
-                                    </div>
-                                    <!-- Area -->
-                                    <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.area.$invalid &amp;&amp; !vendorDetailsForm.area.$pristine }">
-                                       <label>Area</label>
-                                       <input type="text" name="area" class="form-control" ng-model="vendorProfile.area" placeholder="Area" required="">
-                                       <p ng-show="vendorDetailsForm.area.$touched &amp;&amp; vendorDetailsForm.area.$invalid" class="help-block ng-hide">Area is required</p>
-                                    </div>
-                                    <!-- Street -->
-                                    <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.street.$invalid &amp;&amp; !vendorDetailsForm.street.$pristine }">
-                                       <label>Street</label>
-                                       <input type="text" name="street" class="form-control" ng-model="vendorProfile.street" placeholder="Street" required="">
-                                       <p ng-show="vendorDetailsForm.street.$touched &amp;&amp; vendorDetailsForm.street.$invalid" class="help-block ng-hide">Street is required</p>
-                                    </div>
-                                    <!--  -->
-                                    <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.houseNumber.$invalid &amp;&amp; !vendorDetailsForm.houseNumber.$pristine }">
-                                       <label>Office Address</label>
-                                       <input type="text" name="houseNumber" class="form-control" ng-model="vendorProfile.houseNumber" placeholder="Office Address" required="">
-                                       <p ng-show="vendorDetailsForm.houseNumber.$touched &amp;&amp; vendorDetailsForm.houseNumber.$invalid" class="help-block ng-hide">Office Address is required</p>
-                                    </div>
-                                    <!-- City -->
-                                    <div class="form-group" ng-class="{ 'has-error' : vendorDetailsForm.pinCode.$invalid &amp;&amp; !vendorDetailsForm.pinCode.$pristine }">
-                                       <label>Pincode</label>
-                                       <input type="text" name="pinCode" class="form-control" ng-model="vendorProfile.pinCode" placeholder="Pincode" required="">
-                                       <p ng-show="vendorDetailsForm.pinCode.$touched &amp;&amp; vendorDetailsForm.pinCode.$invalid" class="help-block ng-hide">Pincode is required</p>
-                                    </div>
-                                 </div>
-                                 <div class="col-xs-12 col-sm-3">
-                                    <!-- Vendor Registration Number -->
-                                    <div class="form-group">
-                                       <label>Registration Number</label>
-                                       <input type="text" name="vendorRegistrationNo" class="form-control" ng-model="vendorProfile.vendorRegistrationNo" placeholder="Registration Number">
-                                    </div>
-                                    <!-- GST Number -->
-                                    <div class="form-group">
-                                       <label>GST Number</label>
-                                       <input type="text" name="gst" class="form-control" ng-model="vendorProfile.gst" placeholder="GST Number">
-                                    </div>
-                                    <!-- PAN Number -->
-                                    <div class="form-group">
-                                       <label>PAN Number</label>
-                                       <input type="text" name="vendorPAN" class="form-control" ng-model="vendorProfile.vendorPAN" placeholder="PAN Number">
-                                    </div>
-                                    <!-- Vendor Registration No -->
-                                    <div class="form-group">
-                                       <label>License Number</label>
-                                       <input type="text" name="vendorLicense" class="form-control" ng-model="vendorProfile.vendorLicense" placeholder="License Number">
-                                    </div>
-                                    <div class="form-group">
-                                       <label>FAX Number</label>
-                                       <input type="text" name="vendorFax" class="form-control" ng-model="vendorProfile.vendorFax" placeholder="FAX Number">
-                                    </div>
-                                    <div class="form-group">
-                                       <label>Experience in the industry</label>
-                                       <input type="text" name="vendorExpLine" class="form-control" ng-model="vendorProfile.vendorExpLine" placeholder="Experience in the industry">
-                                    </div>
-                                    <div class="form-group">
-                                       <label>Major Clients</label>
-                                       <input type="text" name="vendorMajorCust" class="form-control" ng-model="vendorProfile.vendorMajorCust" placeholder="Major Clients">
-                                    </div>
                                  </div>
                               </div>
                               <div class="clearfix"></div>
-                           </form>
+                        </form>
                         </div>
                         <div class="modal-footer">
                            <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -463,8 +526,35 @@
                <div class="row">
                   <h2 class="main-title"><span>Approve Vendor Products</span></h2>
                </div>
+               <!-- Search Vendor Inputs -->
+               <form name="vendorProductsForm">
+			   <div class="vm-top col-xs-12">
+                  <div class="selectDropdown col-sm-2">
+                     <div class="selectedValueClass">
+                        <select ng-init="prodVendorType = prodVendorSearch[0]"
+                           ng-model="prodVendorType"
+                           ng-options="option.type for option in prodVendorSearch">
+                        </select>
+                     </div>
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="prodVendorType.type == 'Vendor Name'">
+                     <input type="text" name="nameString" class="form-control" ng-model="prodVendorType.name" ng-pattern-restrict="^[A-Za-z0-9]*$" placeholder="Enter Vendor Name" ng-required="!prodVendorType.id" />
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="prodVendorType.type == 'Vendor Id'">
+                     <input type="text" name="idString" class="form-control" ng-model="prodVendorType.id" ng-pattern-restrict="^[0-9]*$" placeholder="Enter Vendor Id" ng-required="!prodVendorType.name" />
+                  </div>
+                  <div class="button-login col-sm-2">
+                     <button type="button" class="btn btn-primary" ng-disabled="vendorProductsForm.$invalid" ng-click="getProdVendorBySearch(prodVendorType)">Search Vendor(s)</button>
+                  </div>
+                  <div class="col-sm-2 text-right Deals">
+                     <label><input type="checkbox" class="avProd" ng-model="vendorProd" ng-click="getRequestedVendors(vendorProd)">Requested Vendors</label>
+                  </div>
+               </div>
+               <p style="text-align:center; color:#f00" ng-show="noVendorProd">{{noprodVendor}}</p>
+               </form>
+			   <div class="clearfix"></div>
                <div class="gridStyle"
-                  ui-grid="vendorProductsGrid" ui-grid-cellnav  ui-grid-auto-resize>
+                  ui-grid="vendorProductsGrid" ui-grid-cellnav ui-grid-auto-resize>
                </div>
                <div class="clearfix"></div>
                <div class="text-center">
@@ -501,6 +591,7 @@
                                     </tr>
                                  </table>
                               </div>
+							  </form>
                         </div>
                         <div class="clearfix"></div>
                         <div class="text-center">
@@ -510,7 +601,6 @@
                            total=productsCount
                            paging-action="productsPaging(page, pageSize, total)">
                         </div>
-                        </form>
                         </div>
                         <div class="modal-footer">
                            <button type="button" title="Approve" class="btn btn-primary" ng-click="approveProducts(vendorProfile)">Approve</button>
@@ -533,6 +623,7 @@
                <div class="row">
                   <h2 class="main-title"><span>Vendor Payments Management</span></h2>
                </div>
+			   <form name="paymentsForm">
                <div class="vm-top">
                   <div class="selectDropdown">
                      <div class="selectedValueClass">
@@ -566,6 +657,29 @@
                   <p class="ar-para" ng-show="paid"> Showing all <b>Paid </b>vendors</p>
                   <p class="ar-para" ng-show="due_paid">Showing <b>All </b>vendors</p>
                </div>
+               <!-- Search Vendor Inputs -->
+               <div class="vm-top col-xs-12">
+                  <div class="selectDropdown col-sm-6">
+                     <div class="selectedValueClass">
+                        <select ng-init="paymentVendorType = vendorPaySearch[0]"
+                           ng-model="paymentVendorType"
+                           ng-options="option.type for option in vendorPaySearch">
+                        </select>
+                     </div>
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="paymentVendorType.type == 'Vendor Name'">
+                     <input type="text" name="nameString" class="form-control" ng-model="paymentVendorType.name" ng-pattern-restrict="^[A-Za-z0-9]*$" placeholder="Enter Vendor Name" ng-required="!paymentVendorType.id">
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="paymentVendorType.type == 'Vendor Id'">
+                     <input type="text" name="idString" class="form-control" ng-model="paymentVendorType.id" ng-pattern-restrict="^[0-9]*$" placeholder="Enter Vendor Id" ng-required="!paymentVendorType.name">
+                  </div>
+                  <div class="button-login col-sm-3">
+                     <button type="button" class="btn btn-primary" ng-disabled="paymentsForm.$invalid" ng-click="getPaymentVendorBySearch(paymentVendorType)">Search Vendor(s)</button>
+                  </div>
+               </div>
+               <p style="text-align:center; color:#f00" ng-show="noVendorPayments">{{noPayVendor}}</p>
+               </form>
+			   <div class="clearfix"></div>
                <div class="gridStyle"
                   ui-grid="paidVendorsGrid" ui-grid-cellnav  ui-grid-auto-resize>
                </div>
@@ -632,7 +746,7 @@
                                     <div class="form-group">
                                        <label>State</label>
                                        <div class="sec-block">
-                                          <select id="stateOfVendor" ng-model="vendorProfile.state" ng-readonly="true" readonly="readonly">
+                                          <select id="vendorState" ng-model="vendorProfile.state" ng-readonly="true" readonly="readonly">
                                              <option value="">Select State</option>
                                              <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                                              <option value="Andhra Pradesh">Andhra Pradesh</option>

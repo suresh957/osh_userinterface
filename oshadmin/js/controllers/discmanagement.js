@@ -82,32 +82,34 @@ $http.get(resturl+"/products/"+row.entity.productId).then(function(resp) {
 	}
 	$scope.setDisc = function(prodInfo) {
 		function chkdate(StartDate,EndDate) {
-        $scope.errDateMessage = '';        
-        if(new Date(StartDate) > new Date(EndDate)){
-        dealerrmsg('End Date should be greater than Start Date');
-        return false;
-        }
-		else {
-		$scope.dateErrorMsg = false;
-		var payload = {
-			"productId" : prodInfo.prodId,
-			"productDiscountPrice":prodInfo.productDiscountPrice,
-			"productPriceSpecialStartDate" : prodInfo.sdate,
-			"productPriceSpecialEndDate" : prodInfo.edate
+			$scope.errDateMessage = '';        
+			if(new Date(StartDate) > new Date(EndDate)){
+				dealerrmsg('End Date should be greater than Start Date');
+				return false;
+			}
+			else {
+				$('#updateDiscModal').modal('hide');
+				$scope.dateErrorMsg = false;
+				var payload = {
+					"productId" : prodInfo.prodId,
+					"productDiscountPrice":prodInfo.productDiscountPrice,
+					"productPriceSpecialStartDate" : prodInfo.sdate,
+					"productPriceSpecialEndDate" : prodInfo.edate
+				};
+				$http.post(resturl+"/updateProductDiscount", payload).then(function(resp){
+					console.log(resp);
+					if(resp.data.status==true){	
+						dealsuccmsg("Discount updated Sucessfully")		
+					}
+					else{
+						dealerrmsg(resp.data.errorMsg)
+					}
+				});
+			}
 		};
-		$http.post(resturl+"/updateProductDiscount", payload).then(function(resp){
-			if(resp.data.status==true){	
-		dealsuccmsg("Discount updated Sucessfully")		
-		}
-		else{
-			dealerrmsg(resp.data.errorMsg)
-		}		
-		});
-		}
-	  };
-	  chkdate(prodInfo.sdate,prodInfo.edate);
+		chkdate(prodInfo.sdate,prodInfo.edate);
 	}	
-	 function dealerrmsg(param){
+	function dealerrmsg(param){
 		$scope.dealerrmsg=param;
 		$('#ErrdealModal').modal('show');
 	}

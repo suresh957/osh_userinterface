@@ -5,6 +5,7 @@ angular.module('newapp')
 		$scope.admin = resp.data.adminList;
 		console.log($scope.admin);
 		$scope.adminName = resp.data.adminList['0'].adminName;
+		$scope.emailAddress = resp.data.adminList['0'].email;
 		console.log($scope.adminName);
 	});
 	$scope.logout = function () {
@@ -14,18 +15,25 @@ angular.module('newapp')
 	$scope.alerthide=function(){
 		$scope.errmsg=false;
 	}
+	
+	$scope.isDisabled = false;
 	$scope.changePswd = function(setNewPswd) {
-		setNewPswd.adminName = $scope.adminName;
+		$scope.isDisabled = true;
+		delete setNewPswd.conformPassword;
+		setNewPswd.emailAddress = $scope.emailAddress;
 		console.log(setNewPswd);
 		$http.post(resturl+"/admin/updatepassword", setNewPswd).then(function(resp){
 			console.log(resp);
-			if(resp.data.status == "true") {
-				$scope.errmsg=true;
-				$scope.errmessage = resp.data.successMessage;
+			$scope.isDisabled = false;
+			if(resp.data.status == "true"){
+				$scope.setNewPswd = {};
+				$scope.changePassForm.$setUntouched();
+				$scope.success = resp.data.successMessage;
+				$('.successPopup').modal('show');
 			}
 			else {
-				$scope.errmsg = true;
-				$scope.errmessage = resp.data.errorMessage;
+				$scope.failure = resp.data.errorMessage;
+				$('.failurePopup').modal('show');
 			}
 		});
 	}

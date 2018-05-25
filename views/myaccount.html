@@ -499,8 +499,69 @@
                      </div>
                   </a>
                </li>
+			   
+			    <!-- change password -->
+			   <li>
+                  <a href=".changepassword" id="abt-machinery" ng-show="changepassword" data-toggle="tab">
+                     <div class="con-block">
+                        <div class="fig">
+                           <figure>
+                              <img src="img/account-icon.png"/>
+                           </figure>
+                        </div>
+                        <div class="text">
+                           <h4>Change Password</h4>
+                           <p>How to manage your account and its features.</p>
+                        </div>
+                     </div>
+                  </a>
+               </li> 
+			   
+			   
+			   
             </ul>
             <div class="tab-content">
+			 <!--change password-->
+		<div class="tab-pane changepassword">
+                  <div class="breadcrumbs"><a href="#/">Home</a>    &gt; &nbsp;  My Account &nbsp; &gt; &nbsp; Change Password </div>
+                <section class="login title for-rst" >
+      <div class="row">
+        <div class="col-xs-12  ">
+		<h2 class="main-title"><strong>Change Password</strong></h2>
+		  <div class="login-inner">
+				 <form class="form-horizontal" name="changeform">
+					
+					<div class="form-group" ng-class="{ 'has-error' : changeform.password.$invalid && !changeform.password.$pristine }">
+                        <input type="password"  name="password"  class="form-control" placeholder=" Current Password" ng-model="changnewpassword.currentPassword
+						"required>
+                        <p ng-show="changeform.password.$touched && changeform.password.$error.required" class="help-block"> Password is required</p>
+                        <p class="help-block" ng-show="changeform.newpassword.$error.pattern">Length should be 8 to 15 (including upper, lower & special)</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+					
+					
+					<div class="form-group" ng-class="{ 'has-error' : changeform.newpassword.$invalid && !changeform.newpassword.$pristine }">
+                        <input type="password"  name="newpassword" id="pass" class="form-control" placeholder="New Password" ng-model="changnewpassword.newpassword" ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,16}$/" required>
+                        <p ng-show="changeform.newpassword.$touched && changeform.newpassword.$error.required" class="help-block">New Password is required</p>
+                        <p class="help-block" ng-show="changeform.newpassword.$error.pattern">Length should be 8 to 15 (including upper, lower & special)</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+					<div class="form-group" ng-class="{ 'has-error' : changeform.confirmPassword.$invalid && !changeform.confirmPassword.$pristine }">
+                        <input type="password"  name="confirmPassword" ng-model="changnewpassword.confirmPassword" ng-pattern="{{changnewpassword.newpassword}}" id="conformPassword" class="form-control" placeholder="Confirm Password" required>
+                        <p ng-show="changeform.confirmPassword.$touched && changeform.confirmPassword.$error.required" class="help-block">Confirm Password is required</p>
+                        <p class="help-block" ng-show="changeform.confirmPassword.$error.pattern">Password not matched</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>                        
+                     </div>
+					<div class="clearfix"></div>
+				   <div class="form-group btn-sign">
+                        <button type="submit" class="btn btn-primary" ng-disabled="changeform.$invalid" ng-click="changepassword(changnewpassword)">CHANGE</button>
+                   </div>
+				</form> 
+			</div>
+		  </div>
+        </div>
+    </section>
+               </div>
                <div class="tab-pane wishlist">
                   <div class="breadcrumbs"><a href="#/">Home</a>    &gt; &nbsp;   My Account &nbsp; &gt; &nbsp; Wish list </div>
                   <div class="my-acc-wishlist">
@@ -527,8 +588,10 @@
 			total=wishlisttotal
 			paging-action="wishAct(page, pageSize, total)">
 		</div>
-		 <a class="w-edit btn" href="" ng-click="wishlist()" class="va" ng-disabled ="hide" ng-show="vendorcustomer" >Add to Product List</a>
-                <a class="w-edit btn" href "" ng-click="wishlistDel()" ng-disabled ="hide"><i class="fa fa-trash">Delete</i></h5></a>
+		 <!-- <a class="w-edit btn" href="" ng-click="wishlist()" class="va" ng-disabled ="hide" ng-show="vendorcustomer" ></a> -->
+                <button type="submit" style='margin-right:16px' class="w-edit btn" ng-click="wishlist()" ng-disabled ="hide" ng-show="vendorcustomer">Add to Product List</button>
+                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp
+			   <button type="submit" style='margin-right:16px' class="w-edit btn" ng-click="wishlistDel()" ng-disabled ="hide"><i class="fa fa-trash">Delete</i></button>
 				 </div>
 				
 				
@@ -565,12 +628,14 @@
                   <table id="example" class="hide-content table table-striped table-bordered bootstrap-datatable datatable">
                      <thead>
                         <tr>
+                           <th>Order Id</th>
                            <th>Product Id</th>
                            <th>Product Name</th>
                            <th>Quantity</th>
                            <th>product Price</th>
                            <th>product Price</th>
                            <th>product Revenue</th>
+                           <!-- <th>Actions</th> -->
                            <!-- <th>vendorType</th> -->
                            <!-- <th>Actions</th> -->
                         </tr>
@@ -588,12 +653,14 @@
                      <td>{{detailvendor.productquantity}}</td>
                      <td><i class="fa fa-rupee"></i>{{detailvendor.productPrice}}</td>
                      <td><i class="fa fa-rupee"></i>{{detailvendor.productRevenue}}</td>
+					 <td><div class="text-center ui-grid-cell-contents"><button class="btn btn-primary"  ng-click="vendorOrder(detailvendor,reportDates)">Details</button></div>'</td>
                   </tr>
 						
                      </tbody>
 					 
                   </table>
-				 <p>Total : {{reportstotal}}</p>
+				 
+				
                 <div paging 
                      page="1"  
                      page-size="10"  
@@ -872,7 +939,7 @@
                         <h5>Edit Profile</h5>
                      </div>
                      <div class="login-mid-block">
-                        <form class="form-horizontal" name="serviceForm">
+                        <form class="form-horizontal" name="servicemyForm">
                            <div class="edit-pro">
                               <figure>
                                  <a>
@@ -886,7 +953,7 @@
                            </div>
                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
                               <h4> Service Provider Information</h4>
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorName.$invalid && !serviceForm.vendorName.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.vendorName.$invalid && !servicemyForm.vendorName.$pristine }">
                                  <input type="text" name="vendorName" class="form-control" ng-model="vendorprofile.vendorName"placeholder="Vendor Name" required readonly>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
@@ -896,9 +963,9 @@
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--country-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.country.$invalid && !serviceForm.country.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.country.$invalid && !servicemyForm.country.$pristine }">
                                  <input type="text" id="F" name="country" class="form-control" ng-model="vendorprofile.country" placeholder="Country " readonly>
-                                 <p ng-show="serviceForm.country.$touched && serviceForm.country.$invalid" class="help-block">Country is required</p>
+                                 <p ng-show="servicemyForm.country.$touched && servicemyForm.country.$invalid" class="help-block">Country is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--state-->
@@ -953,47 +1020,47 @@
                                  <p id="id2" class="help-block"></p>
                               </div>
                               <!--CIty-->
-                              <div class="form-group" ng-class="{ 'has-error' : vendorForm.city.$invalid && !vendorForm.city.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.city.$invalid && !servicemyForm.city.$pristine }">
                                  <input type="text" id="F" name="city" class="form-control" ng-model="vendorprofile.city" placeholder="city " required>
-                                 <p ng-show="vendorForm.city.$touched && vendorForm.city.$invalid" class="help-block">city is required</p>
+                                 <p ng-show="servicemyForm.city.$touched && servicemyForm.city.$invalid" class="help-block">city is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--area-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.area.$invalid && !serviceForm.area.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.area.$invalid && !servicemyForm.area.$pristine }">
                                  <input type="text" id="F" name="area" class="form-control" ng-model="vendorprofile.area" placeholder="Area " required>
-                                 <p ng-show="serviceForm.area.$touched && serviceForm.area.$invalid" class="help-block">Area is required</p>
+                                 <p ng-show="servicemyForm.area.$touched && servicemyForm.area.$invalid" class="help-block">Area is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--street-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.street.$invalid && !serviceForm.street.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.street.$invalid && !servicemyForm.street.$pristine }">
                                  <input type="text" id="F" name="street" class="form-control" ng-model="vendorprofile.street" placeholder="street" required>
-                                 <p ng-show="serviceForm.street.$touched && serviceForm.street.$invalid" class="help-block">Streetis required</p>
+                                 <p ng-show="servicemyForm.street.$touched && servicemyForm.street.$invalid" class="help-block">Streetis required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--house Number-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.houseNumber.$invalid && !serviceForm.houseNumber.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.houseNumber.$invalid && !servicemyForm.houseNumber.$pristine }">
                                  <input type="text" id="F" name="houseNumber" class="form-control" ng-model="vendorprofile.houseNumber" placeholder="Office Address " required>
-                                 <p ng-show="serviceForm.houseNumber.$touched && serviceForm.houseNumber.$invalid" class="help-block">Office Address is required</p>
+                                 <p ng-show="servicemyForm.houseNumber.$touched && servicemyForm.houseNumber.$invalid" class="help-block">Office Address is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--pinCode-->
-                             	 <div class="form-group" ng-class="{ 'has-error' : serviceForm.pinCode.$invalid && !serviceForm.pinCode.$pristine }">
+                             	 <div class="form-group" ng-class="{ 'has-error' : servicemyForm.pinCode.$invalid && !servicemyForm.pinCode.$pristine }">
                         <input type="text" name="pinCode" class="form-control" ng-model="vendorprofile.pinCode"placeholder="PinCode" id="m"  maxlength="6"  ng-pattern-restrict="^[0-9]*$" required>
-                        <p ng-show="serviceForm.pinCode.$touched && serviceForm.pinCode.$invalid" class="help-block">PinCode is required </p>
+                        <p ng-show="servicemyForm.pinCode.$touched && servicemyForm.pinCode.$invalid" class="help-block">PinCode is required </p>
                         <i class="fa fa-star" aria-hidden="true"></i>
                      </div>
                               <!-- MOBILE NUMBER-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorTelephone.$invalid && !serviceForm.vendorTelephone.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.vendorTelephone.$invalid && !servicemyForm.vendorTelephone.$pristine }">
                                  <input type="text" id="mobile" name="vendorTelephone"class="form-control tin_box" ng-model="vendorprofile.vendorTelephone" placeholder="Mobile Number"  ng-pattern="/^[0-99]{1,100}$/" maxlength="10" required>
-                                 <span ng-show="serviceForm.vendorTelephone.$error.pattern"class="help-block">Not a valid number!</span>
-                                 <p ng-show="serviceForm.vendorTelephone.$touched && serviceForm.vendorTelephone.$invalid" class="help-block">Mobile Number is required</p>
+                                 <span ng-show="servicemyForm.vendorTelephone.$error.pattern"class="help-block">Not a valid number!</span>
+                                 <p ng-show="servicemyForm.vendorTelephone.$touched && servicemyForm.vendorTelephone.$invalid" class="help-block">Mobile Number is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--FAX NUMBER-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorFax.$invalid && !serviceForm.vendorFax.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.vendorFax.$invalid && !servicemyForm.vendorFax.$pristine }">
                                  <input type="text" name="vendorFax" class="form-control tin_box" ng-model="vendorprofile.vendorFax" placeholder="Fax Number" >
                                  <!--<p ng-show="vendorForm.vendorFax.$invalid && !vendorForm.vendorFax.$pristine" class="help-block"> Fax Number is required</p>-->
-                                 <p ng-show="serviceForm.vendorFax.$touched && serviceForm.vendorFax.$invalid" class="help-block">Fax Number is required</p>
+                                 <p ng-show="servicemyForm.vendorFax.$touched && servicemyForm.vendorFax.$invalid" class="help-block">Fax Number is required</p>
                               </div>
                            </div>
                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
@@ -1021,31 +1088,31 @@
                                  <p id="id6" class="help-block"></p>
                               </div>
                               <!--Reg No-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorRegistrationNo.$invalid && !serviceForm.vendorRegistrationNo.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.vendorRegistrationNo.$invalid && !servicemyForm.vendorRegistrationNo.$pristine }">
                                  <input type="text"   name="vendorRegistrationNo" class="form-control tin_box" ng-model="vendorprofile.vendorRegistrationNo" placeholder="Reg Number "  required>
                                  <!--<p ng-show="vendorForm.vendorRegistrationNo.$invalid && !vendorForm.vendorRegistrationNo.$pristine" class="help-block"> Registration Number is required</p>-->
-                                 <p ng-show="serviceForm.vendorRegistrationNo.$touched && serviceForm.vendorRegistrationNo.$invalid" class="help-block">Registration Number is required</p>
+                                 <p ng-show="servicemyForm.vendorRegistrationNo.$touched && servicemyForm.vendorRegistrationNo.$invalid" class="help-block">Registration Number is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--GST No-->
-                              <div class="form-group" ng-class="{ 'has-error' : vendorForm.gst.$invalid && !vendorForm.gst.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.gst.$invalid && !servicemyForm.gst.$pristine }">
                                  <input type="text" id="G"  name="gst" class="form-control tin_box" ng-model="vendorprofile.gst" placeholder="GST Number " ng-pattern-restrict="^[A-Za-z0-9]*$" required>
                                  <!--<p ng-show="vendorForm.vatRegNo.$invalid && !vendorForm.vatRegNo.$pristine" class="help-block"> Vat  Number is required</p>-->
-                                 <p ng-show="vendorForm.gst.$touched && vendorForm.gst.$invalid" class="help-block">GST  Number is required</p>
+                                 <p ng-show="servicemyForm.gst.$touched && servicemyForm.gst.$invalid" class="help-block">GST  Number is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--Pan No-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorPAN.$invalid && !serviceForm.vendorPAN.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.vendorPAN.$invalid && !servicemyForm.vendorPAN.$pristine }">
                                  <input type="text" style="text-transform: uppercase" name="vendorPAN" class="form-control tin_box" ng-model="vendorprofile.vendorPAN" placeholder="PAN Number " ng-pattern='^[A-Z0-9]$' maxlength='10' required>
                                  <!-- <p ng-show="vendorForm.vendorPAN.$invalid && !vendorForm.vendorPAN.$pristine" class="help-block"> Pan Number is required</p>-->
-                                 <p ng-show="serviceForm.vendorPAN.$touched && serviceForm.vendorPAN.$invalid" class="help-block">PAN Number is required</p>
+                                 <p ng-show="servicemyForm.vendorPAN.$touched && servicemyForm.vendorPAN.$invalid" class="help-block">PAN Number is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--Labour license number-->   
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorLicense.$invalid && !serviceForm.vendorLicense.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.vendorLicense.$invalid && !servicemyForm.vendorLicense.$pristine }">
                                  <input type="text"   name="vendorLicense" class="form-control tin_box" ng-model="vendorprofile.vendorLicense" placeholder="License Number " >
                                  <!-- <p ng-show="vendorForm.vendorLicense.$invalid && !vendorForm.vendorLicense.$pristine" class="help-block"> License Number is required</p>-->
-                                 <p ng-show="serviceForm.vendorLicense.$touched && serviceForm.vendorLicense.$invalid" class="help-block">License Number is required</p>
+                                 <p ng-show="servicemyForm.vendorLicense.$touched && servicemyForm.vendorLicense.$invalid" class="help-block">License Number is required</p>
                                  <!-- <i class="fa fa-star" aria-hidden="true"></i>-->
                               </div>
                               <h6 class="hide">Valid authorization of dealership certificate for supply of products</h6>
@@ -1072,22 +1139,22 @@
                                  </ul>
                               </div>
                               <!--Experience in the Industry-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorExpLine.$invalid && !serviceForm.vendorExpLine.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.vendorExpLine.$invalid && !servicemyForm.vendorExpLine.$pristine }">
                                  <input type="text" id="J" name="vendorExpLine" class="form-control" ng-model="vendorprofile.vendorExpLine" placeholder="Experience in the Industry"   >
-                                 <p ng-show="serviceForm.vendorExpLine.$touched && serviceForm.vendorExpLine.$invalid" class="help-block">Required</p>
+                                 <p ng-show="servicemyForm.vendorExpLine.$touched && servicemyForm.vendorExpLine.$invalid" class="help-block">Required</p>
                                  <!--<p ng-show="vendorForm.vendorExpLine.$invalid && !vendorForm.vendorExpLine.$pristine" class="help-block"> Required</p>-->
                                  <!-- <i class="fa fa-star" aria-hidden="true"></i>-->
                               </div>
                               <!--Major Clients-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorMajorCust.$invalid && !serviceForm.vendorMajorCust.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : servicemyForm.vendorMajorCust.$invalid && !servicemyForm.vendorMajorCust.$pristine }">
                                  <input type="text" name="vendorMajorCust" class="form-control" ng-model="vendorprofile.vendorMajorCust" placeholder="Major Clients" >
-                                 <p ng-show="serviceForm.vendorMajorCust.$touched && serviceForm.vendorMajorCust.$invalid" class="help-block">Required</p>
+                                 <p ng-show="servicemyForm.vendorMajorCust.$touched && servicemyForm.vendorMajorCust.$invalid" class="help-block">Required</p>
                                  <!--<p ng-show="vendorForm.vendorMajorCust.$invalid && !vendorForm.vendorMajorCust.$pristine" class="help-block"> Required</p>-->
                                  <!-- <i class="fa fa-star" aria-hidden="true"></i>-->
                               </div>
                            </div>
                            <div class="form-group reg-btn">
-                              <button type="submit" class="btn btn-primary" ng-disabled="serviceForm.$invalid"  value="Update" title="Update" ng-click="serviceUpdate(vendorprofile)"><span>Update</span> </button>    
+                              <button type="submit" class="btn btn-primary" ng-disabled="servicemyForm.$invalid"  value="Update" title="Update" ng-click="serviceUpdate(vendorprofile)"><span>Update</span> </button>    
                            </div>
                            <div class="clearfix"></div>
                            <div class="alert alert-warning " ng-if="errmsg"> 
@@ -1575,7 +1642,7 @@
                         <h5>Edit Profile</h5>
                      </div>
                      <div class="login-mid-block">
-                        <form class="form-horizontal" name="serviceForm">
+                        <form class="form-horizontal" name="mechnaryprofileForm">
                            <div class="edit-pro">
                               <figure>
                                  <a>
@@ -1589,7 +1656,7 @@
                            </div>
                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
                               <h4> Machinery Provider Information</h4>
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorName.$invalid && !serviceForm.vendorName.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.vendorName.$invalid && !mechnaryprofileForm.vendorName.$pristine }">
                                  <input type="text" name="vendorName" class="form-control" ng-model="vendorprofile.vendorName"placeholder="Vendor Name" required readonly>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
@@ -1599,9 +1666,9 @@
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--country-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.country.$invalid && !serviceForm.country.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.country.$invalid && !mechnaryprofileForm.country.$pristine }">
                                  <input type="text" id="F" name="country" class="form-control" ng-model="vendorprofile.country" placeholder="Country " readonly>
-                                 <p ng-show="serviceForm.country.$touched && serviceForm.country.$invalid" class="help-block">Country is required</p>
+                                 <p ng-show="mechnaryprofileForm.country.$touched && mechnaryprofileForm.country.$invalid" class="help-block">Country is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--state-->
@@ -1656,47 +1723,47 @@
                                  <p id="id2" class="help-block"></p>
                               </div>
                               <!--CIty-->
-                              <div class="form-group" ng-class="{ 'has-error' : vendorForm.city.$invalid && !vendorForm.city.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.city.$invalid && !mechnaryprofileForm.city.$pristine }">
                                  <input type="text" id="F" name="city" class="form-control" ng-model="vendorprofile.city" placeholder="city " required>
-                                 <p ng-show="vendorForm.city.$touched && vendorForm.city.$invalid" class="help-block">city is required</p>
+                                 <p ng-show="mechnaryprofileForm.city.$touched && mechnaryprofileForm.city.$invalid" class="help-block">city is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--area-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.area.$invalid && !serviceForm.area.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.area.$invalid && !mechnaryprofileForm.area.$pristine }">
                                  <input type="text" id="F" name="area" class="form-control" ng-model="vendorprofile.area" placeholder="Area " required>
-                                 <p ng-show="serviceForm.area.$touched && serviceForm.area.$invalid" class="help-block">Area is required</p>
+                                 <p ng-show="mechnaryprofileForm.area.$touched && mechnaryprofileForm.area.$invalid" class="help-block">Area is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--street-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.street.$invalid && !serviceForm.street.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.street.$invalid && !mechnaryprofileForm.street.$pristine }">
                                  <input type="text" id="F" name="street" class="form-control" ng-model="vendorprofile.street" placeholder="street" required>
-                                 <p ng-show="serviceForm.street.$touched && serviceForm.street.$invalid" class="help-block">Streetis required</p>
+                                 <p ng-show="mechnaryprofileForm.street.$touched && mechnaryprofileForm.street.$invalid" class="help-block">Streetis required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--house Number-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.houseNumber.$invalid && !serviceForm.houseNumber.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.houseNumber.$invalid && !mechnaryprofileForm.houseNumber.$pristine }">
                                  <input type="text" id="F" name="houseNumber" class="form-control" ng-model="vendorprofile.houseNumber" placeholder="Office Address " required>
-                                 <p ng-show="serviceForm.houseNumber.$touched && serviceForm.houseNumber.$invalid" class="help-block">Office Address is required</p>
+                                 <p ng-show="mechnaryprofileForm.houseNumber.$touched && mechnaryprofileForm.houseNumber.$invalid" class="help-block">Office Address is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--pinCode-->
-                             <div class="form-group" ng-class="{ 'has-error' : serviceForm.pinCode.$invalid && !serviceForm.pinCode.$pristine }">
+                             <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.pinCode.$invalid && !mechnaryprofileForm.pinCode.$pristine }">
                         <input type="text" name="pinCode" class="form-control" ng-model="vendorprofile.pinCode"placeholder="Postal Code" id="m"  maxlength="6"  ng-pattern-restrict="^[0-9]*$" required>
-                        <p ng-show="serviceForm.pinCode.$touched && serviceForm.pinCode.$invalid" class="help-block">PinCode is required </p>
+                        <p ng-show="mechnaryprofileForm.pinCode.$touched && mechnaryprofileForm.pinCode.$invalid" class="help-block">PinCode is required </p>
 						<i class="fa fa-star" aria-hidden="true"></i>
                      </div>
                               <!-- MOBILE NUMBER-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorTelephone.$invalid && !serviceForm.vendorTelephone.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.vendorTelephone.$invalid && !mechnaryprofileForm.vendorTelephone.$pristine }">
                                  <input type="text" id="mobile" name="vendorTelephone"class="form-control tin_box" ng-model="vendorprofile.vendorTelephone" placeholder="Mobile Number"  ng-pattern="/^[0-99]{1,100}$/" maxlength="10" required>
-                                 <span ng-show="serviceForm.vendorTelephone.$error.pattern"class="help-block">Not a valid number!</span>
-                                 <p ng-show="serviceForm.vendorTelephone.$touched && serviceForm.vendorTelephone.$invalid" class="help-block">Mobile Number is required</p>
+                                 <span ng-show="mechnaryprofileForm.vendorTelephone.$error.pattern"class="help-block">Not a valid number!</span>
+                                 <p ng-show="mechnaryprofileForm.vendorTelephone.$touched && mechnaryprofileForm.vendorTelephone.$invalid" class="help-block">Mobile Number is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--FAX NUMBER-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorFax.$invalid && !serviceForm.vendorFax.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.vendorFax.$invalid && !mechnaryprofileForm.vendorFax.$pristine }">
                                  <input type="text" name="vendorFax" class="form-control tin_box" ng-model="vendorprofile.vendorFax" placeholder="Fax Number" >
                                  <!--<p ng-show="vendorForm.vendorFax.$invalid && !vendorForm.vendorFax.$pristine" class="help-block"> Fax Number is required</p>-->
-                                 <p ng-show="serviceForm.vendorFax.$touched && serviceForm.vendorFax.$invalid" class="help-block">Fax Number is required</p>
+                                 <p ng-show="mechnaryprofileForm.vendorFax.$touched && mechnaryprofileForm.vendorFax.$invalid" class="help-block">Fax Number is required</p>
                               </div>
                            </div>
                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
@@ -1725,31 +1792,31 @@
                                  <p id="id6" class="help-block"></p>
                               </div>
                               <!--Reg No-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorRegistrationNo.$invalid && !serviceForm.vendorRegistrationNo.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.vendorRegistrationNo.$invalid && !mechnaryprofileForm.vendorRegistrationNo.$pristine }">
                                  <input type="text"   name="vendorRegistrationNo" class="form-control tin_box" ng-model="vendorprofile.vendorRegistrationNo" placeholder="Reg Number "  required>
                                  <!--<p ng-show="vendorForm.vendorRegistrationNo.$invalid && !vendorForm.vendorRegistrationNo.$pristine" class="help-block"> Registration Number is required</p>-->
-                                 <p ng-show="serviceForm.vendorRegistrationNo.$touched && serviceForm.vendorRegistrationNo.$invalid" class="help-block">Registration Number is required</p>
+                                 <p ng-show="mechnaryprofileForm.vendorRegistrationNo.$touched && mechnaryprofileForm.vendorRegistrationNo.$invalid" class="help-block">Registration Number is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--GST No-->
-                              <div class="form-group" ng-class="{ 'has-error' : vendorForm.gst.$invalid && !vendorForm.gst.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.gst.$invalid && !mechnaryprofileForm.gst.$pristine }">
                                  <input type="text" id="G"  name="gst" class="form-control tin_box" ng-model="vendorprofile.gst" placeholder="GST Number " ng-pattern-restrict="^[A-Za-z0-9]*$" required>
                                  <!--<p ng-show="vendorForm.vatRegNo.$invalid && !vendorForm.vatRegNo.$pristine" class="help-block"> Vat  Number is required</p>-->
-                                 <p ng-show="vendorForm.gst.$touched && vendorForm.gst.$invalid" class="help-block">GST  Number is required</p>
+                                 <p ng-show="mechnaryprofileForm.gst.$touched && mechnaryprofileForm.gst.$invalid" class="help-block">GST  Number is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--Pan No-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorPAN.$invalid && !serviceForm.vendorPAN.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.vendorPAN.$invalid && !mechnaryprofileForm.vendorPAN.$pristine }">
                                  <input type="text" style="text-transform: uppercase" name="vendorPAN" class="form-control tin_box" ng-model="vendorprofile.vendorPAN" placeholder="PAN Number " ng-pattern='^[A-Z0-9]$' maxlength='10' required>
                                  <!-- <p ng-show="vendorForm.vendorPAN.$invalid && !vendorForm.vendorPAN.$pristine" class="help-block"> Pan Number is required</p>-->
-                                 <p ng-show="serviceForm.vendorPAN.$touched && serviceForm.vendorPAN.$invalid" class="help-block">PAN Number is required</p>
+                                 <p ng-show="mechnaryprofileForm.vendorPAN.$touched && mechnaryprofileForm.vendorPAN.$invalid" class="help-block">PAN Number is required</p>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
                               <!--Labour license number-->   
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorLicense.$invalid && !serviceForm.vendorLicense.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.vendorLicense.$invalid && !mechnaryprofileForm.vendorLicense.$pristine }">
                                  <input type="text"   name="vendorLicense" class="form-control tin_box" ng-model="vendorprofile.vendorLicense" placeholder="License Number " >
                                  <!-- <p ng-show="vendorForm.vendorLicense.$invalid && !vendorForm.vendorLicense.$pristine" class="help-block"> License Number is required</p>-->
-                                 <p ng-show="serviceForm.vendorLicense.$touched && serviceForm.vendorLicense.$invalid" class="help-block">License Number is required</p>
+                                 <p ng-show="mechnaryprofileForm.vendorLicense.$touched && mechnaryprofileForm.vendorLicense.$invalid" class="help-block">License Number is required</p>
                                  <!-- <i class="fa fa-star" aria-hidden="true"></i>-->
                               </div>
                               <h6 class="hide">Valid authorization of dealership certificate for supply of products</h6>
@@ -1776,22 +1843,22 @@
                                  </ul>
                               </div>
                               <!--Experience in the Industry-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorExpLine.$invalid && !serviceForm.vendorExpLine.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.vendorExpLine.$invalid && !mechnaryprofileForm.vendorExpLine.$pristine }">
                                  <input type="text" id="J" name="vendorExpLine" class="form-control" ng-model="vendorprofile.vendorExpLine" placeholder="Experience in the Industry"   >
-                                 <p ng-show="serviceForm.vendorExpLine.$touched && serviceForm.vendorExpLine.$invalid" class="help-block">Required</p>
+                                 <p ng-show="mechnaryprofileForm.vendorExpLine.$touched && mechnaryprofileForm.vendorExpLine.$invalid" class="help-block">Required</p>
                                  <!--<p ng-show="vendorForm.vendorExpLine.$invalid && !vendorForm.vendorExpLine.$pristine" class="help-block"> Required</p>-->
                                  <!-- <i class="fa fa-star" aria-hidden="true"></i>-->
                               </div>
                               <!--Major Clients-->
-                              <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorMajorCust.$invalid && !serviceForm.vendorMajorCust.$pristine }">
+                              <div class="form-group" ng-class="{ 'has-error' : mechnaryprofileForm.vendorMajorCust.$invalid && !mechnaryprofileForm.vendorMajorCust.$pristine }">
                                  <input type="text" name="vendorMajorCust" class="form-control" ng-model="vendorprofile.vendorMajorCust" placeholder="Major Clients" >
-                                 <p ng-show="serviceForm.vendorMajorCust.$touched && serviceForm.vendorMajorCust.$invalid" class="help-block">Required</p>
+                                 <p ng-show="mechnaryprofileForm.vendorMajorCust.$touched && mechnaryprofileForm.vendorMajorCust.$invalid" class="help-block">Required</p>
                                  <!--<p ng-show="vendorForm.vendorMajorCust.$invalid && !vendorForm.vendorMajorCust.$pristine" class="help-block"> Required</p>-->
                                  <!-- <i class="fa fa-star" aria-hidden="true"></i>-->
                               </div>
                            </div>
                            <div class="form-group reg-btn">
-                              <button type="submit" class="btn btn-primary" ng-disabled="serviceForm.$invalid"  value="Update" title="Update" ng-click="ArcUpdate(vendorprofile)"><span>Update</span> </button>    
+                              <button type="submit" class="btn btn-primary" ng-disabled="mechnaryprofileForm.$invalid"  value="Update" title="Update" ng-click="mechUpdate(vendorprofile)"><span>Update</span> </button>    
                            </div>
                            <div class="clearfix"></div>
                            <div class="alert alert-warning " ng-if="errmsg"> 
@@ -1809,16 +1876,17 @@
                      <form name="portfolioForm" novalidate>
                         <section class="login mid registration">
                            <div class="form-group" ng-class="{ 'has-error' : portfolioForm.vendorName.$invalid && !portfolioForm.vendorName.$pristine }">
-                              <input type="text" name="vendorName" class="form-control" ng-model="portfoliodescription.vendorShortDescription" placeholder="Description" required/>
+                              <input type="text" name="vendorName" class="form-control" ng-model="descript.vendorShort" placeholder="Description" required>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <div class="form-group">
-                              <textarea class="form-control"  ng-model="portfoliodescription.vendorDescription" placeholder="short Description"></textarea>
+                              <textarea class="form-control text-area"  ng-model="descript.vendorDesc" placeholder="short Description" required></textarea>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <div class="form-group reg-btn">
-                              <button type="submit" class="btn btn-primary" ng-disabled="portfolioForm.$invalid" value="Update" title="Update" ng-click="portfoliodescriptionFun(portfoliodescription)"><span>Update</span> </button>
+                              <button type="submit" class="btn btn-primary" ng-disabled="portfolioForm.$invalid" value="Update" title="Update" ng-click="portfoliodescriptionFun(descript)"><span>Update</span> </button>
                            </div>
+						   </form>
                         </section>
                        
                         <div class="alert alert-warning " ng-if="errmsg"> 
@@ -1833,52 +1901,55 @@
                <div class="tab-pane wal-Portfolio">
                   <div class="breadcrumbs"><a href="#/">Home</a>    &gt; &nbsp;  My Account &nbsp; &gt; &nbsp; My Portfolio </div>
                   <section class="login mid Portfolio-section">
-                     <form name="portfolioForm" novalidate>
+                     <form name="servicemechForm" novalidate>
                         <section class="login mid registration">
 						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
 						   <!-- Description -->
-                           <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorName.$invalid && !serviceForm.vendorName.$pristine }">
+                           <div class="form-group" ng-class="{ 'has-error' : servicemechForm.vendorName.$invalid && !servicemechForm.vendorName.$pristine }">
                               <input type="text" name="vendorName" class="form-control" ng-model="portfolioImages.portfolioName"placeholder="Description" required/>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <!--brand -->
-                           <div class="form-group" ng-class="{ 'has-error' : serviceForm.brand.$invalid && !serviceForm.brand.$pristine }">
+                           <div class="form-group" ng-class="{ 'has-error' : servicemechForm.brand.$invalid && !servicemechForm.brand.$pristine }">
                               <input type="text" name="brand" class="form-control" ng-model="portfolioImages.brand"placeholder="Brand" required/>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <!--thickness -->
-                           <div class="form-group" ng-class="{ 'has-error' : serviceForm.thickness.$invalid && !serviceForm.vendorName.$pristine }">
+                           <div class="form-group" ng-class="{ 'has-error' : servicemechForm.thickness.$invalid && !servicemechForm.vendorName.$pristine }">
                               <input type="text" name="thickness" class="form-control" ng-model="portfolioImages.thickness"placeholder="Thickness" required/>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
                            <!-- size -->
-                           <div class="form-group" ng-class="{ 'has-error' : serviceForm.size.$invalid && !serviceForm.size.$pristine }">
+                           <div class="form-group" ng-class="{ 'has-error' : servicemechForm.size.$invalid && !servicemechForm.size.$pristine }">
                               <input type="text" name="size" class="form-control" ng-model="portfolioImages.size"placeholder="Size" required/>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <!-- Price -->
-                           <div class="form-group" ng-class="{ 'has-error' : serviceForm.Price.$invalid && !serviceForm.vendorName.$pristine }">
-                              <input type="number" name="Price" class="form-control" ng-model="portfolioImages.price"placeholder="Price/sq ft" required/>
-                              <i class="fa fa-star" aria-hidden="true"></i>
-                           </div>
-						   
-						    <div class="form-group" ng-class="{ 'has-error' : serviceForm.amount.$invalid && !serviceForm.amount.$pristine }">
+                           <div class="form-group"> 
+						   <input type="text" name="Price" class="form-control" value="0" ng-model="portfolioImages.Price"  placeholder="Price/sq ft " required >
+                              <!-- <input type="number" name="Price" class="form-control" ng-model="portfolioImages.price"placeholder="Price/sq ft" required/> -->
+                             <i class="fa fa-star" aria-hidden="true"></i> 
+                           </div> 
+						   <!-- <div> -->
+						   <!-- <input type="text" name="Price" class="form-control" value="0" placeholder="Price/sq ft " required > -->
+						   <!-- </div> -->
+						    <div class="form-group" ng-class="{ 'has-error' : servicemechForm.amount.$invalid && !servicemechForm.amount.$pristine }">
                                  <input type="number" name="amount" class="form-control" ng-model="portfolioImages.amount"placeholder="Service Charge/sq ft" required/>
                                  <i class="fa fa-star" aria-hidden="true"></i>
                               </div>
 							  
                            <div class="form-group">
-                              <input name="portfolio" id="portfolio" class="inputfile inputfile-2" upload-files type="file">
-                              <label for="portfolio"><span>Select Image</span></label>
+                              <input name="walportfolio" id="walportfolio" class="inputfile inputfile-2 walpic" file-model="myFile" type="file">
+                              <label for="walportfolio"><span>Select Image</span></label>
                               <ul>
-                                 <li ng-repeat="file in files">{{file.name}}</li>
+                                 <li id="wallselect_file">{{wallselect_filepics}}</li>
                               </ul>
                            </div>
 						</div>
                            <div class="form-group reg-btn">
-                              <button type="submit" class="btn btn-primary"  value="Update" title="Update" ng-click="walportfolioImagesFun(portfolioImages)"><span>ADD</span> </button>
+                              <button type="submit" class="btn btn-primary"  value="Update" title="Update" ng-disabled="servicemechForm.$invalid" ng-click="walportfolioImagesFun(portfolioImages)"><span>ADD</span> </button>
                            </div>
 					   
                         </section>
@@ -1927,21 +1998,21 @@
                <div class="tab-pane ArchPortfolio Portfolio">
                   <div class="breadcrumbs"><a href="#/">Home</a>    &gt; &nbsp;  My Account &nbsp; &gt; &nbsp; My Portfolio </div>
                   <section class="login mid Portfolio-section">
-                     <form name="portfolioForm" novalidate>
+                     <form name="serviceForm" novalidate>
                         <section class="login mid registration">
                            <div class="form-group" ng-class="{ 'has-error' : serviceForm.vendorName.$invalid && !serviceForm.vendorName.$pristine }">
                               <input type="text" name="vendorName" class="form-control" ng-model="portfolioImages.portfolioName" placeholder="portfolio Name" required/>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <div class="form-group">
-                           <input name="file" id="file-1" upload-files class="inputfile inputfile-2" type="file" ng-model="vendor.vendorAuthCert">
+                           <input name="file" id="file-1" file-model="myFile" class="inputfile inputfile-2 arcimagesa" type="file" >
                            <label for="file-1"><span><abbr title="pdf/doc/jpeg/png files"> Select File/Image</abbr></span></label>
 						    <ul class="file-upload">
-								<li ng-repeat="file in files">{{file.name}}</li>
+								<li id="arcpicimage">{{ARCIMG}}</li>
 							</ul>
                         </div>
                            <div class="form-group reg-btn">
-                              <button type="submit" class="btn btn-primary" title="Add" ng-click="portfolioImagesFun(portfolioImages)"><span>Add</span> </button>
+                              <button type="submit" class="btn btn-primary" ng-disabled="serviceForm.$invalid" title="Add" ng-click="portfolioImagesFun(portfolioImages)"><span>Add</span> </button>
                            </div>
                         </section>
                      </form>
@@ -1976,8 +2047,8 @@
                     <div paging
 			page="1" 
 			page-size="5" 
-			total=totalCount
-			paging-action="PagingAct(page, pageSize, total)">
+			total=ARCtotalCount
+			paging-action="arcPagingAct(page, pageSize, total)">
 		</div>
                   </div>
                </div>
@@ -1985,44 +2056,55 @@
                <div class="tab-pane mech-portfolio">
                   <div class="breadcrumbs"><a href="#/">Home</a>    &gt; &nbsp;  My Account &nbsp; &gt; &nbsp; My Portfolio </div>
                   <section class="login mid Portfolio-section">
-                     <form name="portfolioForm" novalidate>
+                     <form name="mechineryForm" novalidate>
                         <section class="login mid registration">
 						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
 						   <div class="form-group" ng-class="{ 'has-error' : mechineryForm.Equipment.$invalid && !mechineryForm.MachineryName.$pristine }">
-                              <input type="text" name="EquipmentName" class="form-control" ng-model="mechineryFormportfolioImages.equipmentName" placeholder="Equipment Name" required/>
+                              <input type="text" name="EquipmentName" class="form-control" ng-model="mechineryFormportfolioImages.equipmentName" placeholder="Equipment Name" required>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <div class="form-group" ng-class="{ 'has-error' : mechineryForm.Description.$invalid && !mechineryForm.Description.$pristine }">
-                              <input type="text" name="vendorName" class="form-control" ng-model="mechineryFormportfolioImages.portfolioName" placeholder="Description" required/>
+                              <input type="text" name="vendorName" class="form-control" ng-model="mechineryFormportfolioImages.portfolioName" placeholder="Description" required>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                           </div>
 						  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
 							<div class="form-group" ng-class="{ 'has-error' : mechineryForm.Price.$invalid && !mechineryForm.Description.$pristine }">
-                              <input type="text" name="Price" class="form-control" ng-model="mechineryFormportfolioImages.equipmentPrice" placeholder="Price" required/>
+                              <input type="text" name="Price" class="form-control" ng-model="mechineryFormportfolioImages.equipmentPrice" placeholder="Price" required>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
 						    <div class="form-group" ng-class="">
 								<div class="sec-block">
-								   <select id="area" ng-model="mechineryFormportfolioImages.hiringType" required>
+								   <select id="area" ng-model="mechineryFormportfolioImages.hiringType"  name="hiringType" required>
 									  <option value="">Unit</option>
 									  <option value="Per Day">Per Day</option>
 									  <option value="Per Hour">Per Hour</option>
 								   </select>
+								   <p class="help-block" ng-show="mechineryForm.hiringType.$touched && mechineryForm.hiringType.$error.required">Select Unit</p>
 								</div>
 								<i class="fa fa-star" aria-hidden="true"></i>
 								<p id="id4" class="help-block"></p>
 						   </div>
-                           <div class="form-group">
-                              <input name="portfolio" id="portfolio" class="inputfile inputfile-2" upload-files type="file">
-                              <label for="portfolio"><span><abbr title="pdf/doc/jpeg/png files"> Select File/Image</abbr></span></label>
-                              <ul class="file-links">
-                                 <li ng-repeat="file in files">{{file.name}}</li>
+                           <!-- <div class="form-group"> -->
+                              <!-- <input name="portfolio" id="portfolio" class="inputfile inputfile-2 mechnarypicss" upload-files type="file"> -->
+                              <!-- <label for="portfolio"><span><abbr title="pdf/doc/jpeg/png files"> Select File/Image</abbr></span></label> -->
+                              <!-- <ul class="file-links"> -->
+                                 <!-- <li id="mechpicselect_file">{{mechpics}}</li> -->
+                              <!-- </ul> -->
+                           <!-- </div> -->
+						   
+						   
+						   
+						   <div class="form-group" >
+                              <input name="portfolio" id="portfolio"  class="inputfile inputfile-2 mechnarypicss" file-model="myFile" type="file">
+                              <label for="portfolio"><span>Select Image</span></label>
+                              <ul>
+                                 <li id="mechpicselect_file">{{meshaneryportpics}}</li>
                               </ul>
                            </div>
                            </div>
                            <div class="form-group reg-btn">
-                              <button type="submit" class="btn btn-primary" ng-disabled="mechineryFormportfolioForm.$invalid" value="Update" title="Update" ng-click="mechineryFormImagesFun(mechineryFormportfolioImages)"><span>ADD</span> </button>
+                              <button type="submit" class="btn btn-primary" ng-disabled="mechineryForm.$invalid" value="Update" title="Update" ng-click="mechineryFormImagesFun(mechineryFormportfolioImages)"><span>ADD</span> </button>
                            </div>
                         </section>
 
@@ -2063,7 +2145,7 @@
                      <div paging
 			page="1" 
 			page-size="5" 
-			total=totalCount
+			total=mechtotalCount
 			paging-action="PagingAct(page, pageSize, total)">
 		</div>
                   </div>
@@ -2075,15 +2157,15 @@
                      <form name="portfolioForm" novalidate>
                         <section class="login mid registration">
                            <div class="form-group" ng-class="{ 'has-error' : portfolioForm.vendorName.$invalid && !portfolioForm.vendorName.$pristine }">
-                              <input type="text" name="vendorName" class="form-control" ng-model="descript.vendorShortDescription" placeholder="Short Description" required/>
+                              <input type="text" name="vendorName" class="form-control" ng-model="descript.vendorShortDescription" placeholder="Short Description" required>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <div class="form-group">
-                              <textarea class="form-control"  ng-model="descript.vendorDescription" placeholder="Description"></textarea>
+                              <textarea class="form-control text-area"  ng-model="descript.vendorDescription" placeholder="Description" required></textarea>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <div class="form-group reg-btn">
-                              <button type="submit" class="btn btn-primary"  value="Update" title="Update" ng-click="portfoliodescriptionFun(descript)"><span>Update</span> </button>
+                              <button type="submit" class="btn btn-primary"  value="Update" ng-disabled="portfolioForm.$invalid" title="Update" ng-click="portfoliodescriptionFun(descript)"><span>Update</span> </button>
                            </div>
                         </section>
                        
@@ -2162,15 +2244,15 @@
                      <form name="portfolioForm" novalidate>
                         <section class="login mid registration">
                            <div class="form-group" ng-class="{ 'has-error' : portfolioForm.vendorName.$invalid && !portfolioForm.vendorName.$pristine }">
-                              <input type="text" name="vendorName" class="form-control" ng-model="portfoliodescription.vendorDescription"placeholder="Description" required/>
+                              <input type="text" name="vendorName" class="form-control" ng-model="descript.vendorDesc"placeholder="Description" required>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <div class="form-group">
-                              <textarea class="form-control"  ng-model="portfoliodescription.vendorShortDescription" placeholder="short Description"></textarea>
+                              <textarea class="form-control text-area"  ng-model="descript.vendorShort" placeholder="short Description" required></textarea>
                               <i class="fa fa-star" aria-hidden="true"></i>
                            </div>
                            <div class="form-group reg-btn">
-                              <button type="submit" class="btn btn-primary"  value="Update" title="Update" ng-click="portfoliodescriptionFun(portfoliodescription)"><span>Update</span> </button>
+                              <button type="submit" class="btn btn-primary"  value="Update" ng-disabled="portfolioForm.$invalid" title="Update" ng-click="portfoliodescriptionFun(descript)"><span>Update</span> </button>
                            </div>
                         </section>
                         <div class="clearfix"></div>
@@ -2200,61 +2282,61 @@
                </div>
                <!-- Machinery Update-->
                <!-- Update mechinary Portfolio Images Starts -->
-               <div class="tab-pane mech-update">
-                  <div class="breadcrumbs"><a href="#/">Home</a>    &gt; &nbsp;   My Account &nbsp; &gt; &nbsp;Update </div>
-                  <div class="my-acc-wishlist">
-                     <div class="wish-block">
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 block" ng-repeat="macch in mechinaryuprecently">
-                           <figure>
-                              <a><img ng-src="{{macch.imageURL}}" ></a>
-                           </figure>
-                           <input type="text" ng-model="macch.portfolioName">
-                           <div class="input-group">
-                              <input type="file" id="brandImage" name="brandImage" upload-files class="inputfile inputfile-2"/>
-                              <label for="brandImage"><span>Select Image</span></label>
-                              <ul>
-                                 <li ng-repeat="brandImage in files">{{brandImage.name}}</li>
-                              </ul>
-                           </div>
-                           <a class="w-edit" href="" ng-click="updatemechPortImg(macch)" class="va">Update</a>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="alert alert-warning " ng-if="errmsg"> 
-                           <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>
-                           <strong> </strong>{{errmessage}}
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               <!-- <div class="tab-pane mech-update"> -->
+                  <!-- <div class="breadcrumbs"><a href="#/">Home</a>    &gt; &nbsp;   My Account &nbsp; &gt; &nbsp;Update </div> -->
+                  <!-- <div class="my-acc-wishlist"> -->
+                     <!-- <div class="wish-block"> -->
+                        <!-- <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 block" ng-repeat="macch in mechinaryuprecently"> -->
+                           <!-- <figure> -->
+                              <!-- <a><img ng-src="{{macch.imageURL}}" ></a> -->
+                           <!-- </figure> -->
+                           <!-- <input type="text" ng-model="macch.portfolioName"> -->
+                           <!-- <div class="input-group"> -->
+                              <!-- <input type="file" id="portfolio" name="portfolio" upload-files class="inputfile inputfile-2 mecportfolio"/> -->
+                              <!-- <label for="mecportfolio"><span>Select Image</span></label> -->
+                              <!-- <ul> -->
+                                 <!-- <li id="mechpicselectupdate_file">{{brandImage}}</li> -->
+                              <!-- </ul> -->
+                           <!-- </div> -->
+                           <!-- <a class="w-edit" href="" ng-click="updatemechPortImg(macch)" class="va">Update</a> -->
+                        <!-- </div> -->
+                        <!-- <div class="clearfix"></div> -->
+                        <!-- <div class="alert alert-warning " ng-if="errmsg">  -->
+                           <!-- <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span> -->
+                           <!-- <strong> </strong>{{errmessage}} -->
+                        <!-- </div> -->
+                     <!-- </div> -->
+                  <!-- </div> -->
+               <!-- </div> -->
                <!-- Update  mechinary Portfolio Images Ends -->
                <!-- Architects Update-->
                <!-- Update Portfolio Images Starts -->
-               <div class="tab-pane my-update">
-                  <div class="breadcrumbs"><a href="#/">Home</a>    &gt; &nbsp;   My Account &nbsp; &gt; &nbsp;Update </div>
-                  <div class="my-acc-wishlist">
-                     <div class="wish-block">
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 block" ng-repeat="macc in arcuprecently">
-                           <figure>
-                              <a><img ng-src="{{macc.imageURL}}" ></a>
-                           </figure>
-                           <input type="text" ng-model="macc.portfolioName">
-                           <div class="input-group">
-                              <input type="file" id="brandImage" name="brandImage" upload-files class="inputfile inputfile-2"/>
-                              <label for="brandImage"><span>Select Image</span></label>
-                              <ul>
-                                 <li ng-repeat="brandImage in files">{{brandImage.name}}</li>
-                              </ul>
-                           </div>
-                           <a class="w-edit" href="" ng-click="updatePortImg(macc)" class="va">Update</a>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="alert alert-warning " ng-if="errmsg"> 
-                           <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>
-                           <strong> </strong>{{errmessage}}
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               <!-- <div class="tab-pane my-update"> -->
+                  <!-- <div class="breadcrumbs"><a href="#/">Home</a>    &gt; &nbsp;   My Account &nbsp; &gt; &nbsp;Update </div> -->
+                  <!-- <div class="my-acc-wishlist"> -->
+                     <!-- <div class="wish-block"> -->
+                        <!-- <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 block" ng-repeat="macc in arcuprecently"> -->
+                           <!-- <figure> -->
+                              <!-- <a><img ng-src="{{macc.imageURL}}" ></a> -->
+                           <!-- </figure> -->
+                           <!-- <input type="text" ng-model="macc.portfolioName"> -->
+                           <!-- <div class="input-group"> -->
+                              <!-- <input type="file" id="brandImage" name="brandImage" upload-files class="inputfile inputfile-2"/> -->
+                              <!-- <label for="brandImage"><span>Select Image</span></label> -->
+                              <!-- <ul> -->
+                                 <!-- <li ng-repeat="brandImage in files">{{brandImage.name}}</li> -->
+                              <!-- </ul> -->
+                           <!-- </div> -->
+                           <!-- <a class="w-edit" href="" ng-click="updatePortImg(macc)" class="va">Update</a> -->
+                        <!-- </div> -->
+                        <!-- <div class="clearfix"></div> -->
+                        <!-- <div class="alert alert-warning " ng-if="errmsg">  -->
+                           <!-- <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span> -->
+                           <!-- <strong> </strong>{{errmessage}} -->
+                        <!-- </div> -->
+                     <!-- </div> -->
+                  <!-- </div> -->
+               <!-- </div> -->
                <!-- Update Portfolio Images Ends -->
                <!--userprofile-->
                <div class="tab-pane userprofile" ng-class="actclass">
@@ -2600,7 +2682,7 @@
                         <!-- <h5 class="acc-del"><a href "" ng-click="productDel()">Delete</a></h5> -->
                      </div>
                      <div class="wish-block">
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 block" ng-repeat="macc in mplist">
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 block" ng-repeat="macc in mplist">
                            <figure>
                               <a href="#/productpage/{{macc.productId}}"><img ng-src="{{macc.productImg}}" ></a>
                            </figure>
@@ -2609,6 +2691,7 @@
                            <span class="vendor-chk-select"  ng-show="uncheck" ><input id="{{macc.productId}}" value="{{macc.productId}}" ng-click="vendorselect(macc)" type="checkbox" ng-model="macc.checked" ng-click="vendorproduct(macc)"/><label for="{{macc.productId }}"></label></span>
                            <a class="w-edit" href="#" class="va">Edit</a>
                         </div>
+						
 						<p id="btn-del"><a class="w-edit btn" href "" ng-click="productDel()" ng-disabled ="hide" ><i class="fa fa-trash"> Delete</i></a></p>
                      </div>
                      <div paging
@@ -3079,10 +3162,10 @@
                         <i class="fa fa-star" aria-hidden="true"></i>
                       </div>
 					  <div class="form-group">
-                           <input name="file" id="file-1" upload-files class="inputfile inputfile-2" type="file" ng-model="vendor.vendorAuthCert">
-                           <label for="file-1"> <span>Select Image</span></label>
+                           <input name="arcportfolio" id="arcportfolio" file-model="myFile" class="inputfile inputfile-2 arcpicimages" type="file" ng-model="vendor.vendorAuthCert">
+                           <label for="arcportfolio"> <span>Select Image</span></label>
 						    <ul class="file-upload">
-								<li ng-repeat="file in files">{{file.name}}</li>
+								<li id="arcpicselect_file">{{picselect_file}}</li>
 							</ul>
                         </div>
                   </div>
@@ -3132,10 +3215,10 @@
                       </div>
 					  	  
 					  <div class="form-group">
-                           <input name="file" id="waipaperpic"  class="inputfile inputfile-2 walpic" type="file" accept=".jpg, .jpeg, .png">
-                           <label for="waipaperpic"> <span>Select Image</span></label>
+                           <input name="file" id="waipaperupdatepic"  class="inputfile inputfile-2 walupdatepic" file-model="myFile" type="file" accept=".jpg, .jpeg, .png">
+                           <label for="waipaperupdatepic"> <span>Select Image</span></label>
 						    <ul class="file-links">
-								<li id="wallpicselect_file">{{file}}</li>
+								<li id="wallpicselect_file">{{waipaperupdate}}</li>
 							</ul>
                         </div>
                   </div>
@@ -3201,7 +3284,7 @@
                   </div>
                   <div class="modal-footer">
                      <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                     <button type="button" class="btn btn-danger" ng-click="confirmDelete(viewPortfolio)">Yes</button>
+                     <button type="button" class="btn btn-danger" ng-click="confirmDelete()">Yes</button>
                   </div>
                </div>
             </div>
@@ -3237,13 +3320,16 @@
                         <i class="fa fa-star" aria-hidden="true"></i>
                       </div>
 					  <div class="form-group">
-                           <input name="file" id="file-1" upload-files class="inputfile inputfile-2" type="file" ng-model="viewmechPortfolio.imageURL">
-                           <label for="file-1"> <span>Select Image</span></label>
+                           <input name="portfolio" id="mechupdateportfolio"  class="inputfile inputfile-2 mechupportpic" file-model="myFile" type="file">
+                           <label for="mechupdateportfolio"> <span>Select Image</span></label>
 						    <ul class="file-upload">
-								<li ng-repeat="file in files">{{file.name}}</li>
+								<li id="mechpicselectupdate_file">{{updateportpics}}</li>
 							</ul>
                         </div>
-                  </div>
+						
+						
+						
+						</div>
                   <div class="clearfix"></div>
                </form>
             </div>
@@ -3418,7 +3504,7 @@
                               <!-- Customer Id -->
                               <div class="form-group" ng-class="{ 'has-error' : postRequirementForm.responseMessage.$invalid &amp;&amp; !postRequirementForm.responseMessage.$pristine }">
                                  <label>Response Message</label>
-                                 <textarea class="form-control" ng-model="requirementDetails.responseMessage" placeholder="Response Message" required=""></textarea>
+                                 <textarea class="form-control" ng-model="bookedDetails.responseMessage" placeholder="Response Message" required=""></textarea>
                                  <p ng-show="postRequirementForm.responseMessage.$touched &amp;&amp; postRequirementForm.responseMessage.$invalid" class="help-block ng-hide">Response Message is required</p>
                               </div>
                            </div>
@@ -3467,3 +3553,107 @@ $(function(){
    <!-- }); -->
 <!-- </script> -->
 <!--reports-->
+<div class="modal fade historyMgntPopup" id="myModal" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+         <div class="modal-header">
+            <div class="vorder-main">
+               <ul>
+                  <li>
+                     <span>Vendor Id</span><br>
+                     <b>{{vendorid}}</b>	
+                  </li>
+                  <li>
+                     <span>Vendor Name</span><br>
+                     <b>{{vendorName}}</b> 
+                  </li>
+                  <li>
+                     <span>Total Revenue</span><br>
+                     <b><i class="fa fa-rupee"></i> {{finalAmount}}</b>
+                  </li>
+                  <li>
+                  </li>
+               </ul>
+               <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            </div>
+         </div>
+         <div class="modal-body">
+            <div class="vorder-block">
+               <div class="vorder-con">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 left">
+                     <table class="table">
+                        <thead>
+                           <tr>
+                              <th class="col-span-2">Order Id</th>
+                              <th>Product Id</th>
+                              <th>Product Name</th>
+                              <th>Quantity</th>
+                              <th>Product Price</th>
+                              <th>Product Revenue</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat= "detailvendor in prodbyvendorbyrevenue">
+                              <!-- <td>{{detailorder.vendorDetails.vendorName}}</td> -->
+                              <td>{{detailvendor.orderId}}</td>
+                              <td>
+                                 {{detailvendor.productId}} 
+                              </td>
+                              <td>
+                                 {{detailvendor.productName}}
+                              </td>
+                              <td>{{detailvendor.productquantity}}</td>
+                              <td><i class="fa fa-rupee"></i> {{detailvendor.productPrice}}</td>
+                              <td><i class="fa fa-rupee"></i> {{detailvendor.productRevenue}}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+			
+			
+			
+			
+			<!-- change password Success Popup -->
+<div class="modal fade changepassPopup" id="SuccessModal" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Success</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!--change password Failure Popup -->
+<div class="modal fade changepasserrPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Error</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>

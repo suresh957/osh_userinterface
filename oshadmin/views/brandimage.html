@@ -10,11 +10,9 @@
                      <p ng-show="barndImageUploadForm.brandName.$touched && barndImageUploadForm.brandName.$error.required" class="help-block">Brand Name is required</p>
                   </div>
                   <div class="input-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                     <input type="file" id="brandImage" name="brandImage" upload-files class="inputfile inputfile-2"/>
+                     <input type="file" id="brandImage" name="brandImage" ng-model="brandImage" brand-images class="inputfile inputfile-2" required />
                      <label for="brandImage"><span>Select Image</span></label>
-                     <ul>
-                        <li ng-repeat="brandImage in files">{{brandImage.name}}</li>
-                     </ul>
+                     <p>{{files[0].name}}</p>
                   </div>
                   <div class="button-login col-xs-12 col-sm-4 col-md-4 col-lg-4">
                      <button type="submit" class="btn btn-primary" ng-disabled="barndImageUploadForm.$invalid" value="Upload" ng-click="brandImageUpload(brandImg)">
@@ -32,6 +30,11 @@
                </select>
             </div>
          </div>
+		 <div class="clearfix"></div>
+            <p class="ar-para" ng-if="selectedValue.status == 'Y'">Showing all <b>Enabled</b> Brand Images</p>
+            <p class="ar-para" ng-if="selectedValue.status == 'N'"> Showing all <b>Disabled</b> Brand Images</p>
+            <p class="ar-para" ng-if="selectedValue.status == 'ALL'">Showing <b>All </b> Brand Images</p>
+         <div class="clearfix"></div>
          <div class="gridStyle"
             ui-grid="brandImagegrid" ui-grid-cellnav  ui-grid-auto-resize>
          </div>

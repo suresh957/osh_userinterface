@@ -1,5 +1,5 @@
 angular.module('newapp') 
-  .controller('deliveryctrl', function ($scope,$http, $location,resturl) {
+  .controller('deliveryctrl',['$scope','$http', '$location','resturl', function ($scope,$http, $location,resturl) {
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -15,7 +15,7 @@ angular.module('newapp')
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -68,7 +68,7 @@ angular.module('newapp')
 		$http.post(resturl+"/shop/customer/updateShippingAddress/"+localStorage.loggedInuserId, user).then(function(resp) {
 			console.log(resp);
 			$scope.deliverylist=resp.data.shippingAddress;
-			console
+		
 			$http.get(resturl+"/shop/customer/displayShippingAddress/"+localStorage.loggedInuserId).then(function(resp){
 				console.log(resp);
 				$scope.deliverylist=resp.data.shippingAddress;
@@ -100,15 +100,15 @@ angular.module('newapp')
 				}
 			});
 		});
-	}
+	};
 $scope.preferenceOrder=1;
 	$scope.address=function (preferenceOrder) {
 		$scope.preferenceOrder = preferenceOrder;
 		console.log($scope.preferenceOrder);
-	}
+	};
 	$scope.placeorder=function () {
-		window.location.assign(resturl+"/order/commitOrder/" +$scope.cartCode+ "/"+$scope.preferenceOrder+"?"+"userId="+localStorage.loggedInuserId )
-	}
+		window.location.assign(resturl+"/order/commitOrder/" +$scope.cartCode+ "/"+$scope.preferenceOrder+"?"+"userId="+localStorage.loggedInuserId );
+	};
 		// Page Navigation To Top Functionality //
 	jQuery(window).scroll(function() {
 		if (jQuery(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
@@ -122,4 +122,4 @@ $scope.preferenceOrder=1;
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-});
+}]);

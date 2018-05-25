@@ -1,5 +1,5 @@
 angular.module('newapp')
- .controller('profileCtrl', function($scope, $http, $location,resturl) {
+ .controller('profileCtrl',['$scope', '$http', '$location','resturl', function($scope, $http, $location,resturl) {
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -15,7 +15,7 @@ angular.module('newapp')
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$http.get(resturl+"/getAllCategories").then(function(resp) {
 		console.log(resp);
 		$scope.menuitem = resp.data.categoryData;
@@ -26,8 +26,8 @@ angular.module('newapp')
 			return {
 				"background-image": "url(/clients/onesevenhome/img/" + $scope.bgimg + ".jpg)"
 			};
-		}
-	}
+		};
+	};
 	$http.get(resturl+"/cart/displayCart?userId="+localStorage.loggedInUserId).then(function(resp){
 		console.log(resp);
 		$scope.cartlist=resp.data;
@@ -40,4 +40,4 @@ angular.module('newapp')
 	$scope.changepass = function (changePassword) {
 		console.log(changePassword);
 	};
-});
+}]);

@@ -1,10 +1,11 @@
 angular.module('newapp')
-   .controller('reportsCtrl', function ($scope, $http, $location, $window, resturl) {
-      $("#historyfromdate, #historytodate").datepicker({
-         autoclose: true,
-         format: "yyyy-mm-dd",
-         endDate: "today"
-      });
+  .controller('reportsCtrl', function ($scope, $http, $location, $window, resturl, $timeout) {
+	$("#historyfromdate, #historytodate").datepicker({
+		autoclose: true,
+		format: "yyyy-mm-dd",
+		endDate: "today"
+	});
+	  
       // Multi Dropdown Selection Settings //
       $scope.example8settings = {
          checkBoxes: true,
@@ -42,7 +43,9 @@ angular.module('newapp')
          console.log($scope.desc);
       }
       //report vendors
-      $scope.historyByDate = function (historyDates) {
+      $scope.historyByDate = function (historyDates){
+		  $scope.dates = historyDates;
+		  console.log(historyDates);
          var temparr = [];
          for (i = 0; i < $scope.example8model.length; i++) {
             temparr.push($scope.example8model[i].vendorId );
@@ -129,6 +132,59 @@ angular.module('newapp')
             $scope.example8model = [];
          }
       };
+	  
+	  // Vendor Search Method Starts //
+	  $scope.vendorArray = [
+			{type: 'Vendor Name', value: 'VENDOR_NAME'},
+			{type: 'Vendor Id', value: 'VENDOR_ID'}
+	  ];
+	  
+	  $scope.getVendorBySearch = function(vendorType, reportDates){
+		  $scope.dates = reportDates;
+		  console.log(reportDates);
+		  if('sortBy' in reportDates){
+			  var sortBy = reportDates.sortBy;
+		  }
+		  else{
+			  var sortBy = 'DESC';
+		  }
+		  if(vendorType.type == 'Vendor Name'){
+			  var string = vendorType.name;
+		  }
+		  else{
+			  var string = vendorType.id
+		  }
+		  var request = {
+			  searchBy : vendorType.value,
+			  searchString : string,
+			  sortBy : sortBy,
+			  startDate : reportDates.startDate,
+			  endDate : reportDates.endDate
+		  };
+		  console.log(request);
+		  $http.post(resturl+"/getVendorRevenuesBySearch?pageNumber=1&pageSize=10", request).then(function(resp){
+			  console.log(resp);
+			  if(resp.data.vendorRevenues.length>0){
+				$scope.noVendor = false;
+				$scope.revenueGrid.data = resp.data.vendorRevenues;
+				$scope.vendorsprodCount = resp.data.paginationData.totalCount;			  
+			  }
+			  else{
+				  $scope.noVendor = true;
+				  $scope.noVendorRes = string;
+				  $scope.revenueGrid.data = [];
+				  $scope.vendorsprodCount = 0;
+				  $timeout(function(){
+					  $scope.noVendor = false;
+					  $scope.vendorType.id = '';
+					  $scope.vendorType.name = '';
+				  }, 3000);
+			  }
+		  });
+	  };
+	  
+	  // Vendor Search Method Ends //
+	  
       // Grid Data Retrieval //
       $scope.revenueGrid = {};
       $scope.revenueGrid.columnDefs = [
@@ -141,11 +197,13 @@ angular.module('newapp')
       ];
       //vendors details
       $scope.vendorgetOrder = function (row) {
+		  console.log($scope.dates);
          var productreportvendor = {
-            "startDate": $scope.start,
-            "endDate": $scope.end,
+            "startDate": $scope.dates.startDate,
+            "endDate": $scope.dates.endDate,
             "vendorId": row.entity.vendorId
          }
+		 console.log(productreportvendor);
          $http.post(resturl + "/getProductRevenuesByVendor", productreportvendor).then(function (resp) {
             console.log(resp);
             $('.historyMgntPopup').modal('show');
@@ -165,6 +223,59 @@ angular.module('newapp')
          checkBoxes: true,
          enableSearch: true
       };
+	  // Product Search Method Starts //
+	  $scope.productArray = [
+		{type: 'Product Name', value: 'PRODUCT_NAME'},
+		{type: 'Product Id', value: 'PRODUCT_ID'}
+	  ];
+	  
+	  $scope.getProductBySearch = function(productType, reportproduct){
+		  $scope.prodDates = reportproduct;
+		  console.log(productType, reportproduct);
+		  if('sortBy' in reportproduct){
+			  var sortBy = reportproduct.sortBy;
+		  }
+		  else{
+			  var sortBy = 'DESC';
+		  }
+		  if(productType.type == 'Product Name'){
+			  var string = productType.name;
+			  console.log(string);
+		  }
+		  else{
+			  var string = productType.id;
+			  console.log(string);
+		  }
+		  var request = {
+			  searchBy : productType.value,
+			  searchString : string,
+			  startDate : reportproduct.startDate,
+			  endDate : reportproduct.endDate,
+			  sortBy : sortBy
+		  };
+		  console.log(request);
+		  $http.post(resturl+"/getProductRevenuesBySearch?pageNumber=1&pageSize=10", request).then(function(resp){
+			  console.log(resp);
+			  if(resp.data.productRevenues != null){
+				$scope.noProduct = false; 
+				$scope.revenueproductGrid.data = resp.data.productRevenues;
+				$scope.productreportCount = resp.data.paginationData.totalCount;
+			  }
+			  else{
+				  $scope.noProduct = true;
+				  $scope.noProductRes = resp.data.errorMsg;
+				  $scope.revenueproductGrid.data = [];
+				  $scope.productreportCount = 0;
+				  $timeout(function(){
+					  $scope.noProduct = false;
+					  $scope.productType.name = '';
+					  $scope.productType.id = '';
+				  }, 3000);
+			  }
+		  });
+	  }
+	  // Product Search Method Ends //
+	  
       // Multi Dropdown Selection Settings //
       $scope.Product = function (reportproduct) {
          var vendorslist = {
@@ -251,11 +362,13 @@ angular.module('newapp')
       ];
       //details
       $scope.productOrder = function (row) {
+		 $scope.prodDates
          var productreportvendor = {
-            "startDate": $scope.start,
-            "endDate": $scope.end,
-            "productSku": row.entity.productId
+            "startDate": $scope.prodDates.startDate,
+            "endDate": $scope.prodDates.endDate,
+            "productId": row.entity.productId
          }
+		 console.log(productreportvendor);
          $http.post(resturl + "/getProductVendors", productreportvendor).then(function (resp) {
             console.log(resp);
             $('.productModal').modal('show');
@@ -268,12 +381,12 @@ angular.module('newapp')
             $scope.vendorName = resp.data.productVendorRevenueData[0].vendorName;
          });
       }
-	  $scope.myDataSource = {
+	  /*$scope.myDataSource = {
 		chart: {
 			caption: "Vendor Wise Revenues",
 			subCaption: "Selected Vendors Revenue in Specified Dates",
 			numberPrefix: "₹",
-			/*theme: "ocean"*/
+			/*theme: "ocean"
 			theme: "carbon"
 		},
 		data:[{
@@ -297,5 +410,5 @@ angular.module('newapp')
 				value: "25000"
 			}
 		]
-	};
+	};*/
 });

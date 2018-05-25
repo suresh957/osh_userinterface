@@ -99,7 +99,8 @@
                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 right">
                   <h4>Sign in to your account</h4>
                   <form class="form-horizontal" name="vendorloginForm" ng-submit="vendorlog(vlogin)">
-                     <div class="form-group">
+                     <fieldset ng-disabled="isDisabled">
+					 <div class="form-group">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <div ng-class="{ 'has-error' : vendorloginForm.userName.$invalid && !vendorloginForm.userName.$pristine }">
                            <i class="fa fa-user" aria-hidden="true"></i>
@@ -127,6 +128,7 @@
                            <span>Login</span> </button>
                         </div>
                      </div>
+					 </fieldset>
                   </form>
                </div>
                

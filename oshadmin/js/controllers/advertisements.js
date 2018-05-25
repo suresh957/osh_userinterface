@@ -1,28 +1,17 @@
 angular.module('newapp')
 .controller('advertisementsCtrl', function($scope, $http, $location, resturl) {
-	/*$scope.advertisementsGrid = {};
-	$scope.advertisementsGrid.columnDefs = [
-		{name: 'SNo'},
-		{name: 'advertisementSection',enableCellEdit:true,
-			cellTemplate: '<div class="text-center ui-grid-cell-contents"><select ng-model="sectionValue"><option value="">Select Section</option><option value="category">Category</option><option value="newProducts">New Products</option><option value="services">Services</option><option value="category1">Category 1</option></select></div>'
-		},
-		{name: 'Actions', width: 110, enableSorting:false, enableFiltering: false,
-			cellTemplate: '<div class="text-center ui-grid-cell-contents"><button class="btn btn-primary"  ng-click="grid.appScope.sectionDetails(row)">Details</button></div>'
-		}
-	];
-	$scope.advertisementsGrid.data = $scope.jsonResponse;
-	$scope.sectionDetails = function(row){
-		console.log(row);
-	};*/
-	
 	
 	//Files to Store and Read The Selected Files //
 	$scope.files = [];
 	$scope.$on("seletedFile", function (event, args) {
         $scope.$apply(function () {
             //add the file object to the scope's files collection
-            $scope.files.push(args.file);
-			console.log($scope.files);
+            if ($scope.files.length == 0) {
+               $scope.files.push(args.file);
+            } else {
+               $scope.files.splice(0, 1);
+               $scope.files.push(args.file);
+            }
         });
     });
 	
@@ -65,6 +54,11 @@ angular.module('newapp')
 	// Method to Retrieve The Row Details and API Calling Based On Selected Type Of Selection //
 	$scope.getSectionDetails = function(rowDetails){
 		console.log(rowDetails.sectionNo, rowDetails.selectedValue);
+		if(rowDetails.selectedValue == undefined){
+			$scope.failure = "Please select advertisement section";
+			$('.failurePopup').modal('show');
+		}
+		else{
 		$scope.rowInfo = {};
 		$scope.rowInfo.sectionNo = rowDetails.sectionNo;
 		$scope.rowInfo.selectedValue = rowDetails.selectedValue;
@@ -85,6 +79,7 @@ angular.module('newapp')
 			$('.sectionPopup').modal('show');
 			$scope.catDropBox = true;
 			$scope.serviceDropBox = false;			
+		}
 		}
 	}
 	// Method To Retrieve Sub-Categories When Category Is Changed //
@@ -164,19 +159,27 @@ angular.module('newapp')
 });
 
 // Custom Directive To Read The Selected Files When A File Is Selected //
-newapp.directive('uploadFiles', function () {
+newapp.directive('advertisementImages', function () {
 	return {
-	//create a new scope
-	scope: true,
-	  link: function (scope, el, attrs) {
-		el.bind('change', function (event) {
-		  var files = event.target.files;
-			//iterate files since 'multiple' may be specified on the element
-              for (var i = 0; i < files.length; i++) {
-				//emit event upward
-                scope.$emit("seletedFile", { file: files[i] });
-              }
-          });
-		}
-	};
+      require: 'ngModel',
+      //create a new scope
+      scope: true,
+      link: function (scope, el, attrs, ngModel) {
+         el.bind('change', function (event) {
+            var files = event.target.files;
+            //iterate files since 'multiple' may be specified on the element
+            for (var i = 0; i < files.length; i++) {
+               //emit event upward
+               scope.$emit("seletedFile", {
+                  file: files[i]
+               });
+            }
+            scope.$apply(function () {
+               console.log(el.val());
+               ngModel.$setViewValue(el.val());
+               ngModel.$render();
+            })
+         });
+      }
+   };
 });

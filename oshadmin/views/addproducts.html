@@ -3,11 +3,11 @@
       <div class="row-fluid">
          <div class="content-box add-product">
             <h2 class="main-title"><span>Products Management</span></h2>
-            <form class="prof form-login prodMgmt" method="post">
+            <form class="prof form-login prodMgmt" name="prodMgmtForm" method="post">
                <fieldset>
                   <div class="input col-xs-12 col-sm-3 col-md-3 col-lg-3" title="Select Product Type">
                      <div class="sec-block">
-                        <select ng-change="subProdChange()" ng-model="subProdValue">
+                        <select ng-change="subProdChange()" ng-model="subProdValue" required>
                            <option value="">Select Product For</option>
                            <option value="featureProduct">Featured Products</option>
                            <option value="recommendedProduct">Recommended Products</option>
@@ -19,7 +19,7 @@
                   </div>
 				  <div class="input col-xs-12 col-sm-3 col-md-3 col-lg-3" title="Select Category">
                      <div class="sec-block">
-                        <select ng-change="catchange()" ng-model="catvalue">
+                        <select ng-change="catchange()" ng-model="catvalue" required>
                            <option value="">Select Category</option>
                            <option ng-repeat="category in menuitem">{{category.title}}</option>
                         </select>
@@ -28,7 +28,7 @@
                   </div>
                   <div class="input col-xs-12 col-sm-3 col-md-3 col-lg-3" title="Select Sub Category">
                      <div class="sec-block">
-                        <select ng-change="subCatChange()" ng-model="subCatValue">
+                        <select ng-change="subCatChange()" ng-model="subCatValue" required>
                            <option value="">Select Sub Category</option>
                            <option ng-repeat="subCat in categorySub">{{subCat.title}}</option>
                         </select>
@@ -36,7 +36,7 @@
                      <i class="fa fa-star" aria-hidden="true"></i>
                   </div>
 				  <div class="button-login col-xs-12 col-sm-3 col-md-3 col-lg-3">
-					<button type="submit" class="btn btn-primary" ng-click="proceed()">Go</button>
+					<button type="submit" class="btn btn-primary" ng-disabled="prodMgmtForm.$invalid" ng-click="proceed()">Go</button>
 				  </div>
                </fieldset>
             </form>
@@ -99,18 +99,14 @@
 							  <!-- Vendor Name -->
                               <div class="form-group" ng-class="{ 'has-error' : getProdDetailsForm.productName.$invalid &amp;&amp; !getProdDetailsForm.productName.$pristine }">
                                  <label>Product Name</label>
-								 <input type="text" name="productName" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="getProdDetails.productName" placeholder="Product Name" required="" ng-readonly="true" readonly="readonly">
-                                 <p ng-show="getProdDetailsForm.productName.$touched &amp;&amp; getProdDetailsForm.productName.$invalid" class="help-block ng-hide">Product Name is required</p>
-                                 <i class="fa fa-star" aria-hidden="true"></i>
+								 <input type="text" name="productName" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="getProdDetails.productName" placeholder="Product Name" ng-readonly="true" readonly="readonly">
                               </div>
                            </div>
                            <div class="col-xs-12 col-sm-6  pull-right">
                               <!-- Product Price -->
                               <div class="form-group" ng-class="{ 'has-error' : getProdDetailsForm.productPrice.$invalid &amp;&amp; !getProdDetailsForm.productPrice.$pristine }">
                                  <label>Product Price</label>
-								 <input type="text" name="productPrice" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="getProdDetails.productPrice" placeholder="Product Price" required="" ng-readonly="true" readonly="readonly">
-                                 <p ng-show="getProdDetailsForm.productPrice.$touched &amp;&amp; getProdDetailsForm.productPrice.$invalid" class="help-block ng-hide">Product Price is required</p>
-                                 <i class="fa fa-star" aria-hidden="true"></i>
+								 <input type="text" name="productPrice" class="form-control ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="getProdDetails.productPrice" placeholder="Product Price" ng-readonly="true" readonly="readonly">
                               </div>
                            </div>
                            <div class="clearfix"></div>

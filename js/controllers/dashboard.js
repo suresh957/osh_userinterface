@@ -9,8 +9,9 @@ angular.module('newapp')
 	} else {
 		$scope.userlogged=false;
 	}
-	/*
-	$scope.mouseIn = function(){
+	$scope.isDisabled = false;
+	$scope.isDisable = false;
+	/*$scope.mouseIn = function(){
 		$scope.showDiv = true;
 	}
 	$scope.mouseOut = function(){
@@ -28,12 +29,12 @@ angular.module('newapp')
 			return {
 				"background-image": "url(/clients/onesevenhome/img/" + $scope.bgimg + ".jpg)"
 			};
-		}
-	}
+		};
+	
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -150,22 +151,20 @@ angular.module('newapp')
 				}
 			}
 	});
-	$http.get(resturl+"/getRecommendedProduct").then(function(resp) {
+	$http.get(resturl+"/getRecommendedProduct").then(function(resp){
 		console.log("recommend",resp);
 		$scope.recommend = resp.data.recommendedProducts;
-		
-			for(i=0; i<resp.data.recommendedProducts.length; i++){
-				console.log(resp.data.recommendedProducts[i].productDiscountPrice);
-				if(resp.data.recommendedProducts[i].productDiscountPrice == null) {
-					$scope.productprce = true;
-					$scope.produdsctprice = false;
-					
-				}
-				else{
-					$scope.productprce = false;
-					$scope.produdsctprice = true;
-				}
+		for(i=0; i<resp.data.recommendedProducts.length; i++){
+			console.log(resp.data.recommendedProducts[i].productDiscountPrice);
+			if(resp.data.recommendedProducts[i].productDiscountPrice == null) {
+				$scope.productprce = true;
+				$scope.produdsctprice = false;
 			}
+			else{
+				$scope.productprce = false;
+				$scope.produdsctprice = true;
+			}
+		}
 		$scope.RecomendLoaded = true;
 		$scope.slickrecommendedprocutsConfig = {
 			dots: false,
@@ -174,46 +173,45 @@ angular.module('newapp')
 			slidesToShow: 4,
 			slidesToScroll: 1,
 			responsive: [{
-			breakpoint: 1024,
-			settings: {
-				arrows: false,
-				centerMode: true,
-				centerPadding: '40px',
-				slidesToShow: 3,
-				slidesToScroll: 1
-			}
-		},
-		{
-			breakpoint: 800,
-			settings: {
-				arrows: false,
-				centerMode: true,
-				centerPadding: '0px',
-				slidesToShow: 3,
-				slidesToScroll: 1
-			}
-		},
-		{
-			breakpoint: 767,
-			settings: {
-				arrows: false,
-				centerMode: true,
-				centerPadding: '0px',
-				slidesToShow: 2,
-				slidesToScroll: 1
-			}
-		},
-		{
-			breakpoint: 500,
-			settings: {
-				arrows: false,
-				centerMode: true,
-				centerPadding: '0px',
-				slidesToShow: 1,
-				slidesToScroll: 1
-			}
-		}
-		]
+				breakpoint: 1024,
+				settings: {
+					arrows: false,
+					centerMode: true,
+					centerPadding: '40px',
+					slidesToShow: 3,
+					slidesToScroll: 1
+				}
+			},
+			{
+				breakpoint: 800,
+				settings: {
+					arrows: false,
+					centerMode: true,
+					centerPadding: '0px',
+					slidesToShow: 3,
+					slidesToScroll: 1
+				}
+			},
+			{
+				breakpoint: 767,
+				settings: {
+					arrows: false,
+					centerMode: true,
+					centerPadding: '0px',
+					slidesToShow: 2,
+					slidesToScroll: 1
+				}
+			},
+			{
+				breakpoint: 500,
+				settings: {
+					arrows: false,
+					centerMode: true,
+					centerPadding: '0px',
+					slidesToShow: 1,
+					slidesToScroll: 1
+				}
+			}]
 		};
 	});
 	$http.get(resturl+"/getFeatureProduct").then(function(resp) {
@@ -262,7 +260,8 @@ angular.module('newapp')
 	$http.get(resturl+"/getAllSubCatImages").then(function(resp) {
 		console.log("subcat",resp);
 		console.log(resp);
-		$scope.catImageData=resp.data.subCatagoryImgsObjByCatagory;
+		$scope.catImageData=resp.data.responseData;
+		console.log($scope.catImageData);
 		$scope.subCatagoryImgsLoaded = true;
 		$scope.slickSubCatConfig = {
 			dots: false,
@@ -278,7 +277,7 @@ angular.module('newapp')
 	//For Get Testimonials And Brands
 	var postObj={
 		"status":"Y"
-	}
+	};
 	$http.post(resturl+"/getTestimonials",postObj).then(function(res) {
 		console.log("Testimonials",res);
 		$scope.testimonialData=res.data.responseData;
@@ -293,24 +292,13 @@ angular.module('newapp')
 		if(productId!=undefined){
 		$location.path("/productpage/"+productId);
 		}
-	}
+	};
 	//For Sub Cat. Route
 	$scope.getSubCatPage=function(key, item){
 		console.log(key);
 		console.log(item);
-		/*if(item.subCategoryName!=undefined){
-		   let url=item.subCategoryName.split(" ");
-		   let urlPath='';
-		   for(let i=0;i<url.length;i++){
-		   	urlPath=urlPath+url[i];
-		   	if(i!=url.length-1){
-		   		urlPath=urlPath+"_";
-		   	}
-		   }
-			$location.path("sub_category/Building%20Materials/categories/"+urlPath);
-		}*/
-		$location.path("sub_category/"+key+"/categories/"+item.subCategoryName);
-	}
+		$location.path("sub_category/"+key+"/categories/"+item);
+	};
 
 	//For Get Recommende Product And Service about wwhat we do Page
 	$scope.getProductServicePage=function(item,flag){
@@ -319,14 +307,14 @@ angular.module('newapp')
 		}else if(!flag&&item!=undefined&&item.serviceType!=undefined){
 			$location.path("detailservices/"+item.serviceType+"/"+item.id);
 		}
-	}
+	};
 
 	//Product Description
 	$scope.getProductImage=function(item){
 		console.log(item);
 		$scope.getProdImgPath=item.imageURL1;
 		$scope.serviceDescription = item.description;
-	}
+	};
 	if ($scope.userlogged==false) {
 		$scope.testmonialView = false;
 	}
@@ -334,6 +322,7 @@ angular.module('newapp')
 		$scope.testmonialView = true;
 	}
 	$scope.submitTestimonial = function(testimonialComment){
+		$scope.isDisabled = true;
 		var reqPayload = {
 			"customerId" : $scope.loggedInuserId,
 			"testmonialDescription" : testimonialComment
@@ -341,17 +330,18 @@ angular.module('newapp')
 		console.log(reqPayload);
 		$http.post(resturl+"/testimonial/save", reqPayload).then(function(resp){
 			console.log(resp);
+			$scope.isDisabled = false;
 			if(resp.data.status == "true"){
-					$scope.success = resp.data.successMessage;
-					$('.successPopup').modal('show');
-				}
-				else{
-					$scope.failure = resp.data.errorMessage;
-					$('.errorPopup').modal('show');
-				}
-				testmonialDescription="";
+				$scope.success = resp.data.successMessage;
+				$('.successPopup').modal('show');
+			}
+			else{
+				$scope.failure = resp.data.errorMessage;
+				$('.errorPopup').modal('show');
+			}
+			testmonialDescription="";
 		});
-	}
+	};
 	
 	// Advertisement Section API Call //
 	$http.get(resturl+"/getHomePageOffers").then(function(resp){
@@ -362,16 +352,18 @@ angular.module('newapp')
 	
 	// Email Notifications //
 	$scope.getNotifications = function(emailAddress){
+		$scope.isDisable = true;
 		console.log(emailAddress);
-		var request = { emailAddress : emailAddress }
+		var request = { emailAddress : emailAddress };
 		$http.post(resturl+"/saveExternalUser", request).then(function(resp){
 			console.log(resp);
+			$scope.isDisable = false;
 			$rootScope.subscriptionData = {};
 			$rootScope.subscriptionData = resp.data;
 			$location.path('/subscribed');
 		});
 		
-	}
+	};
 	
 	// Page Navigation To Top Functionality //
 	jQuery(window).scroll(function() {

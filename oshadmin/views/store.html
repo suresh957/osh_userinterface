@@ -1,63 +1,63 @@
 <div class="body-bg">
-<div class="container-fluid-full">
-    <div class="row-fluid">
-      <div class="content-box store">
-                  <h2 class="main-title"><span>Store</span></h2>
-                  <form class="prof form-login" name="storeForm">
-                    <fieldset>
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
-						<div class="input" title="Store Name">
-                            <input type="text" class="input-large span12" value="" placeholder="Store name" ng-model="setStore.storeName" id="store_name" name="store_name" readonly>
-						</div>
-                        <div class="input" title="Unique Store Code">
-                            <input type="text" class="input-large span12" value="" placeholder="Unique Store Code" ng-model="setStore.storeCode" id="unique_store_code" name="unique_store_code" readonly>
-						</div>
-                        <div class="input" title="Store Phone">  
-							<input type="text" class="input-large span12" value="" placeholder="Store Phone" ng-model="setStore.storePhone" id="store_phone" name="store_phone">
-							<p ng-show="storeForm.storePhone.$touched && storeForm.storePhone.$invalid" class="help-block">Mobile Number is required</p>
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</div>
-                        <div class="input" title="Store Email ID">
-                            <input type="email" class="input-large span12" value="" placeholder="Store Email ID" ng-model="setStore.emailAddress" id="store_email" name="store_email">
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
-                        <div class="input" title="Store Address">
-                            <input type="text" class="input-large span12" value="" placeholder="Store Address" ng-model="setStore.storeAddress" id="store_address" name="store_address">
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</div>
-                        <div class="input" title="Store City">
-                            <input type="text" class="input-large span12" value="" placeholder="Store City" ng-model="setStore.storeCity" id="store_city" name="store_city">
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</div>
-                        <div class="input" title="Store State/Province">
-                            <input type="text" class="input-large span12" value="" placeholder="Store State/Province" ng-model="setStore.storeState" id="store_state" name="store_state">
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</div>
-						<div class="input" title="Store Country">
-                              <input type="text" class="input-large span12" value="" placeholder="Store Country" ng-model="setStore.storeCountry" id="store_country" name="store_country" readonly>
-                        </div>
-						<div class="input" title="Store Postal Code">
-                            <input type="text" class="input-large span12" value="" placeholder="Store Postal Code" ng-model="setStore.storePostalCode" id="store_postalcode" name="store_postalcode">
-							<i class="fa fa-star" aria-hidden="true"></i>
-						</div>
-					</div>
-                    <div class="button-login">
-						<button id="submit" type="submit" class="btn btn-primary" ng-disabled="storeForm.$invalid" ng-click="storeUpdate(setStore)">Submit</button>
-                    </div>
-					<div class="alert alert-warning" ng-if="errmsg"> 
-							<span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>{{errmessage}}
-					</div>
-                    </fieldset>
-                  </form>
+   <div class="container-fluid-full">
+      <div class="row-fluid">
+         <div class="content-box store">
+            <h2 class="main-title"><span>Store</span></h2>
+            <form class="prof form-login" name="storeForm">
+               <fieldset>
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 left">
+                     <div class="input" title="Store Name">
+                        <input type="text" class="input-large span12" placeholder="Store name" ng-model="setStore.storeName" id="storeName" name="storeName" readonly>
+                     </div>
+                     <div class="input" title="Unique Store Code">
+                        <input type="text" class="input-large span12" placeholder="Unique Store Code" ng-model="setStore.storeCode" id="storeCode" name="storeCode" readonly>
+                     </div>
+                     <div class="input" title="Store Phone" ng-class="{ 'has-error' : storeForm.storePhone.$invalid && !storeForm.storePhone.$pristine }">
+                        <input type="text" name="storePhone" class="input-large span12" placeholder="Store Phone" ng-model="setStore.storePhone" ng-pattern-restrict="^[0-9-]*$" maxlength="15" required>
+                        <p ng-show="storeForm.storePhone.$touched && storeForm.storePhone.$invalid" class="help-block">Mobile Number is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <div class="input" title="Store Email Address" ng-class="{ 'has-error' : storeForm.emailAddress.$invalid && !storeForm.emailAddress.$pristine }">
+                        <input type="email" class="input-large span12" placeholder="Store Email Address" ng-model="setStore.emailAddress" id="emailAddress" name="emailAddress" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required />
+                        <p class="help-block" ng-show="storeForm.emailAddress.$touched && storeForm.emailAddress.$error.required">Email Address is required</p>
+                        <p class="help-block" ng-show="storeForm.emailAddress.$error.pattern">Invalid Email Address</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
+                     <div class="input" title="Store Address" ng-class="{ 'has-error' : storeForm.storeAddress.$invalid && !storeForm.storeAddress.$pristine }">
+                        <input type="text" class="input-large span12" placeholder="Store Address" ng-model="setStore.storeAddress" id="storeAddress" name="storeAddress" required>
+                        <p ng-show="storeForm.storeAddress.$touched && storeForm.storeAddress.$invalid" class="help-block">Store Address is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <div class="input" title="Store City" ng-class="{ 'has-error' : storeForm.storeCity.$invalid && !storeForm.storeCity.$pristine }">
+                        <input type="text" class="input-large span12" placeholder="Store City" ng-model="setStore.storeCity" id="storeCity" name="storeCity" required />
+                        <p ng-show="storeForm.storeCity.$touched && storeForm.storeCity.$invalid" class="help-block">Store City is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <div class="input" title="Store State/Province" ng-class="{ 'has-error' : storeForm.storeState.$invalid && !storeForm.storeState.$pristine }">
+                        <input type="text" class="input-large span12" placeholder="Store State/Province" ng-model="setStore.storeState" id="storeState" name="storeState" required />
+                        <p ng-show="storeForm.storeState.$touched && storeForm.storeState.$invalid" class="help-block">Store State is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                     <div class="input" title="Store Country">
+                        <input type="text" class="input-large span12" value="" placeholder="Store Country" ng-model="setStore.storeCountry" id="storeCountry" name="storeCountry" readonly>
+                     </div>
+                     <div class="input" title="Store Postal Code" ng-class="{ 'has-error' : storeForm.storePostalCode.$invalid && !storeForm.storePostalCode.$pristine }">
+                        <input type="text" class="input-large span12" value="" placeholder="Store Postal Code" ng-model="setStore.storePostalCode" id="storePostalCode" name="storePostalCode" ng-pattern-restrict="^[0-9]*$" maxlength="6" required />
+                        <p ng-show="storeForm.storePostalCode.$touched && storeForm.storePostalCode.$invalid" class="help-block">Store Pincode is required</p>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </div>
+                  </div>
+                  <div class="button-login">
+                     <button id="submit" type="submit" class="btn btn-primary" ng-disabled="storeForm.$invalid" ng-click="storeUpdate(setStore)">Submit</button>
+                  </div>
+                  <div class="alert alert-warning" ng-if="errmsg"> 
+                     <span class="close" data-dismiss="alert" aria-label="close" ng-click="alerthide()">&times;</span>{{errmessage}}
+                  </div>
+               </fieldset>
+            </form>
+         </div>
       </div>
-    </div>
+   </div>
 </div>
-</div>
-  
-<script>
-$('.dropmenu').click(function(){
-	$(this).parent().find('ul').slideToggle();  
-});
-</script>

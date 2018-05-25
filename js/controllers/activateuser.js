@@ -1,5 +1,5 @@
 angular.module('newapp')
-  .controller('activateuserCtrl', function ($scope, $http, $location,resturl) {
+  .controller('activateuserCtrl',['$scope', '$http', '$location','resturl', function ($scope, $http, $location,resturl) {
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -10,4 +10,4 @@ angular.module('newapp')
 		console.log(resp);
 		$location.path('/login');
 	});
-});
+}]);

@@ -1,5 +1,5 @@
 angular.module('newapp')
-  .controller('mechinerylistCtrl', function ($scope, $http, $location, $routeParams, resturl) {
+  .controller('mechinerylistCtrl',['$scope', '$http', '$location', '$routeParams', 'resturl', function ($scope, $http, $location, $routeParams, resturl) {
 	 $("#appointmentDate").datepicker({
 		autoclose: true,
 		format: "yyyy-mm-dd",
@@ -13,6 +13,7 @@ angular.module('newapp')
 		$scope.loggedInUser = localStorage.loggedInUser;
 		$scope.loggedInUserName = localStorage.loggedInUserName;
 		$scope.loggedInuserId = localStorage.loggedInuserId;
+		$scope.customerName = $scope.loggedInUserName;
 		$scope.userlogged = true;
 	} else {
 		$scope.userlogged = false;
@@ -20,7 +21,7 @@ angular.module('newapp')
 	$scope.logout = function () {
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -73,7 +74,7 @@ angular.module('newapp')
 			$scope.userRatings=resp.data.reviewList;
 			console.log($scope.userRatings);
 		$scope.totalreview=resp.data.totalratingCount;
-		console.log($scope.totalreview )
+		console.log($scope.totalreview );
 		 $scope.uptotalCount = resp.data.paginationData.totalCount;
 		$scope.ratings = [{number:$scope.averagereview}];
 	});
@@ -88,11 +89,11 @@ angular.module('newapp')
 			$scope.userRatings=resp.data.reviewList;
 			console.log($scope.userRatings);
 		$scope.totalreview=resp.data.totalratingCount;
-		console.log($scope.totalreview )
+		console.log($scope.totalreview );
 		 $scope.uptotalCount = resp.data.paginationData.totalCount;
 		$scope.ratings = [{number:$scope.averagereview}];
 	});
-	}
+	};
 		
 		$scope.getStars = function(rating) {
 		// Get the value
@@ -100,7 +101,7 @@ angular.module('newapp')
 		// Turn value into number/100
 		var size = val/5*100;
 		return size + '%';
-	}
+	};
 	// BookNow Popup with Details //
 	$scope.mechpopup = function (vendorName) {
 		if ($scope.loggedInuserId == undefined) {
@@ -114,7 +115,7 @@ angular.module('newapp')
 			});
 			$('.bookNowPopup').modal('show');
 		}
-	}
+	};
 	$scope.mechpopFormReq = function(brought){
 		$('.bookNowPopup').modal('hide');
 		console.log(brought);
@@ -139,7 +140,7 @@ angular.module('newapp')
 				$('.errorPopup').modal('show');
 			}
 		});
-	}
+	};
 
 	var reqObj = {
 		"vendorId":  $routeParams.id,
@@ -216,22 +217,22 @@ angular.module('newapp')
 				$scope.mechpopup = function(brought) {
 					if($scope.loggedInuserId == undefined) {
 				$location.path('/login');
-			}else{
+			}
 		console.log(brought);
-		$scope.customerName = $scope.loggedInUserName,
-		$scope.mecheqpopupReq = {
+		
+		 $scope.mecheqpopupReq = {
 			
-			portfolioName : brought.portfolioName,
-			portfolioId : brought.machineryPortfolioId,
+			 portfolioName : brought.portfolioName,
+			 portfolioId : brought.machineryPortfolioId,
 			equipmentPrice : brought.equipmentPrice,
 			hiringType : brought.hiringType,
-			fromdate : brought.fromdate,
+			 fromdate : brought.fromdate,
 			todate : brought.todate,
-			equipmentName : brought.equipmentName,
+			 equipmentName : brought.equipmentName,
 			imageURL : brought.imageURL,
 			
-		};
-	};
+		 };
+
 				};
 		$scope.mechpopFormReq = function(mecheqpopupReq){
 		$('.bookNowPopup').modal('hide');
@@ -257,7 +258,7 @@ angular.module('newapp')
 				$('.errorPopup').modal('show');
 			}
 		});
-	}
+	};
 
 		// Page Navigation To Top Functionality //
 	jQuery(window).scroll(function() {
@@ -272,4 +273,4 @@ angular.module('newapp')
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-	});
+	}]);

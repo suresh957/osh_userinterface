@@ -1,10 +1,21 @@
 angular.module('newapp')
-  .controller('machineryMgmtCtrl', function ($scope, $http, $location, $window, resturl) {
+  .controller('machineryMgmtCtrl', function ($scope, $http, $location, $window, resturl, $timeout) {
 	$scope.options = [
 		{ name: 'Pending', status: 'N' },
 		{ name: 'Approved', status: 'Y' },
 		{ name: 'All', status: 'ALL' }
 	];
+	 $("#machfromdate, #machtodate").datepicker({
+		autoclose: true,
+		format: "yyyy-mm-dd",
+		endDate: "today"
+	});
+	
+	$scope.machinerySearch = [
+		{type: 'Machinery Name', value: 'USER_NAME'},
+		{type: 'Machinery Id', value: 'USER_ID'},
+	];
+	
 	// Portfolio Approvals Starts //
 	// Default API Calling //
 	$scope.pending = true;
@@ -16,13 +27,54 @@ angular.module('newapp')
 		$scope.machineryApprovalsGrid.data = resp.data.responseData;
 		$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
 	});
-	$scope.machineryApprovePaging = function(page, pageSize, total){
+	$scope.machineryApprovePaging = function(page, pageSize, total, status){
+		var request = {
+			status : status
+		};
+		console.log(request);
 		$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber="+page+"&pageSize=10", request).then(function(resp){
 			console.log(resp);
 			$scope.machineryApprovalsGrid.data = resp.data.responseData;
 			$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
 		});
 	};
+	
+	// Search A Machinery Method Starts //
+	$scope.getPortfolioBySearch = function(searchType){
+		console.log(searchType);
+		if(searchType.type == 'Machinery Name'){
+			var string = searchType.name;
+		}
+		else {
+			var string = searchType.id;
+		}
+		var request = {
+			searchFor : "MACHINERY_PORTFOLIO",
+			searchBy : searchType.value,
+			searchString : string
+		};
+		console.log(request);
+		$http.post(resturl+"/getPortfoliosBySearch?pageNumber=1&pageSize=10", request).then(function(resp){
+			console.log(resp);
+			if(resp.data.responseData != null){
+				$scope.noPortfolio = false;
+				$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
+				$scope.machineryApprovalsGrid.data = resp.data.responseData;
+			}
+			else{
+				$scope.noPortfolio = true;
+				$scope.noPortfolioRes = resp.data.errorMsg;
+				$scope.machineryApprovalsCount = 0;
+				$scope.machineryApprovalsGrid.data = [];
+				$timeout(function(){
+					$scope.noPortfolio = false;
+					$scope.searchType.name = '';
+					$scope.searchType.id = '';
+				}, 3000);
+			}
+		});
+	};
+	//
 	
 	// Machinery & Equipments Grid Data Retrieval //
 	$scope.machineryApprovalsGrid = {};
@@ -70,14 +122,6 @@ angular.module('newapp')
 				$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
 				$scope.machineryApprovalsGrid.data = resp.data.responseData;
 			});
-			
-			$scope.machineryApprovePaging = function(page, pageSize, total){
-				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber="+page+"&pageSize=10", request).then(function(resp){
-					console.log(resp);
-					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
-					$scope.machineryApprovalsGrid.data = resp.data.responseData;
-				});
-			};
 		}
 		if(selectedValue.status == "N") {
 			$scope.pending = true;
@@ -91,14 +135,6 @@ angular.module('newapp')
 				$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
 				$scope.machineryApprovalsGrid.data = resp.data.responseData;
 			});
-			
-			$scope.machineryApprovePaging = function(page, pageSize, total){
-				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber="+page+"&pageSize=10", request).then(function(resp){
-					console.log(resp);
-					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
-					$scope.machineryApprovalsGrid.data = resp.data.responseData;
-				});
-			};
 		}
 		if(selectedValue.status == "ALL") {
 			$scope.allPortfolio = true;
@@ -112,14 +148,6 @@ angular.module('newapp')
 				$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
 				$scope.machineryApprovalsGrid.data = resp.data.responseData;
 			});
-			
-			$scope.machineryApprovePaging = function(page, pageSize, total){
-				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber="+page+"&pageSize=10", request).then(function(resp){
-					console.log(resp);
-					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
-					$scope.machineryApprovalsGrid.data = resp.data.responseData;
-				});
-			};
 		}
 	}
 	
@@ -136,40 +164,18 @@ angular.module('newapp')
 			if(resp.data.status == true){
 				$scope.success = resp.data.successMessage;
 				$('.successPopup').modal('show');
+				var request = {
+					status : selectedValue.status
+				};
+				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber=1&pageSize=10", request).then(function(resp){
+					console.log(resp);
+					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
+					$scope.machineryApprovalsGrid.data = resp.data.responseData;
+				});
 			}
 			else {
 				$scope.failure = resp.data.errorMessgae;
 				$('.ErrdealModal').modal('show');
-			}
-			if(selectedValue.status == "N"){
-				var request = {
-					status : "N"
-				};
-				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber=1&pageSize=10", request).then(function(resp){
-					console.log(resp);
-					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
-					$scope.machineryApprovalsGrid.data = resp.data.responseData;
-				});
-			}
-			else if(selectedValue.status == "Y"){
-				var request = {
-					status : "Y"
-				};
-				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber=1&pageSize=10", request).then(function(resp){
-					console.log(resp);
-					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
-					$scope.machineryApprovalsGrid.data = resp.data.responseData;
-				});
-			}
-			else {
-				var request = {
-					status : "ALL"
-				};
-				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber=1&pageSize=10", request).then(function(resp){
-					console.log(resp);
-					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
-					$scope.machineryApprovalsGrid.data = resp.data.responseData;
-				});
 			}
 		});
 	}
@@ -190,40 +196,18 @@ angular.module('newapp')
 			if(resp.data.status == true){
 				$scope.success = resp.data.successMessage;
 				$('.successPopup').modal('show');
+				var request = {
+					status : selectedValue.status
+				};
+				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber=1&pageSize=10", request).then(function(resp){
+					console.log(resp);
+					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
+					$scope.machineryApprovalsGrid.data = resp.data.responseData;
+				});
 			}
 			else {
 				$scope.failure = resp.data.errorMessgae;
 				$('.ErrdealModal').modal('show');
-			}
-			if(selectedValue.status == "N"){
-				var request = {
-					status : "N"
-				};
-				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber=1&pageSize=10", request).then(function(resp){
-					console.log(resp);
-					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
-					$scope.machineryApprovalsGrid.data = resp.data.responseData;
-				});
-			}
-			else if(selectedValue.status == "Y"){
-				var request = {
-					status : "Y"
-				};
-				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber=1&pageSize=10", request).then(function(resp){
-					console.log(resp);
-					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
-					$scope.machineryApprovalsGrid.data = resp.data.responseData;
-				});
-			}
-			else {
-				var request = {
-					status : "ALL"
-				};
-				$http.post(resturl+"/admin/getAdminMachineryPortfolio?pageNumber=1&pageSize=10", request).then(function(resp){
-					console.log(resp);
-					$scope.machineryApprovalsCount = resp.data.paginationData.totalCount;
-					$scope.machineryApprovalsGrid.data = resp.data.responseData;
-				});
 			}
 		});
 	}
@@ -235,21 +219,20 @@ angular.module('newapp')
 		{ name: 'Closed', status: 'Y' },
 		{ name: 'All', status: 'ALL' }
 	];
-	var request = {
-		status : "N",
-		vendorType : "5"
-	};
-	$http.post(resturl+"/getVendorBookingsForAdmin?pageNumber=1&pageSize=10", request).then(function(resp){
-		console.log(resp);
-		$scope.machineryBookingsGrid.data = resp.data.responseData;
-		$scope.machineryBookingsCount = resp.data.paginationData.totalCount;
-	});
-	$scope.pendResponse = true;
-	$scope.machineryBookingsPaging = function(page, pageSize, total, status){
+	
+	$scope.bookingSearch = [
+		{type: 'User Name', value: 'USER_NAME'},
+		{type: 'User Id', value: 'USER_ID'}
+	];
+	
+	$scope.machineryBookingsPaging = function(page, pageSize, total, status, dates){
 		var request = {
-			status :status,
-			vendorType : "5"
+			vendorType : "5",
+			startDate : dates.startDate,
+			endDate : dates.endDate,
+			status : status
 		};
+		console.log(request);
 		$http.post(resturl+"/getVendorBookingsForAdmin?pageNumber="+page+"&pageSize=10", request).then(function(resp){
 			console.log(resp);
 			$scope.machineryBookingsGrid.data = resp.data.responseData;
@@ -324,11 +307,19 @@ angular.module('newapp')
 	}
 	
 	// Function retrieve the booking's list based on status //
-	$scope.selectOptionToFilter = function(selectedStatus) {
-		if(selectedStatus.status == "N"){
+	$scope.machinaryByDate = function(status,mechenarybydate) {
+			$window.scrollTo(0, 0);
+		if(mechenarybydate.startDate > mechenarybydate.endDate){
+			$scope.failure = "'From date' should be less than 'To date'";
+			$('.ErrdealModal').modal('show');
+		}else{
+		if(status == "N"){
 			var payload = {
 				vendorType : "5",
-				status : "N"
+				startDate : mechenarybydate.startDate,
+				endDate : mechenarybydate.endDate,
+				status : status
+			
 			};
 			$http.post(resturl+"/getVendorBookingsForAdmin?pageNumber=1&pageSize=10", payload).then(function(resp){
 				console.log(resp);
@@ -339,10 +330,12 @@ angular.module('newapp')
 			$scope.responded = false;
 			$scope.allbookings = false;
 		}
-		else if(selectedStatus.status == "Y"){
+		else if(status == "Y"){
 			var payload = {
 				vendorType : "5",
-				status : "Y"
+				startDate : mechenarybydate.startDate,
+				endDate : mechenarybydate.endDate,
+				status : status
 			};
 			$http.post(resturl+"/getVendorBookingsForAdmin?pageNumber=1&pageSize=10", payload).then(function(resp){
 				console.log(resp);
@@ -356,7 +349,9 @@ angular.module('newapp')
 		else {
 			var payload = {
 				vendorType : "5",
-				status : "ALL"
+				startDate : mechenarybydate.startDate,
+				endDate : mechenarybydate.endDate,
+				status : status
 			};
 			$http.post(resturl+"/getVendorBookingsForAdmin?pageNumber=1&pageSize=10", payload).then(function(resp){
 				console.log(resp);
@@ -367,6 +362,7 @@ angular.module('newapp')
 			$scope.responded = false;
 			$scope.allbookings = true;
 		}
+		};
 	}
 	// Delete Confirmation Popup //
 	$scope.deleteBooking = function(){
@@ -383,6 +379,42 @@ angular.module('newapp')
 			console.log(resp);
 		});
 	}*/
+	
+	// Search Customer Method Starts //
+	$scope.getBookingsBySearch = function(bookingType){
+		if(bookingType.type == 'User Name'){
+			var string = bookingType.name;
+		}
+		else{
+			var string = bookingType.id;
+		}
+		var request = {
+			vendorType : "5",
+			searchBy : bookingType.value,
+			searchString : string
+		};
+		console.log(request);
+		$http.post(resturl+"/getVendorBookingsBySearch?pageNumber=1&pageSize=10", request).then(function(resp){
+			console.log(resp);
+			if(resp.data.responseData != null){
+				$scope.noResults = false;
+				$scope.machineryBookingsGrid.data = resp.data.responseData;
+				$scope.machineryBookingsCount = resp.data.paginationData.totalCount;
+			}
+			else{
+				$scope.noResults = true;
+				$scope.message = resp.data.errorMsg;
+				$scope.machineryBookingsGrid.data = [];
+				$scope.machineryBookingsCount = 0;
+				$timeout(function(){
+					$scope.noResults = false;
+					$scope.bookingType.name = '';
+					$scope.bookingType.id = '';
+				}, 3000);
+			}
+		});
+	}
+	// Search Customer Method Ends //
 	
 	// Machinery Bookings Ends //
 	

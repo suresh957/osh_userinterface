@@ -48,12 +48,6 @@
             <div class="modal-body">
                <form name="updateDiscMgmForm" novalidate>
                   <div class="col-xs-12 col-sm-4">
-                     <!-- Product Name -->
-                     <div class="form-group" ng-class="{ 'has-error' : updateDiscmgmForm.prodname.$invalid && !updateDiscmgmForm.prodname.$pristine }">
-                        <label>Product Name</label>
-						<input type="text" name="prodname" class="form-control" ng-model="updateDiscmgm.prodname" placeholder="Product Name" required ng-readonly="true">
-                        <p ng-show="updateDiscMgmForm.prodname.$touched && updateDiscMgmForm.prodname.$invalid" class="help-block">Product Name is required</p>
-                     </div>
                      <!-- Product Title -->
                      <div class="form-group" ng-class="{ 'has-error' : updateDiscmgmForm.title.$invalid && !updateDiscmgmForm.title.$pristine }">
                         <label>Product Title</label>
@@ -63,7 +57,7 @@
                      <!-- Product Description -->
                      <div class="form-group" ng-class="{ 'has-error' : updateDiscmgmForm.description.$invalid && !updateDiscmgmForm.description.$pristine }">
                         <label>Product Description</label>
-						<textarea name="description" class="form-control" ng-model="updateDiscmgm.description" placeholder="Product Description" required ng-readonly="true">
+						<textarea name="description" class="form-control" ng-model="updateDiscmgm.description" placeholder="Product Description" required />
 						</textarea>
                         <p ng-show="updateDiscMgmForm.description.$touched && updateDiscMgmForm.description.$invalid" class="help-block">Description is required</p>
                      </div>

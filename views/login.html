@@ -97,7 +97,8 @@
             <div class="login-inner">
                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 right">
                   <h4>Sign in to your account</h4>
-                  <form  ng-submit="redirect(session)" class="form-horizontal" name="loginForm"  novalidate>
+                  <form class="form-horizontal" name="loginForm" novalidate>
+				    <fieldset ng-disabled="isDisabled">
                      <div class="form-group" ng-class="{ 'has-error' : loginForm.userName.$invalid && !loginForm.userName.$pristine }">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <input type="email" name="userName" id="userName" class="form-control" ng-model="session.userName" placeholder="Email (Your User Id)"  pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
@@ -109,7 +110,6 @@
                         <i class="fa fa-lock" aria-hidden="true"></i>
                         <input type="password" name="password" class="form-control" ng-model="session.password" placeholder="Password" required>
 						<p ng-show="loginForm.password.$touched && loginForm.password.$error.required" class="help-block">Password is required</p>                        
-						
 						<i class="fa fa-star" aria-hidden="true"></i>
                      </div>
                      <div class="form-group">
@@ -120,6 +120,7 @@
                         <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$invalid" value="Login" title="Login" ng-click="redirect(session)">
                         <span>Login</span> </button>
                      </div>
+					 </fieldset>
 					 </form>
                </div>
                 

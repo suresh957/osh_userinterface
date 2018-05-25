@@ -4,11 +4,6 @@
          <div class="content-box add-product">
          <div class="advertisement-page">
             <h2 class="main-title"><span>Advertisement Management</span></h2>
-            <!--
-               <div class="gridStyle"
-                           ui-grid="advertisementsGrid" ui-grid-cellnav  ui-grid-auto-resize>
-                        </div>
-               -->
             <table id="example" class="hide-content table table-striped table-bordered bootstrap-datatable datatable">
                <thead>
                   <tr>
@@ -19,18 +14,20 @@
                </thead>
                <tbody>
                   <tr ng-repeat="rowDetails in tableData">
+				    <form name="sectionForm{{$index}}">
                      <td align="center" class="center" ng-model="rowDetails.sectionNo">{{rowDetails.sectionNo}}</td>
                      <td align="center" class="center">
 						<div class="sec-block">
-                        <select ng-model="rowDetails.selectedValue">
+                        <select ng-model="rowDetails.selectedValue" required >
                            <option value="">Select Section</option>
                            <option value="{{row.value}}" ng-repeat="row in rowDetails.selection">{{row.type}}</option>
                         </select>
 						</div>
                      </td>
                      <td align="center" class="center">
-                        <a class="btn btn-primary" ng-click="getSectionDetails(rowDetails)">Details</a>
+                        <a class="btn btn-primary" ng-disabled="sectionForm{{$index}}.$invalid" ng-click="getSectionDetails(rowDetails)">Details</a>
                      </td>
+					</form>
                   </tr>
                </tbody>
             </table>
@@ -77,19 +74,17 @@
                         <div class="form-group">
 						<label>Select Service</label>
 						<div class="sec-block">
-                           <select ng-model="rowInfo.serviceType">
-                              <option value="">Select Service</option>
+                           <select ng-model="rowInfo.serviceType" required>
+                              <option ng-if="serviceData.length > 1" value="">Select Service</option>
                               <option ng-repeat="service in serviceData">{{service.serviceType}}</option>
                            </select>
                         </div>
                         </div>
                      </div>
 					 <div class="form-group">
-                        <input type="file" id="sectionImage" name="sectionImage" upload-files class="inputfile inputfile-2"/>
+                        <input type="file" id="sectionImage" name="sectionImage" advertisement-images ng-model="advertiseImage" class="inputfile inputfile-2" required />
                         <label for="sectionImage"><span>Select Image</span></label>
-                        <ul>
-                           <li ng-repeat="fileName in files">{{fileName.name}}</li>
-                        </ul>
+                        <ul>{{files[0].name}}</ul>
                      </div>
 					 <div class="form-group dmtns_sec">
 						<p ng-if="rowInfo.sectionNo == 'section1'"><b>Note:</b>Image Dimensions:- <br>Width:<b>590</b>px & Height: <b>500</b>px</p>
@@ -126,7 +121,7 @@
          </div>
          <div class="modal-footer">
             <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" title="Create" class="btn btn-primary"ng-click="createAdd(catvalue, subCatValue, rowInfo)">Create</button>
+            <button type="button" title="Create" class="btn btn-primary" ng-disabled="sectionForm.$invalid" ng-click="createAdd(catvalue, subCatValue, rowInfo)">Create</button>
          </div>
       </div>
       <!-- /.modal-content -->

@@ -1,11 +1,13 @@
 angular.module('newapp')
-  .controller('LoginCtrl', function($scope, $http, $location, $route,resturl) {
+  .controller('LoginCtrl',['$scope', '$http', '$location', '$route','resturl', function($scope, $http, $location, $route,resturl) {
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
 		{name : "Product", value : "Product"}
 	];
+	$scope.isDisabled = false;
 	$scope.redirect = function(session) {
+		$scope.isDisabled = true;
 		console.log(session);
 		$http.post(resturl+"/user/login", session).then(function(resp) {
 			if(resp.data.success == true){
@@ -25,13 +27,14 @@ angular.module('newapp')
 				$scope.errmsg=true;
 				$scope.errmessage = resp.data.errorMessage;  
 				$scope.session.password ="";
+				$scope.isDisabled = false;
 				$location.path('/login');
 			}
 		});
-	}
+	};
 	$scope.alerthide=function(){
 		$scope.errmsg=false;
-	}
+	};
 	$http.get(resturl+"/getAllCategories").then(function(resp) {
 		console.log(resp);
 		$scope.menuitem = resp.data.categoryData;
@@ -63,4 +66,4 @@ angular.module('newapp')
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-});
+}]);

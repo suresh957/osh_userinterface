@@ -1,5 +1,5 @@
  angular.module('newapp')
-	.controller('wallpaperdetailsCtrl', function ($scope, $http, $location, $routeParams, resturl) {
+	.controller('wallpaperdetailsCtrl',['$scope', '$http', '$location', '$routeParams', 'resturl', function ($scope, $http, $location, $routeParams, resturl) {
 		$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -17,7 +17,7 @@
 		$scope.logout = function () {
 			localStorage.clear();
 			$location.path('/login');
-		}
+		};
 		$scope.myProfile = function () {
 			$location.path('/myaccount');
 		};
@@ -89,7 +89,7 @@
 			$scope.userRatings=resp.data.reviewList;
 			console.log($scope.userRatings);
 		$scope.totalreview=resp.data.totalratingCount;
-		console.log($scope.totalreview )
+		console.log($scope.totalreview );
 		 $scope.uptotalCount = resp.data.paginationData.totalCount;
 		$scope.ratings = [{number:$scope.averagereview}];
 	});
@@ -104,11 +104,11 @@
 			$scope.userRatings=resp.data.reviewList;
 			console.log($scope.userRatings);
 		$scope.totalreview=resp.data.totalratingCount;
-		console.log($scope.totalreview )
+		console.log($scope.totalreview );
 		 $scope.uptotalCount = resp.data.paginationData.totalCount;
 		$scope.ratings = [{number:$scope.averagereview}];
 	});
-	}
+	};
 		
 		$scope.getStars = function(rating) {
 		// Get the value
@@ -116,7 +116,7 @@
 		// Turn value into number/100
 		var size = val/5*100;
 		return size + '%';
-	}
+	};
 		// Product Average Star Rating //
 		$scope.Booknowfun = function () {
 			if ($scope.loggedInuserId == false) {
@@ -136,9 +136,9 @@
 					else{}
 				});
 			}
-		}
+		};
 	
-		var reqObj = {
+		$scope. reqObj = {
 			"vendorId": $scope.vendorId,
 		       "status" :"Y"
 		};
@@ -223,7 +223,7 @@
 			"productId" : $routeParams.pid,
 			"quantity"  : quantity,
 			"vendorId" : $routeParams.venid 
-		}
+		};
 	console.log(cartproduct);
 		$http.post(resturl+"/cart/addShoppingCartItem?userId="+localStorage.loggedInuserId, cartproduct).then(function(resp) {
 			console.log(resp);
@@ -238,7 +238,7 @@
 		});
 		});
 	}
-	}
+	};
 		// Page Navigation To Top Functionality //
 	jQuery(window).scroll(function() {
 		if (jQuery(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
@@ -252,4 +252,4 @@
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-	});
+	}]);

@@ -1,5 +1,5 @@
 angular.module('newapp')
-	.controller('myaccountCtrl', function ($scope, $http, $location, $routeParams, $filter, resturl) {
+	.controller('myaccountCtrl',['$scope','$http','$location','$routeParams','$filter','resturl', function ($scope, $http, $location, $routeParams, $filter, resturl) {
 		$scope.typeOfSearch = [
 			{name : "Category", value : "Category"},
 			{name : "Brand", value : "Brand"},
@@ -24,6 +24,7 @@ angular.module('newapp')
 				$scope.orderinvoice = true;
 				$scope.inbox = true;
 				$scope.addwishlist=true;
+					$scope.changepassword=true;
 				$scope.actclass = "active";
 			} else if ($scope.loggedInUserType == "SERVICE") {
 				$scope.serviceprofile = true;
@@ -31,6 +32,7 @@ angular.module('newapp')
 				$scope.inbox = true;
 				$scope.addwishlist=true;
 				    $scope.wishlist = true;
+						$scope.changepassword=true;
 				$scope.seractclass = "active";
 			} else if ($scope.loggedInUserType == "ARCHITECTS") {
 
@@ -41,6 +43,7 @@ angular.module('newapp')
 				$scope.orderinvoice = true;
 				$scope.addwishlist=true;
 				    $scope.wishlist = true;
+						$scope.changepassword=true;
 				$scope.architectureactclass = "active";
 
 			} else if ($scope.loggedInUserType == "MACHINERY & EQUIPMENT") {
@@ -52,6 +55,7 @@ angular.module('newapp')
 				$scope.inbox = true;
 				$scope.addwishlist=true;
 				    $scope.wishlist = true;
+						$scope.changepassword=true;
 				$scope.mechactclass = "active";
 
 			} else if ($scope.loggedInUserType == "WALL PAPER") {
@@ -65,6 +69,7 @@ angular.module('newapp')
 				$scope.inbox = true;
 				$scope.addwishlist=true;
 				    $scope.wishlist = true;
+						$scope.changepassword=true;
 				$scope.wallpaperactclass = "active";
 
 			} else {
@@ -76,6 +81,7 @@ angular.module('newapp')
 				$scope.addproduct = true;
 				$scope.inbox = true;
 				$scope.reports = true;
+					$scope.changepassword=true;
 				$scope.venactclass = "active";
 			}
 
@@ -87,7 +93,7 @@ angular.module('newapp')
 			$scope.logout = function () {
 				localStorage.clear();
 				$location.path('/login');
-			}
+			};
 			$scope.myProfile = function () {
 				$location.path('/myaccount');
 			};
@@ -95,7 +101,36 @@ angular.module('newapp')
 				console.log(resp);
 				$scope.menuitem = resp.data.categoryData;
 			});
-
+			
+			
+			
+              	//change password
+			$scope.changepassword = function(changnewpassword){
+				console.log(changnewpassword);
+			var changepswd={
+	"emailAddress":localStorage.loggedInUser,
+	"currentPassword":changnewpassword.currentPassword,
+	"newPassword":changnewpassword.confirmPassword
+	
+	
+};
+			$http.post(resturl+"/changeUserpassword",changepswd).then(function(resp){
+				//$('.historyMgntPopup').modal('show');
+		console.log(resp);
+		if(resp.data.status == "true"){
+					$scope.success = resp.data.successMessage;
+					$('.changepassPopup').modal('show');
+				}
+				else{
+					$scope.failure = resp.data.errorMessage;
+					$('.changepasserrPopup').modal('show');
+				}
+				
+				// changnewpassword.confirmPassword="";
+				// changnewpassword.currentPassword="";
+				// changnewpassword.newpassword="";
+			});
+			};
 			$http.get(resturl + "/getCategoryWithImages").then(function (resp) {
 				console.log(resp);
 				$scope.account = resp.data.categoryImagedata;
@@ -150,7 +185,7 @@ angular.module('newapp')
 						$scope.myorder[i].totalamt = resp.data.orders[i].total.value;
 					}
 				});
-			}
+			};
 
 			$scope.getOrder = function (orderList) {
 				$scope.orderid = orderList.id;
@@ -178,7 +213,7 @@ angular.module('newapp')
 		}else{
 		$scope.hide=true;	
 		}
-	}
+	};
 			
 			
 			$http.get(resturl + "/productList/" + $scope.loggedInuserId+"?pageNumber=1&pageSize=15").then(function (resp) {
@@ -212,9 +247,9 @@ angular.module('newapp')
 		if(maccw.checked){
 			$scope.hide=false;
 		}else{
-		$scope.hide=true;	
+		$scope.hide=false;	
 		}
-	}
+	};
 			
 			$http.get(resturl + "/wishlist/" + $scope.loggedInuserId+"?pageNumber=1&pageSize=15").then(function (resp) {
 				console.log(resp);
@@ -234,9 +269,12 @@ angular.module('newapp')
 		var productId = $(".vendor-chk-select input:checkbox:checked").map(function(){
       return $(this).val();
     }).get();		
-		var delWishList={"vendorId":$scope.loggedInuserId,"productId":productId}
+	 if(productId.length=="0"){
+					alert("Please select any one of the Product");
+				}else{
+		var delWishList={"vendorId":$scope.loggedInuserId,"productId":productId};
 	$http.post(resturl+"/deleteWishListProducts", delWishList).then(function(resp) {
-	console.log(resp)
+	console.log(resp);
 	if(resp.data.status == "true"){
 					$scope.successmessage = resp.data.successMessage;
 					$('.successPopup').modal('show');
@@ -253,8 +291,8 @@ angular.module('newapp')
 			});
 	
 	});
-		
-	}
+				}
+	};
 	
 	//reports
 	$("#historyfromdate, #historytodate").datepicker({
@@ -272,14 +310,40 @@ var payload={
 	"vendorId": localStorage.loggedInuserId
 };
 			$http.post(resturl+"/getProductRevenuesByVendor?pageNumber=1&pageSize=10",payload).then(function(resp){
+				//$('.historyMgntPopup').modal('show');
 		console.log(resp);
 		$scope.vendorreportdata= resp.data.vendorProductRevenueData[0].vendorProducts;
+		$scope.finalAmount = resp.data.vendorProductRevenueData[0].totalRevenue;
+            $scope.vendorid = resp.data.vendorProductRevenueData[0].vendorId;
+            $scope.vendorName = resp.data.vendorProductRevenueData[0].vendorName;
 		$scope.vendorsprodCount = resp.data.paginationData.totalCount;
 	});
 };
 	
 	
-	
+	//vendors details
+      $scope.vendorgetOrder = function (detailvendor,reportDates) {
+		  console.log(detailvendor);
+		  console.log(reportDates);
+         var productreportvendor = {
+            "startDate":reportDates.startDate,
+	"endDate":reportDates.endDate,
+	"vendorId": localStorage.loggedInuserId
+         };
+		 console.log(productreportvendor);
+         $http.post(resturl + "/getProductVendors", productreportvendor).then(function (resp) {
+            console.log(resp);
+            $('.productModal').modal('show');
+            $scope.prodbyvendorbyrevenue = resp.data.productVendorRevenueData[0].productVendors;
+            $scope.productSku = resp.data.productVendorRevenueData[0].productSku;
+            $scope.productName = resp.data.productVendorRevenueData[0].productName;
+            console.log($scope.productVendors);
+            //$scope.finalAmount = resp.data.productVendorRevenueData[0].totalRevenue;
+            $scope.vendorid = resp.data.productVendorRevenueData[0].vendorId;
+            $scope.vendorName = resp.data.productVendorRevenueData[0].vendorName;
+         });
+         
+      };
 	
 	
 	
@@ -288,9 +352,12 @@ var payload={
 		var productId = $(".vendor-chk-select input:checkbox:checked").map(function(){
       return $(this).val();
     }).get();		
-		var delproductList={"vendorId":$scope.loggedInuserId,"productId":productId}
+	if(productId.length=="0"){
+					alert("Please select any one of the Product");
+				}else{
+		var delproductList={"vendorId":$scope.loggedInuserId,"productId":productId};
 	$http.post(resturl+"/deleteProductsFromProductList", delproductList).then(function(resp) {
-	console.log(resp)
+	console.log(resp);
 	if(resp.data.status == "true"){
 					$scope.successmessage = resp.data.successMessage;
 					$('.successPopup').modal('show');
@@ -309,6 +376,7 @@ var payload={
 	});
 		
 	}
+			};
 			//msg inbox
 				
 			$http.get(resturl+"/getMessages/"+ $scope.loggedInuserId+"?pageNumber=1&pageSize=10").then(function(resp){
@@ -345,11 +413,11 @@ var payload={
 			var productId = $(".vendor-chk-select input:checkbox:checked").map(function(){
       return $(this).val();
     }).get();
-		var reqobj={"vendorId":$scope.loggedInuserId,"productId":productId}
+		var reqobj={"vendorId":$scope.loggedInuserId,"productId":productId};
 	$http.post(resturl+"/addVendorProducts", reqobj).then(function(resp) {
-	console.log(resp)
+	console.log(resp);
 			});
-			}
+			};
 			
 			// $scope.wishlist = function () {
 			// var vendorProuctId = $(".vendor-chk-select input:checkbox:checked").map(function(){
@@ -360,29 +428,30 @@ var payload={
 				// console.log(resp);
 			// });
 			// }
-			$http.get("js/controllers/inboxread.json").then(function (resp) {
-				console.log(resp);
-				$scope.readmsg = resp.data.read;
-			});
-			$http.get("js/controllers/inboxunread.json").then(function (resp) {
-				console.log(resp);
-				$scope.unreadmsg = resp.data.unread;
-			});
+			// $http.get("js/controllers/inboxread.json").then(function (resp) {
+				// console.log(resp);
+				// $scope.readmsg = resp.data.read;
+			// });
+			// $http.get("js/controllers/inboxunread.json").then(function (resp) {
+				// console.log(resp);
+				// $scope.unreadmsg = resp.data.unread;
+			// });
 			/** vendor description **/
 			$scope.portfoliodescriptionFun = function (descript) {
 				var reqObj = {
 					"vendorId": $scope.loggedInuserId,
-					"vendorShortDescription": descript.vendorShortDescription,
-					"vendorDescription": descript.vendorDescription
+					"vendorShortDescription": descript.vendorShort,
+					"vendorDescription": descript.vendorDesc
 				};
 				$http.post(resturl + "/updateVendorDescription", reqObj).then(function (resp) {
 					console.log(resp);
 					if (resp.data.status == true) {
-						$scope.errmsg = true;
-						$scope.errmessage = resp.data.successMessage;
+						
+						$scope.successmsg = resp.data.successMessage;
+							$('.successmechPopup').modal('show');
 					} else {
-						$scope.errmsg = true;
-						$scope.errmessage = resp.data.errorMessage;
+						$scope.failuremsg = resp.data.errorMessage;
+					$('.errormechPopup').modal('hide');
 					}
 				});
 			};
@@ -399,7 +468,7 @@ var payload={
 				}
 			});
 		} else {
-			$location.path('/login')
+			$location.path('/login');
 		}
 		/**getUser**/
 		
@@ -418,9 +487,9 @@ var payload={
       console.log( resparr);
 		
 	for(var i = 0; i < resparr.length; i++) {
-    delete resparr[i]['type'];
-	resparr[i].label = resparr[i]['title']
-	delete resparr[i]['title'];
+    delete resparr[i]['.type'];
+	resparr[i].label = resparr[i]['.title'];
+	delete resparr[i]['.title'];
 	
 $scope.walldata = resparr;
 console.log($scope.walldata);
@@ -434,19 +503,19 @@ console.log($scope.walldata);
 			checkBoxes: true,
 			enableSearch: true
 		};
-			var catpayload =
+			$scope.catpayload =
 			{
     "searchString" : "MACHINERY & EQUIPMENT"
          };
-		$http.post(resturl+"/getCategoriesForCat",catpayload).then(function(resp) {
+		$http.post(resturl+"/getCategoriesForCat",$scope.catpayload).then(function(resp) {
 	  $scope.menuitems = angular.copy(resp.data.categoryData);
   var resparr = $scope.menuitems[0].subCategory;
       console.log( resparr);
 		
 	for(var i = 0; i < resparr.length; i++) {
-    delete resparr[i]['type'];
-	resparr[i].label = resparr[i]['title']
-	delete resparr[i]['title'];
+    delete resparr[i]['.type'];
+	resparr[i].label = resparr[i]['.title'];
+	delete resparr[i]['.title'];
 	
 $scope.Mechinarydata = resparr;
 console.log($scope.Mechinarydata);
@@ -457,19 +526,19 @@ console.log($scope.Mechinarydata);
 			checkBoxes: true,
 			enableSearch: true
 		};
-			var catpayload =
+			$scope.catpayload =
 			{
     "searchString" : "Architects"
          };
-		$http.post(resturl+"/getCategoriesForCat",catpayload).then(function(resp) {
+		$http.post(resturl+"/getCategoriesForCat",$scope.catpayload).then(function(resp) {
 	  $scope.menuitems = angular.copy(resp.data.categoryData);
   var resparr = $scope.menuitems[0].subCategory;
       console.log( resparr);
 		
 	for(var i = 0; i < resparr.length; i++) {
-    delete resparr[i]['type'];
-	resparr[i].label = resparr[i]['title']
-	delete resparr[i]['title'];
+    delete resparr[i]['.type'];
+	resparr[i].label = resparr[i]['.title'];
+	delete resparr[i]['.title'];
 	
 $scope.Architectdata = resparr;
 console.log($scope.Architectdata);
@@ -485,12 +554,12 @@ console.log($scope.Architectdata);
 			var resparr = resp.data.services;
 
 			for (var i = 0; i < resparr.length; i++) {
-				delete resparr[i]['imageURL1'];
-				delete resparr[i]['imageURL2'];
-				delete resparr[i]['description'];
-				delete resparr[i]['new'];
-				resparr[i].label = resparr[i]['serviceType']
-				delete resparr[i]['serviceType'];
+				delete resparr[i]['.imageURL1'];
+				delete resparr[i]['.imageURL2'];
+				delete resparr[i]['.description'];
+				delete resparr[i]['.new'];
+				resparr[i].label = resparr[i]['.serviceType'];
+				delete resparr[i]['.serviceType'];
 			}
 			$scope.servicesdata = resparr;
 		});
@@ -518,7 +587,7 @@ console.log($scope.Architectdata);
 				$scope.cert = true;
 				$scope.files1 = true;
 				$scope.files2 = true;
-				$scope.file3 = true;
+				$scope.files3 = true;
 				if (certficateValue == null) {
 					$scope.cert = false;
 				}
@@ -545,12 +614,12 @@ console.log($scope.Architectdata);
 				$scope.vendorprofile = resp.data.vendorDetails;
 				$scope.vendorprofile.country = "India";
 				console.log($scope.vendorprofile);
-				var certficateValue = resp.data.vendorDetails.vendorAuthCert;
+				$scope.certficateValue = resp.data.vendorDetails.vendorAuthCert;
 				$scope.cert = true;
 				$scope.files1 = true;
 				$scope.files2 = true;
-				$scope.file3 = true;
-				if (certficateValue == null) {
+				$scope.files3 = true;
+				if ($scope.certficateValue == null) {
 					$scope.cert = false;
 				}
 				if (resp.data.vendorDetails.file1 == null) {
@@ -575,12 +644,12 @@ console.log($scope.Architectdata);
 				$scope.vendorprofile = resp.data.vendorDetails;
 				$scope.vendorprofile.country = "India";
 				console.log($scope.vendorprofile);
-				var certficateValue = resp.data.vendorDetails.vendorAuthCert;
+				$scope.certficateValue = resp.data.vendorDetails.vendorAuthCert;
 				$scope.cert = true;
 				$scope.files1 = true;
 				$scope.files2 = true;
-				$scope.file3 = true;
-				if (certficateValue == null) {
+				$scope.files3 = true;
+				if ($scope.certficateValue == null) {
 					$scope.cert = false;
 				}
 				if (resp.data.vendorDetails.file1 == null) {
@@ -605,12 +674,12 @@ console.log($scope.Architectdata);
 				$scope.vendorprofile = resp.data.vendorDetails;
 				$scope.vendorprofile.country = "India";
 				console.log($scope.vendorprofile);
-				var certficateValue = resp.data.vendorDetails.vendorAuthCert;
+				$scope.certficateValue = resp.data.vendorDetails.vendorAuthCert;
 				$scope.cert = true;
 				$scope.files1 = true;
 				$scope.files2 = true;
-				$scope.file3 = true;
-				if (certficateValue == null) {
+				$scope.files3 = true;
+				if ($scope.certficateValue == null) {
 					$scope.cert = false;
 				}
 				if (resp.data.vendorDetails.file1 == null) {
@@ -635,12 +704,12 @@ console.log($scope.Architectdata);
 				$scope.vendorprofile = resp.data.vendorDetails;
 				$scope.vendorprofile.country = "India";
 				console.log($scope.vendorprofile);
-				var certficateValue = resp.data.vendorDetails.vendorAuthCert;
+				$scope.certficateValue = resp.data.vendorDetails.vendorAuthCert;
 				$scope.cert = true;
 				$scope.files1 = true;
 				$scope.files2 = true;
-				$scope.file3 = true;
-				if (certficateValue == null) {
+				$scope.files3 = true;
+				if ($scop.certficateValue == null) {
 					$scope.cert = false;
 				}
 				if (resp.data.vendorDetails.file1 == null) {
@@ -656,7 +725,7 @@ console.log($scope.Architectdata);
 		});
 		$scope.alerthide = function () {
 			$scope.errmsg = false;
-		}
+		};
 		
 		
 		//Profile Update
@@ -713,17 +782,17 @@ $('.vendorpic').change(function() {
 		else if ($scope.loggedInUserType == "VENDOR") {
 			$scope.vendorUpdate = function (vendorprofile) {
 				vendorprofile.userType = "VENDOR";
-				vendorprofile.companyName = vendorprofile.vendorName
-				vendorprofile.contactNumber = vendorprofile.vendorTelephone
-				vendorprofile.serviceFax = vendorprofile.vendorFax
-				vendorprofile.majorCust = vendorprofile.vendorMajorCust
-				vendorprofile.expLine = vendorprofile.vendorExpLine
-				vendorprofile.serviceTIN = vendorprofile.vendorTIN
-				vendorprofile.license = vendorprofile.vendorLicense
-				vendorprofile.servicePAN = vendorprofile.vendorPAN
-				vendorprofile.registrationNo = vendorprofile.vendorRegistrationNo
-				vendorprofile.companyNature = vendorprofile.vendorCompanyNature
-				vendorprofile.constFirm = vendorprofile.vendorConstFirm
+				vendorprofile.companyName = vendorprofile.vendorName;
+				vendorprofile.contactNumber = vendorprofile.vendorTelephone;
+				vendorprofile.serviceFax = vendorprofile.vendorFax;
+				vendorprofile.majorCust = vendorprofile.vendorMajorCust;
+				vendorprofile.expLine = vendorprofile.vendorExpLine;
+				vendorprofile.serviceTIN = vendorprofile.vendorTIN;
+				vendorprofile.license = vendorprofile.vendorLicense;
+				vendorprofile.servicePAN = vendorprofile.vendorPAN;
+				vendorprofile.registrationNo = vendorprofile.vendorRegistrationNo;
+				vendorprofile.companyNature = vendorprofile.vendorCompanyNature;
+				vendorprofile.constFirm = vendorprofile.vendorConstFirm;
 				delete vendorprofile.vendorName;
 				delete vendorprofile.vendorMobile;
 				delete vendorprofile.vendorTelephone;
@@ -819,17 +888,17 @@ $('.vendorpic').change(function() {
 		else if ($scope.loggedInUserType == "ARCHITECTS") {
 			$scope.ArcUpdate = function (vendorprofile) {
 				vendorprofile.userType = "ARCHITECTS";
-				vendorprofile.companyName = vendorprofile.vendorName
-				vendorprofile.contactNumber = vendorprofile.vendorTelephone
-				vendorprofile.serviceFax = vendorprofile.vendorFax
-				vendorprofile.majorCust = vendorprofile.vendorMajorCust
-				vendorprofile.expLine = vendorprofile.vendorExpLine
-				vendorprofile.serviceTIN = vendorprofile.vendorTIN
-				vendorprofile.license = vendorprofile.vendorLicense
-				vendorprofile.servicePAN = vendorprofile.vendorPAN
-				vendorprofile.registrationNo = vendorprofile.vendorRegistrationNo
-				vendorprofile.companyNature = vendorprofile.vendorCompanyNature
-				vendorprofile.constFirm = vendorprofile.vendorConstFirm
+				vendorprofile.companyName = vendorprofile.vendorName;
+				vendorprofile.contactNumber = vendorprofile.vendorTelephone;
+				vendorprofile.serviceFax = vendorprofile.vendorFax;
+				vendorprofile.majorCust = vendorprofile.vendorMajorCust;
+				vendorprofile.expLine = vendorprofile.vendorExpLine;
+				vendorprofile.serviceTIN = vendorprofile.vendorTIN;
+				vendorprofile.license = vendorprofile.vendorLicense;
+				vendorprofile.servicePAN = vendorprofile.vendorPAN;
+				vendorprofile.registrationNo = vendorprofile.vendorRegistrationNo;
+				vendorprofile.companyNature = vendorprofile.vendorCompanyNature;
+				vendorprofile.constFirm = vendorprofile.vendorConstFirm;
 				delete vendorprofile.vendorName;
 				delete vendorprofile.vendorMobile;
 				delete vendorprofile.vendorTelephone;
@@ -927,19 +996,19 @@ $('.vendorpic').change(function() {
 		}
 		/**MACHINERY & EQUIPMENT update**/
 		else if ($scope.loggedInUserType == "MACHINERY & EQUIPMENT") {
-			$scope.ArcUpdate = function (vendorprofile) {
+			$scope.mechUpdate = function (vendorprofile) {
 				vendorprofile.userType = "MACHINERY & EQUIPMENT";
-				vendorprofile.companyName = vendorprofile.vendorName
-				vendorprofile.contactNumber = vendorprofile.vendorTelephone
-				vendorprofile.serviceFax = vendorprofile.vendorFax
-				vendorprofile.majorCust = vendorprofile.vendorMajorCust
-				vendorprofile.expLine = vendorprofile.vendorExpLine
-				vendorprofile.serviceTIN = vendorprofile.vendorTIN
-				vendorprofile.license = vendorprofile.vendorLicense
-				vendorprofile.servicePAN = vendorprofile.vendorPAN
-				vendorprofile.registrationNo = vendorprofile.vendorRegistrationNo
-				vendorprofile.companyNature = vendorprofile.vendorCompanyNature
-				vendorprofile.constFirm = vendorprofile.vendorConstFirm
+				vendorprofile.companyName = vendorprofile.vendorName;
+				vendorprofile.contactNumber = vendorprofile.vendorTelephone;
+				vendorprofile.serviceFax = vendorprofile.vendorFax;
+				vendorprofile.majorCust = vendorprofile.vendorMajorCust;
+				vendorprofile.expLine = vendorprofile.vendorExpLine;
+				vendorprofile.serviceTIN = vendorprofile.vendorTIN;
+				vendorprofile.license = vendorprofile.vendorLicense;
+				vendorprofile.servicePAN = vendorprofile.vendorPAN;
+				vendorprofile.registrationNo = vendorprofile.vendorRegistrationNo;
+				vendorprofile.companyNature = vendorprofile.vendorCompanyNature;
+				vendorprofile.constFirm = vendorprofile.vendorConstFirm;
 				delete vendorprofile.vendorName;
 				delete vendorprofile.vendorMobile;
 				delete vendorprofile.vendorTelephone;
@@ -1039,17 +1108,17 @@ $('.vendorpic').change(function() {
 		else if ($scope.loggedInUserType == "WALL PAPER") {
 			$scope.wallpaperUpdate = function (vendorprofile) {
 				vendorprofile.userType = "WALL PAPER";
-				vendorprofile.companyName = vendorprofile.vendorName
-				vendorprofile.contactNumber = vendorprofile.vendorTelephone
-				vendorprofile.serviceFax = vendorprofile.vendorFax
-				vendorprofile.majorCust = vendorprofile.vendorMajorCust
-				vendorprofile.expLine = vendorprofile.vendorExpLine
-				vendorprofile.serviceTIN = vendorprofile.vendorTIN
-				vendorprofile.license = vendorprofile.vendorLicense
-				vendorprofile.servicePAN = vendorprofile.vendorPAN
-				vendorprofile.registrationNo = vendorprofile.vendorRegistrationNo
-				vendorprofile.companyNature = vendorprofile.vendorCompanyNature
-				vendorprofile.constFirm = vendorprofile.vendorConstFirm
+				vendorprofile.companyName = vendorprofile.vendorName;
+				vendorprofile.contactNumber = vendorprofile.vendorTelephone;
+				vendorprofile.serviceFax = vendorprofile.vendorFax;
+				vendorprofile.majorCust = vendorprofile.vendorMajorCust;
+				vendorprofile.expLine = vendorprofile.vendorExpLine;
+				vendorprofile.serviceTIN = vendorprofile.vendorTIN;
+				vendorprofile.license = vendorprofile.vendorLicense;
+				vendorprofile.servicePAN = vendorprofile.vendorPAN;
+				vendorprofile.registrationNo = vendorprofile.vendorRegistrationNo;
+				vendorprofile.companyNature = vendorprofile.vendorCompanyNature;
+				vendorprofile.constFirm = vendorprofile.vendorConstFirm;
 				delete vendorprofile.vendorName;
 				delete vendorprofile.vendorMobile;
 				delete vendorprofile.vendorTelephone;
@@ -1149,17 +1218,17 @@ $('.vendorpic').change(function() {
 		else {
 			$scope.serviceUpdate = function (vendorprofile) {
 				vendorprofile.userType = "SERVICE";
-				vendorprofile.companyName = vendorprofile.vendorName
-				vendorprofile.contactNumber = vendorprofile.vendorTelephone
-				vendorprofile.serviceFax = vendorprofile.vendorFax
-				vendorprofile.majorCust = vendorprofile.vendorMajorCust
-				vendorprofile.expLine = vendorprofile.vendorExpLine
-				vendorprofile.serviceTIN = vendorprofile.vendorTIN
-				vendorprofile.license = vendorprofile.vendorLicense
-				vendorprofile.servicePAN = vendorprofile.vendorPAN
-				vendorprofile.registrationNo = vendorprofile.vendorRegistrationNo
-				vendorprofile.companyNature = vendorprofile.vendorCompanyNature
-				vendorprofile.constFirm = vendorprofile.vendorConstFirm
+				vendorprofile.companyName = vendorprofile.vendorName;
+				vendorprofile.contactNumber = vendorprofile.vendorTelephone;
+				vendorprofile.serviceFax = vendorprofile.vendorFax;
+				vendorprofile.majorCust = vendorprofile.vendorMajorCust;
+				vendorprofile.expLine = vendorprofile.vendorExpLine;
+				vendorprofile.serviceTIN = vendorprofile.vendorTIN;
+				vendorprofile.license = vendorprofile.vendorLicense;
+				vendorprofile.servicePAN = vendorprofile.vendorPAN;
+				vendorprofile.registrationNo = vendorprofile.vendorRegistrationNo;
+				vendorprofile.companyNature = vendorprofile.vendorCompanyNature;
+				vendorprofile.constFirm = vendorprofile.vendorConstFirm;
 				delete vendorprofile.vendorName;
 				delete vendorprofile.vendorMobile;
 				delete vendorprofile.vendorTelephone;
@@ -1266,11 +1335,11 @@ $('.vendorpic').change(function() {
 		$http.post(resturl + "/getUserArchitectsPortfolio?"+ "pageNumber=1&pageSize=5", reqObj).then(function (resp) {
 			console.log(resp);
 			$scope.arcrecently = resp.data.responseData;
-			$scope.totalCount=resp.data.paginationData.totalCount;
+			$scope.ARCtotalCount=resp.data.paginationData.totalCount;
 			$scope.descript = resp.data;
 		});
 		$scope.page = 1;
-					$scope.PagingAct = function(page, pageSize, total) {
+					$scope.arcPagingAct = function(page, pageSize, total) {
 							var reqObj = {
 		"vendorId": $scope.loggedInuserId,
 		"status" :"ALL"
@@ -1278,126 +1347,46 @@ $('.vendorpic').change(function() {
 					$http.post(resturl+"/getUserArchitectsPortfolio?"+ "pageNumber="+page+"&pageSize=5", reqObj).then(function (resp) {
 						console.log(resp);
 						$scope.arcrecently = resp.data.responseData;
-						$scope.totalCount=resp.data.paginationData.totalCount;
+						$scope.ARCtotalCount=resp.data.paginationData.totalCount;
 					});
-					}
+					};
 		// Retrieval Ends //
 		
+		$('.arcimagesa').change(function() {
+        var filename = $('.arcimagesa')[0].files[0].name;
+        $('#arcpicimage').html(filename);		
+    });
+		
+		
+		
 		$scope.portfolioImagesFun = function (portfolioImages) {
+			
 			var request = {
 				portfolioName: portfolioImages.portfolioName,
 				vendorId: $scope.loggedInuserId
 			};
 			console.log(request);
-			$http({
-					method: 'POST',
-					url: resturl + "/addArchitectsPortfolio",
-					headers: {
-						'Content-Type': undefined
-					},
-					transformRequest: function (data) {
-						var formData = new FormData();
-						formData.append("architectsRequest", JSON.stringify(request));
-						if (data.file.length == 0) {
-							formData.append("file", new File([""], "emptyFile.jpg", {
-								type: "impage/jpeg"
-							}));
-						} else {
-							for (var i = 0; i < data.file.length; i++) {
-								// formData.append("file", data.file);
-								formData.append("file", data.file[i]);
-							}
-						}
-						return formData;
-					},
-					data: {
-						fileInfo: request,
-						file: $scope.files
-					}
-				})
-				.success(function (resp, status, headers, config) {
-					console.log(resp);
-					console.log(resp.status);
-					$scope.files = [];
-					if (resp.status == true) {
-						$scope.successmessage = resp.successMessage;
-						$('.successPopup').modal('show');
-					} else {
-						$scope.errmessage = resp.errorMessage;
-						$('.errorPopup').modal('show');
-					}
-					var reqObj = {
-						"vendorId": $scope.loggedInuserId, 
-						"status" :"ALL"
-					}
-					$http.post(resturl+"/getUserArchitectsPortfolio?"+ "&pageNumber=1&pageSize=5", reqObj).then(function (resp) {
-						console.log(resp);
-						$scope.arcrecently = resp.data.responseData;
-						$scope.totalCount=resp.data.paginationData.totalCount;
-					});
-					
-					
-					
-				}).error(function (data, status, headers, config) {});
-		};
-		
-		// Popup Information ARc Retrieval Function //
-		$scope.portfolioDetailsFun = function (archtectImages) {
-			$scope.viewPortfolio = {
-				imageURL: archtectImages.imageURL,
-				portfolioId: archtectImages.architectPortfolioId,
-				portfolioName: archtectImages.portfolioName
-			};
-		}
-
-		// Portfolio architects Update Service Call Starts //
-		$scope.files = [];
-		$scope.$on("seletedFile", function (event, args) {
-			$scope.$apply(function () {
-				//add the file object to the scope's files collection
-				$scope.files.push(args.file);
-			});
-		});
-
-		$scope.updatePortImg = function (viewPortfolio) {
-			var request = {
-				portfolioId: viewPortfolio.portfolioId,
-				vendorId: $scope.loggedInuserId,
-				portfolioName: viewPortfolio.portfolioName
-			};
-			console.log(request);
-			$http({
-					method: 'POST',
-					url: resturl + "/updateArchitectsPortfolio",
-					headers: {
-						'Content-Type': undefined
-					},
-					transformRequest: function (data) {
-						var formData = new FormData();
-						formData.append("architectsRequest", JSON.stringify(request));
-						if (data.file.length == 0) {
-							formData.append("file", new File([""], "emptyFile.jpg", {
-								type: "impage/jpeg"
-							}));
-						} else {
-							for (var i = 0; i < data.file.length; i++) {
-								// formData.append("file", data.file);
-								formData.append("file", data.file[i]);
-							}
-						}
-						return formData;
-					},
-					data: {
-						fileInfo: request,
-						file: $scope.files
-					}
-				})
+			var file = $scope.myFile;
+			 //var headers = utility.getHeaders();
+				  var url = resturl + "/addArchitectsPortfolio";
+				  var fr = new FormData();
+				   fr.append('architectsRequest', JSON.stringify(request));
+                   fr.append('file', file);
+                  $http({
+                     method: 'POST',
+					 url: url,
+					 data: fr,
+					 transformRequest: angular.identity,
+                     headers: {'Content-Type': undefined}
+                 })
+				
+			
 				.success(function (resp, status, headers, config) {
 					$('.architectPopup').modal('hide');
 					console.log(resp);
 					console.log(resp.status);
 					$scope.files = [];
-					if (resp.status = true) {
+					if (resp.status == true) {
 						$scope.successmessage = resp.successMessage;
 						$('.successPopup').modal('show');
 					} else {
@@ -1410,27 +1399,116 @@ $('.vendorpic').change(function() {
 						"vendorId": $scope.loggedInuserId,
 						"status" :"ALL"
 					};
-					$http.post(resturl+"/getUserArchitectsPortfolio",reqObj).then(function (resp) {
+					$http.post(resturl+"/getUserArchitectsPortfolio?"+ "pageNumber=1&pageSize=5",reqObj).then(function (resp) {
 						console.log(resp);
 						$scope.arcrecently = resp.data.responseData;
-						$scope.totalCount=resp.data.paginationData.totalCount;
+						$scope.ARCtotalCount=resp.data.paginationData.totalCount;
 					});
 				})
 				.error(function (data, status, headers, config) {
 
-				});
+				});			
+		};
+		
+		
+		// Popup Information ARc Retrieval Function //
+		$scope.portfolioDetailsFun = function (archtectImages) {
+			$scope.viewPortfolio = {
+				imageURL: archtectImages.imageURL,
+				portfolioId: archtectImages.architectPortfolioId,
+				portfolioName: archtectImages.portfolioName
+			};
+		};
+
+		// Portfolio architects Update Service Call Starts //
+		$scope.files = [];
+		$scope.$on("seletedFile", function (event, args) {
+			$scope.$apply(function () {
+				//add the file object to the scope's files collection
+				$scope.files.push(args.file);
+			});
+		});
+
+		
+		$('.arcpicimages').change(function() {
+        var filename = $('.arcpicimages')[0].files[0].name;
+        $('#arcpicselect_file').html(filename);		
+    });
+		
+		$scope.updatePortImg = function (viewPortfolio) {
+			$('.architectPopup').modal('hide');
+			var request = {
+				portfolioId: viewPortfolio.portfolioId,
+				vendorId: $scope.loggedInuserId,
+				portfolioName: viewPortfolio.portfolioName
+			};
+			console.log(request);
+			var file = $scope.myFile;	
+			
+				//var files = [];
+			//var headers = utility.getHeaders();
+            var url = resturl + "/updateArchitectsPortfolio";
+			var fd = new FormData();
+			if(file!=undefined){
+			fd.append('file', file);
+			} else if(file == undefined){
+			fd.append("file", new File([""], "emptyFile.jpg"));
+		    }
+		    fd.append('architectsRequest', JSON.stringify(request));
+            return $http({
+                method: 'POST',
+                url: url,
+				data: fd,
+			    transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+			.success(function (resp, status, headers, config) {
+					 $('.architectPopup').modal('hide');
+					 console.log(resp);
+					 console.log(resp.status);
+					 $scope.files = [];
+					 if (resp.status == true) {
+						 $scope.successmessage = resp.successMessage;
+						 $('.successPopup').modal('show');
+					 } else {
+						 $scope.errmessage = resp.errorMessage;
+						 $('.errorPopup').modal('show');
+					 }
+					 var reqObj = {
+					
+
+						 "vendorId": $scope.loggedInuserId,
+					 "status" :"ALL"
+					 };
+					 $http.post(resturl+"/getUserArchitectsPortfolio?"+ "pageNumber=1&pageSize=5",reqObj).then(function (resp) {
+						 console.log(resp);
+						 $scope.arcrecently = resp.data.responseData;
+						 $scope.ARCtotalCount=resp.data.paginationData.totalCount;
+					 });
+					 
+					 
+					 
+					 
+				 })
+				 .error(function (data, status, headers, config) {
+
+				 });
 							
-		}
+		};
 		// Architect Portfolio Update Ends //
 		
 		// Delete Portfolio Confirm Popup //
 		$scope.deleteProtImg = function(viewPortfolio){
-			
+			 $('.architectPopup').modal('hide');
+			 $('.confirmDelmechPopup').modal('show');
+		
+		$scope.confirmDelete = function () {
+			 $('.confirmDelmechPopup').modal('hide');
 		
 			console.log(viewPortfolio);
 			var reqObj = {
 				portfolioId: viewPortfolio.portfolioId
-			}
+			};
 			$http.post(resturl + "/deleteArchitectsPortfolio", reqObj).then(function (resp) {
 				console.log(resp);
 				if(resp.data.status == true){
@@ -1445,13 +1523,28 @@ $('.vendorpic').change(function() {
 						"vendorId": $scope.loggedInuserId,
 						"status" :"ALL"
 					};
-				$http.post(resturl + "/getUserArchitectsPortfolio", reqObj).then(function (resp) {
+				$http.post(resturl + "/getUserArchitectsPortfolio?"+ "pageNumber=1&pageSize=5", reqObj).then(function (resp) {
 					console.log(resp);
-					$scope.arcrecently = resp.data.vendorPortfolioList;
-					$scope.totalCount=resp.data.paginationData.totalCount;
+					$scope.arcrecently = resp.data.responseData;
+					$scope.ARCtotalCount=resp.data.paginationData.totalCount;
+					
 				});
+				
+					$scope.page = 1;
+					$scope.arcPagingAct = function(page, pageSize, total) {
+							var reqObj = {
+		"vendorId": $scope.loggedInuserId,
+		"status" :"ALL"
+					};
+					$http.post(resturl+"/getUserArchitectsPortfolio?"+ "pageNumber="+page+"&pageSize=5", reqObj).then(function (resp) {
+						console.log(resp);
+						$scope.arcrecently = resp.data.responseData;
+						$scope.ARCtotalCount=resp.data.paginationData.totalCount;
+					});
+					};
 			});
-		}
+		};
+		};
 		
 		// Delete Architecture Portfolio Ends //
 		
@@ -1464,17 +1557,28 @@ $('.vendorpic').change(function() {
 				portfolioId: mechImages.machineryPortfolioId,
 				portfolioName: mechImages.portfolioName
 			};
-		}
+		};
+		
+		
+		
+		$('#portfolio').change(function() {
+        var filename = $('#portfolio')[0].files[0].name;
+        $('#mechpicselect_file').html(filename);		
+    });
+			// $('.walpic').change(function() {
+        // var filename = $('.walpic')[0].files[0].name;
+        // $('#walpicselect_file').html(filename);		
+    // });
 		
 		/** mechinary portfolio **/
-var reqObj = {
+$scope.reqObj = {
 		"vendorId": $scope.loggedInuserId,
 		"status" :"ALL"
 					};
-		$http.post(resturl + "/getUserMachineryPortfolio?"+ "pageNumber=1&pageSize=5", reqObj).then(function (resp) {
+		$http.post(resturl + "/getUserMachineryPortfolio?"+ "pageNumber=1&pageSize=5", $scope.reqObj).then(function (resp) {
 			console.log(resp);
 			$scope.mechinaryuprecently = resp.data.responseData;
-			$scope.totalCount=resp.data.paginationData.totalCount;
+			$scope.mechtotalCount=resp.data.paginationData.totalCount;
 			$scope.descript = resp.data;
 		});
 		$scope.page = 1;
@@ -1486,9 +1590,9 @@ var reqObj = {
 					$http.post(resturl+"/getUserMachineryPortfolio?"+ "pageNumber="+page+"&pageSize=5", reqObj).then(function (resp) {
 						console.log(resp);
 						$scope.mechinaryuprecently = resp.data.responseData;
-						$scope.totalCount=resp.data.paginationData.totalCount;
+						$scope.mechtotalCount=resp.data.paginationData.totalCount;
 					});
-					}
+					};
 		
 		
 		$scope.mechineryFormImagesFun = function (mechineryFormportfolioImages) {
@@ -1500,72 +1604,54 @@ var reqObj = {
 				vendorId: $scope.loggedInuserId
 			};
 			console.log(request);
-			$http({
-					method: 'POST',
-					url: resturl + "/addMachineryPortfolio",
-					headers: {
-						'Content-Type': undefined
-					},
-					transformRequest: function (data) {
-						var formData = new FormData();
-						formData.append("machineryRequest", JSON.stringify(request));
-						if (data.file.length == 0) {
-							formData.append("file", new File([""], "emptyFile.jpg", {
-								type: "impage/jpeg"
-							}));
-						} else {
-							for (var i = 0; i < data.file.length; i++) {
-								// formData.append("file", data.file);
-								formData.append("file", data.file[i]);
-							}
-						}
-						return formData;
-					},
-					data: {
-						fileInfo: request,
-						file: $scope.files
-					}
-				})
+			var file = $scope.myFile;
+			 //var headers = utility.getHeaders();
+				  var url = resturl + "/addMachineryPortfolio";
+				  var fr = new FormData();
+				   fr.append('machineryRequest', JSON.stringify(request));
+                   fr.append('file', file);
+                  $http({
+                     method: 'POST',
+					 url: url,
+					 data: fr,
+					 transformRequest: angular.identity,
+                     headers: {'Content-Type': undefined}
+                 })
+				
+			
 				.success(function (resp, status, headers, config) {
+					$('.architectPopup').modal('hide');
 					console.log(resp);
 					console.log(resp.status);
 					$scope.files = [];
-
-					if (resp.status = true) {
+					if (resp.status == true) {
 						$scope.successmessage = resp.successMessage;
 						$('.successPopup').modal('show');
 					} else {
 						$scope.errmessage = resp.errorMessage;
 						$('.errorPopup').modal('show');
 					}
-
-var reqObj = {
+			var reqObj = {
 						"vendorId": $scope.loggedInuserId,
 						"status" :"ALL"
 					};
 		$http.post(resturl + "/getUserMachineryPortfolio?"+ "pageNumber=1&pageSize=5", reqObj).then(function (resp) {
 			console.log(resp);
 			$scope.mechinaryuprecently = resp.data.responseData;
-			$scope.totalCount=resp.data.paginationData.totalCount;
+			$scope.mechtotalCount=resp.data.paginationData.totalCount;
 		});
-		$scope.page = 1;
-					$scope.PagingAct = function(page, pageSize, total) {
-							var reqObj = {
-		"vendorId": $scope.loggedInuserId,
-		"status" :"ALL"
-					};
-					$http.post(resturl+"/getUserMachineryPortfolio?"+ "pageNumber="+page+"&pageSize=5", reqObj).then(function (resp) {
-						console.log(resp);
-						$scope.mechinaryuprecently = resp.data.responseData;
-						$scope.totalCount=resp.data.paginationData.totalCount;
-					});
-					}
-				}).error(function (data, status, headers, config) {
+			
+			}).error(function (data, status, headers, config) {
 
 				});
-		};
+		};			
 		// Portfolio mechinory Update Service Call Starts //
 		
+			$('.mechupportpic').change(function() {
+        var filename = $('.mechupportpic')[0].files[0].name;
+        $('#mechpicselectupdate_file').html(filename);		
+    });
+	
 	
 		$scope.files = [];
 		$scope.$on("seletedFile", function (event, args) {
@@ -1581,101 +1667,114 @@ $scope.mechDetailsFun = function (mechImages) {
 				portfolioId: mechImages.machineryPortfolioId,
 				portfolioName: mechImages.portfolioName
 			};
-		}
+		};
 		$scope.updatemechPortImg = function (viewmechPortfolio) {
+			$('.mechPopup').modal('hide');
 			var request = {
 				portfolioId: viewmechPortfolio.portfolioId,
 				vendorId: $scope.loggedInuserId,
 				portfolioName: viewmechPortfolio.portfolioName
 			};
 			console.log(request);
-			$http({
-					method: 'POST',
-					url: resturl + "/updateMachineryPortfolio",
-					headers: {
-						'Content-Type': undefined
-					},
-					transformRequest: function (data) {
-						var formData = new FormData();
-						formData.append("machineryRequest", JSON.stringify(request));
-						if (data.file.length == 0) {
-							formData.append("file", new File([""], "emptyFile.jpg", {
-								type: "impage/jpeg"
-							}));
-						} else {
-							for (var i = 0; i < data.file.length; i++) {
-								// formData.append("file", data.file);
-								formData.append("file", data.file[i]);
-							}
-						}
-						return formData;
-					},
-					data: {
-						fileInfo: request,
-						file: $scope.files
-					}
-				})
-				.success(function (resp, status, headers, config) {
+			var file = $scope.myFile;	
+			
+				//var files = [];
+			//var headers = utility.getHeaders();
+            var url = resturl + "/updateMachineryPortfolio";
+			var fd = new FormData();
+			if(file!=undefined){
+			fd.append('file', file);
+			} else if(file == undefined){
+			fd.append("file", new File([""], "emptyFile.jpg"));
+		    }
+		    fd.append('machineryRequest', JSON.stringify(request));
+            return $http({
+                method: 'POST',
+                url: url,
+				data: fd,
+			    transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+			.success(function (resp, status, headers, config) {
 					console.log(resp);
 					console.log(resp.status);
 					$scope.files = [];
 					$scope.errmsg = true;
-					if (resp.status = true) {
+					if (resp.status == true) {
 						$scope.successmsg = resp.successMessage;
                           $('.successmechPopup').modal('show');
                                  }
                               else{
                            $scope.failuremsg = resp.errorMessage;
                                 $('.errormechPopup').modal('show');
-                                }
+                               
+							   }
+							var reqObj = {
+		                 "vendorId": $scope.loggedInuserId,
+		                   "status" :"ALL"
+					};
+		$http.post(resturl + "/getUserMachineryPortfolio?"+ "pageNumber=1&pageSize=5", reqObj).then(function (resp) {
+			console.log(resp);
+			$scope.mechinaryuprecently = resp.data.responseData;
+			$scope.mechtotalCount=resp.data.paginationData.totalCount;
+			$scope.descript = resp.data;
+		});   
+							   
 				})
 				.error(function (data, status, headers, config) {
 
 				});
-		}
+		};
+				
+			
 		/**mechinary Delete **/
-		var reqObj = {
+		$scope. reqObj = {
 						"vendorId": $scope.loggedInuserId,
 						"status" :"ALL"
 					};
-		$http.post(resturl + "/getUserMachineryPortfolio", reqObj).then(function (resp) {
+		$http.post(resturl + "/getUserMachineryPortfolio", $scope.reqObj).then(function (resp) {
 			console.log(resp);
 			$scope.mechinaryuprecently = resp.data.responseData;
+			$scope.mechtotalCount=resp.data.paginationData.totalCount;
 		});
 
 		$scope.mechportdel = function (viewmechPortfolio) {
              $('.mechPopup').modal('hide');
 			 $('.confirmDelmechPopup').modal('show');
-		 }
+		 };
 			 $scope.confirmDelete = function (viewmechPortfolio) {
 			 $('.confirmDelmechPopup').modal('hide');
 		
 			var reqObj = {
 				"portfolioId": viewmechPortfolio.portfolioId
-			}
+			};
 			$http.post(resturl + "/deleteMachineryPortfolio", reqObj).then(function (resp) {
 				console.log(resp);
 				if(resp.data.status == true){
-					$scope.successmessage = resp.data.successMessage;
+					$scope.successmsg = resp.data.successMessage;
 					$('.successmechPopup').modal('show');
 				}
 				else{
-					$scope.errmessage = resp.data.errorMessage;
+					$scope.failuremsg = resp.data.errorMessage;
 					$('.errormechPopup').modal('hide');
 				}
-			});
-			var reqObj = {
+		
+	var reqObj = {
 						"vendorId": $scope.loggedInuserId,
 						"status" :"ALL"
 					};
 			$http.post(resturl + "/getUserMachineryPortfolio", reqObj).then(function (resp) {
 				console.log(resp);
-				$scope.recently = resp.data.responseData;
+				$scope.mechinaryuprecently = resp.data.responseData;
+				$scope.mechtotalCount=resp.data.paginationData.totalCount;
 			});
+
+		});
+		
 		};
 		
 		/**Wallpaper portfolio **/
-var reqObj = {
+$scope. reqObj = {
 		"vendorId": $scope.loggedInuserId,
 		"status" :"ALL"
 					};
@@ -1696,58 +1795,60 @@ var reqObj = {
 						$scope.wallpaperresp = resp.data.responseData;
 						$scope.waltotalCount=resp.data.paginationData.totalCount;
 					});
-					}
-		
-		
-		
+					};
+					$('.walpic').change(function() {
+        var filename = $('.walpic')[0].files[0].name;
+        $('#wallselect_file').html(filename);		
+    });		
+	
+	$scope.files = [];
+		$scope.$on("seletedFile", function (event, args) {
+			$scope.$apply(function () {
+				//add the file object to the scope's files collection
+				$scope.files.push(args.file);
+			});
+		});
 		
 		$scope.walportfolioImagesFun = function (portfolioImages) {
-			if(portfolioImages.price == undefined ){
-				portfolioImages.price = "0";
+			if(portfolioImages.Price  == undefined ){
+				portfolioImages.Price = "0";
 
 			}
-			console.log(portfolioImages.price);
+			if(portfolioImages.amount  == undefined ){
+				portfolioImages.amount = "0";
+
+			}
+			console.log(portfolioImages.Price);
 			var request = {
 				portfolioName: portfolioImages.portfolioName,
 				brand: portfolioImages.brand,
 				thickness: portfolioImages.thickness,
 				size: portfolioImages.size,
-				price: portfolioImages.price,
+				price: portfolioImages.Price,
+				serviceCharges  : portfolioImages.amount,
 				vendorId: $scope.loggedInuserId
 			};
 			console.log(request);
-			$http({
-					method: 'POST',
-					url: resturl + "/addWallPaperPortfolio",
-					headers: {
-						'Content-Type': undefined
-					},
-					transformRequest: function (data) {
-						var formData = new FormData();
-						formData.append("wallPaperRequest", JSON.stringify(request));
-						if (data.file.length == 0) {
-							formData.append("file", new File([""], "emptyFile.jpg", {
-								type: "impage/jpeg"
-							}));
-						} else {
-							for (var i = 0; i < data.file.length; i++) {
-								// formData.append("file", data.file);
-								formData.append("file", data.file[i]);
-							}
-						}
-						return formData;
-					},
-					data: {
-						fileInfo: request,
-						file: $scope.files
-					}
-				})
+			
+			var file = $scope.myFile;
+			 //var headers = utility.getHeaders();
+				  var url = resturl + "/addWallPaperPortfolio";
+				  var fr = new FormData();
+				   fr.append('wallPaperRequest', JSON.stringify(request));
+                   fr.append('file', file);
+                  $http({
+                     method: 'POST',
+					 url: url,
+					 data: fr,
+					 transformRequest: angular.identity,
+                     headers: {'Content-Type': undefined}
+                 })
 				.success(function (resp, status, headers, config) {
 					console.log(resp);
 					console.log(resp.status);
 					$scope.files = [];
 
-					if (resp.status = true) {
+					if (resp.status == true) {
 						$scope.successmsg = resp.successMessage;
                           $('.successmechPopup').modal('show');
                                  }
@@ -1755,7 +1856,7 @@ var reqObj = {
                            $scope.failuremsg = resp.errorMessage;
                                 $('.errormechPopup').modal('show');
                                 }
-var reqObj = {
+             var reqObj = {
 		"vendorId": $scope.loggedInuserId,
 		"status" :"ALL"
 					};
@@ -1770,27 +1871,21 @@ var reqObj = {
 
 				});
 
-		};
+		};		
 
 		/**wallpaper Delete **/
-		var reqObj = {
-			"vendorId": $scope.loggedInuserId
-		};
-		$http.post(resturl + "/getUserWallPaperPortfolio", reqObj).then(function (resp) {
-			console.log(resp);
-			$scope.wallrecently = resp.data.responseData;
-		});
+	
 
 		$scope.waldeleteProd = function (wallpopPortfolio) {
-          //$('.wallpaperPopup').modal('hide');
-		//	$('.confirmDelmechPopup').modal('show');
+        $('.wallpaperPopup').modal('hide');
+			$('.confirmDelmechPopup').modal('show');
 		
-			//$scope.confirmDelete = function (wallpopPortfolio) {
-			//$('.confirmDelmechPopup').modal('hide');
+			$scope.confirmDelete = function () {
+			$('.confirmDelmechPopup').modal('hide');
 			
 			var reqObj = {
 				"portfolioId": wallpopPortfolio.portfolioId
-			}
+			};
 			$http.post(resturl + "/deleteWallPaperPortfolio", reqObj).then(function (resp) {
 				console.log(resp);
 					if(resp.data.status == true){
@@ -1801,21 +1896,24 @@ var reqObj = {
 					$scope.errmessage = resp.data.errorMessage;
 					$('.errorPopup').modal('hide');
 				}
-			});
-			var reqObj = {
-			"vendorId": $scope.loggedInuserId
-		};
-		$http.post(resturl + "/getUserWallPaperPortfolio", reqObj).then(function (resp) {
+			
+				var reqObj = {
+		"vendorId": $scope.loggedInuserId,
+		"status" :"ALL"
+					};
+		$http.post(resturl + "/getUserWallPaperPortfolio?"+ "pageNumber=1&pageSize=5", reqObj).then(function (resp) {
 			console.log(resp);
-			$scope.wallrecently = resp.data.responseData;
+			$scope.wallpaperresp = resp.data.responseData;
+			$scope.waltotalCount=resp.data.paginationData.totalCount;
+			$scope.descript = resp.data;
 		});
+			
+			});
+	
+		};
 		};
 			// Wall paper update//
 			
-		$('.vendorpic').change(function() {
-        var filename = $('.vendorpic')[0].files[0].name;
-        $('#vendorpicselect_file').html(filename);		
-    });
 			
 
 		$http.post(resturl + "/getUserWallPaperPortfolio", reqObj).then(function (resp) {
@@ -1823,8 +1921,8 @@ var reqObj = {
 			$scope.wallrecently = resp.data.responseData;
 		});
 		
-		$('.walpic').change(function() {
-        var filename = $('.waipaperpic')[0].files[0].name;
+		$('#waipaperupdatepic').change(function() {
+        var filename = $('#waipaperupdatepic')[0].files[0].name;
         $('#wallpicselect_file').html(filename);		
     });
 		
@@ -1842,46 +1940,41 @@ $scope.portfolioDetailswalFun = function (wallImages) {
 				portfolioId: wallImages.portfolioId,
 				portfolioName: wallImages.portfolioName
 			};
-		}
+		};
 		$scope.updatedwalpaperImg = function (wallpopPortfolio) {
+			$('.wallpaperPopup').modal('hide');
 			var request = {
 				portfolioId: wallpopPortfolio.portfolioId,
 				vendorId: $scope.loggedInuserId,
 				portfolioName:wallpopPortfolio .portfolioName
 			};
 			console.log(request);
-			$http({
-					method: 'POST',
-					url: resturl + "/updateWallPaperPortfolio",
-					headers: {
-						'Content-Type': undefined
-					},
-					transformRequest: function (data) {
-						var formData = new FormData();
-						formData.append("wallPaperRequest", JSON.stringify(request));
-						if (data.file.length == 0) {
-							formData.append("file", new File([""], "emptyFile.jpg", {
-								type: "impage/jpeg"
-							}));
-						} else {
-							for (var i = 0; i < data.file.length; i++) {
-								// formData.append("file", data.file);
-								formData.append("file", data.file[i]);
-							}
-						}
-						return formData;
-					},
-					data: {
-						fileInfo: request,
-						file: $scope.files
-					}
-				})
-				.success(function (resp, status, headers, config) {
+			
+			var file = $scope.myFile;	
+			
+				//var files = [];
+			//var headers = utility.getHeaders();
+            var url = resturl + "/updateWallPaperPortfolio";
+			var fd = new FormData();
+			if(file!=undefined){
+			fd.append('file', file);
+			} else if(file == undefined){
+			fd.append("file", new File([""], "emptyFile.jpg"));
+		    }
+		    fd.append('wallPaperRequest', JSON.stringify(request));
+            return $http({
+                method: 'POST',
+                url: url,
+				data: fd,
+			    transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
+			.success(function (resp, status, headers, config) {
 					console.log(resp);
 					console.log(resp.status);
 					$scope.files = [];
 					$scope.errmsg = true;
-					if (resp.status = true) {
+					if (resp.status == true) {
 						$scope.successmsg = resp.successMessage;
                           $('.successmechPopup').modal('show');
                                  }
@@ -1889,11 +1982,21 @@ $scope.portfolioDetailswalFun = function (wallImages) {
                            $scope.failuremsg = resp.errorMessage;
                                 $('.errormechPopup').modal('show');
                                 }
+									var reqObj = {
+		"vendorId": $scope.loggedInuserId,
+		"status" :"ALL"
+					};
+		$http.post(resturl + "/getUserWallPaperPortfolio?"+ "pageNumber=1&pageSize=5", reqObj).then(function (resp) {
+			console.log(resp);
+			$scope.wallpaperresp = resp.data.responseData;
+			$scope.waltotalCount=resp.data.paginationData.totalCount;
+			$scope.descript = resp.data;
+		});						
 				})
 				.error(function (data, status, headers, config) {
 
 				});
-		}
+		};	
 			// Page Navigation To Top Functionality //
 	jQuery(window).scroll(function() {
 		if (jQuery(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
@@ -1907,7 +2010,7 @@ $scope.portfolioDetailswalFun = function (wallImages) {
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-	});
+	}]);
 newapp.directive('uploadFiles', function () {
 	return {
 		//create a new scope
@@ -1926,3 +2029,19 @@ newapp.directive('uploadFiles', function () {
 		}
 	};
 });
+	newapp.directive('fileModel', ['$parse', function ($parse) {
+    return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+        var model = $parse(attrs.fileModel);
+        var modelSetter = model.assign;
+
+        element.bind('change', function(){
+            scope.$apply(function(){
+                modelSetter(scope, element[0].files[0]);
+				console.log(element[0].files[0]);
+            });
+        });
+    }
+   };
+}]);

@@ -8,6 +8,7 @@ angular.module('newapp')
 		{name : "Brand", value : "Brand"},
 		{name : "Product", value : "Product"}
 	];
+	$scope.isDisabled = false;
 	if(localStorage.loggedInUser !=undefined){
 		$scope.loggedInUser=localStorage.loggedInUser;
 		$scope.loggedInUserName=localStorage.loggedInUserName;
@@ -21,15 +22,15 @@ angular.module('newapp')
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.mouseOver = function(param) {
 		$scope.set_bg = function() {
 		$scope.bgimg = param.imageURL;
 			return {
 				"background-image": "url(/clients/onesevenhome/img/" + $scope.bgimg + ".jpg)"
 			};
-		}
-	}
+		};
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -57,7 +58,7 @@ angular.module('newapp')
 		}
 	});
 	}else{
-		$location.path('/login')
+		$location.path('/login');
 	}
 	$http.get(resturl+"/getUser/"+localStorage.loggedInuserId).then(function(resp){
 		console.log($scope.loggedInUserType);
@@ -83,24 +84,25 @@ angular.module('newapp')
 			$scope.userprofile.stateProvince = resp.data.vendorDetails.state;
 		}
 	});
-	$scope.postreq=function (userprofile) {
+	$scope.postreq = function (userprofile) {
+		$scope.isDisabled = true;
 		var payload = {
 			category : userprofile.item.title,
 			query : userprofile.query,
 			customerId : $scope.loggedInuserId
-		}
+		};
 		console.log(payload);
-	$http.post(resturl+"/postrequirement/save",payload).then(function(resp){
+		$http.post(resturl+"/postrequirement/save",payload).then(function(resp){
 			console.log(resp);
 			if(resp.data.status == "true"){
-			//$scope.errmsg=true;			
-			$scope.success = resp.data.successMessage;
-					$('.successPopup').modal('show');
-		}
-		else {
-			$scope.failure = resp.data.successMessage;
-					$('.errorPopup').modal('show');
-		}
+				$scope.isDisabled = false;			
+				$scope.success = resp.data.successMessage;
+				$('.successPopup').modal('show');
+			}
+			else {
+				$scope.failure = resp.data.successMessage;
+				$('.errorPopup').modal('show');
+			}
 		});
 	};
 		// Page Navigation To Top Functionality //

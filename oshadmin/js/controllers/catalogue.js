@@ -112,7 +112,7 @@ angular.module('newapp')
         $scope.treesel = function(param) {
             if (param != undefined) {
                 selectedcategory = param;
-                $http.get(resturl + "/categories/" + param + "?" + "pageNumber=" + 1 + "&pageSize=100").then(function(resp) {
+                $http.get(resturl + "/categories/" + param + "?" + "pageNumber=" + 1 + "&pageSize=15").then(function(resp) {
                     $scope.productdata = resp.data.responseData;
                     $scope.totalCount = resp.data.paginationData.totalCount;
                 });
@@ -120,7 +120,7 @@ angular.module('newapp')
         }
         $scope.page = 1;
         $scope.PagingAct = function(page, pageSize, total) {
-            $http.get(resturl + "/categories/" + selectedcategory + "?" + "pageNumber=" + page + "&pageSize=15").then(function(resp) {
+            $http.get(resturl + "/categories/"+selectedcategory+"?pageNumber="+page+"&pageSize=15").then(function(resp) {
                 $window.scrollTo(60, 0);
                 $scope.productdata = resp.data.responseData;
                 $scope.totalCount = resp.data.paginationData.totalCount;
@@ -349,9 +349,8 @@ angular.module('newapp')
             $scope.catsuccmsg = param;
             $('#SuccessModal').modal('show');
         }
+		
         /**********Create New Filter Name***********/
-
-
         $scope.filnamecatchange = function() {
             var index = $scope.menuitems.findIndex(function(item, i) {
                 return item.title === $scope.cfilname;
@@ -365,11 +364,18 @@ angular.module('newapp')
                 $scope.filnamecategorySub = {};
             }
         }
-        $scope.createfiltername = function(param) {
+		
+		// Create Filter Name Sub-Category Change Method //
+		$scope.filnamesubCatChange = function(filsubCatValue){
+			$scope.filsubCatValue = filsubCatValue;
+		}
+		
+		// Filter Creation For A Category //ss
+        $scope.createfiltername = function(param){
             console.log(param);
-            if ($scope.filnamesubCatValueEnb == false) {
+            if($scope.filnamesubCatValueEnb == false){
                 var reqobj = {
-                    "categoryName": $scope.filnamesubCatValue,
+                    "categoryName": $scope.filsubCatValue,
                     "filterName": param.filname
                 }
             } else {
@@ -378,7 +384,7 @@ angular.module('newapp')
                     "filterName": param.filname
                 }
             }
-            $http.post(resturl + "/createFilter", reqobj).then(function(resp) {
+            $http.post(resturl+"/createFilter", reqobj).then(function(resp) {
                 $scope.newfilname = {};
                 $scope.cfiltname.$setUntouched()
                 if (resp.data.status == true) {

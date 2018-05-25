@@ -1,5 +1,5 @@
 angular.module('newapp')
-	.controller('arcproductCtrl', function ($scope, $http, $location, $routeParams, resturl) {
+	.controller('arcproductCtrl',['$scope', '$http', '$location', '$routeParams', 'resturl', function ($scope, $http, $location, $routeParams, resturl) {
 		$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -17,7 +17,7 @@ angular.module('newapp')
 		$scope.logout = function () {
 			localStorage.clear();
 			$location.path('/login');
-		}
+		};
 		$scope.myProfile = function () {
 			$location.path('/myaccount');
 		};
@@ -69,7 +69,7 @@ angular.module('newapp')
 			$scope.userRatings=resp.data.reviewList;
 			console.log($scope.userRatings);
 		$scope.totalreview=resp.data.totalratingCount;
-		console.log($scope.totalreview )
+		console.log($scope.totalreview );
 		 $scope.uptotalCount = resp.data.paginationData.totalCount;
 		$scope.ratings = [{number:$scope.averagereview}];
 	});
@@ -84,11 +84,11 @@ angular.module('newapp')
 			$scope.userRatings=resp.data.reviewList;
 			console.log($scope.userRatings);
 		$scope.totalreview=resp.data.totalratingCount;
-		console.log($scope.totalreview )
+		console.log($scope.totalreview );
 		 $scope.uptotalCount = resp.data.paginationData.totalCount;
 		$scope.ratings = [{number:$scope.averagereview}];
 	});
-	}
+	};
 		
 		$scope.getStars = function(rating) {
 		// Get the value
@@ -96,7 +96,7 @@ angular.module('newapp')
 		// Turn value into number/100
 		var size = val/5*100;
 		return size + '%';
-	}
+	};
 		// BookNow Popup with Details //
 		$scope.Booknowfun = function (vendorName) {
 			if($scope.loggedInuserId == undefined) {
@@ -110,7 +110,7 @@ angular.module('newapp')
 				});
 				$('.bookNowPopup').modal('show');
 			}
-		}
+		};
 		$scope.confirmBooking = function(popupDetails){
 			$('.bookNowPopup').modal('hide');
 			console.log(popupDetails);
@@ -133,7 +133,7 @@ angular.module('newapp')
 					$('.errorPopup').modal('show');
 				}
 			});
-		}
+		};
 		
 		var reqObj = {
 			"vendorId": $routeParams.id,
@@ -227,4 +227,4 @@ angular.module('newapp')
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-	});
+	}]);

@@ -1,5 +1,5 @@
 angular.module('newapp') 
-  .controller('paymentctrl', function ($scope,$http, $location,resturl) { 
+  .controller('paymentctrl',['$scope','$http', '$location','resturl', function ($scope,$http, $location,resturl) { 
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -15,7 +15,7 @@ angular.module('newapp')
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -23,7 +23,7 @@ angular.module('newapp')
             console.log(resp);
             $scope.menuitem = resp.data.categoryData;
         });
-	$
+	
 	$http.get("js/controllers/payment.json").then(function(resp){
 		console.log(resp);
 		$scope.paymentlist=resp.data.payment;
@@ -38,4 +38,4 @@ angular.module('newapp')
 		console.log($scope.lengthofcart);
 	});
 	$scope.lengthofcart = 0;
-});
+}]);

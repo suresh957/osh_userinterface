@@ -1,5 +1,5 @@
  angular.module('newapp') 
-  .controller('viewmsgctrl', function ($scope,$http,$location,resturl) {
+  .controller('viewmsgctrl',['$scope','$http','$location','resturl', function ($scope,$http,$location,resturl) {
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -15,7 +15,7 @@
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/profile');
 	};
@@ -60,4 +60,4 @@
 		console.log($scope.lengthofcart);
 	});
 	$scope.lengthofcart =0;
-});
+}]);

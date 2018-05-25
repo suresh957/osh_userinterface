@@ -1,5 +1,5 @@
 angular.module('newapp')
-    .controller('ServicesCtrl', function($scope, $http, $location,resturl) {
+    .controller('ServicesCtrl',['$scope','$http','$location','resturl', function($scope, $http, $location,resturl) {
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -16,15 +16,15 @@ angular.module('newapp')
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.mouseOver = function(param) {
 		$scope.set_bg = function() {
 		$scope.bgimg = param.imageURL;
 			return {
 				"background-image": "url(/clients/onesevenhome/img/" + $scope.bgimg + ".jpg)"
 			};
-		}
-	}
+		};
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -43,7 +43,7 @@ angular.module('newapp')
 		}
 	});
 	}else{
-		$location.path('/login')
+		$location.path('/login');
 	}
 	
 	$http.get(resturl+"/services").then(function(resp) {
@@ -63,4 +63,4 @@ angular.module('newapp')
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-});
+}]);

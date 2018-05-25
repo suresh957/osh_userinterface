@@ -1,5 +1,5 @@
  angular.module('newapp') 
-  .controller('TodaydealsCtrl', function ($scope,$http,$location,resturl) {
+  .controller('TodaydealsCtrl',['$scope','$http','$location','resturl', function ($scope,$http,$location,resturl) {
 	$scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -18,12 +18,12 @@
 			return {
 				"background-image": "url(/clients/onesevenhome/img/" + $scope.bgimg + ".jpg)"
 			};
-		}
-	}
+		};
+	};
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -64,13 +64,13 @@
 	});
 	
 		
-	}
+	};
 	//Active
 	
 		var payload = {
 			"status" : 1,
 			// "category":$scope.title
-		}
+		};
 		console.log(payload);
 		$http.post(resturl+"/getTodaysDeals"+"?"+"pageNumber=1&pageSize=15",payload).then(function(resp) {
 		console.log(resp);
@@ -85,7 +85,7 @@
 		$scope.deal=resp.data.todaysDealsData;
 		$scope.totalCount=resp.data.paginationData.totalCount;
 	});
-	}
+	};
 	$scope.todaycat = function(position,menuitem,x){
 		//console.log(x.title);
 		$scope.title = x.title;
@@ -98,7 +98,7 @@
 	var payload = {
 			"status" : 1,
 		"categoryCode":$scope.title
-		}
+		};
 		console.log(payload);
 		$http.post(resturl+"/getTodaysDealsForCat"+"?"+"pageNumber=1&pageSize=15",payload).then(function(resp) {
 		console.log(resp);
@@ -113,18 +113,18 @@
 		$scope.deal=resp.data.todaysDealsData;
 		$scope.totalCount=resp.data.paginationData.totalCount;
 	});
-	}
+	};
 		
 	});
 		
-	}
+	};
 	
 		//Active click
 	$scope.active=function(){
 		var payload = {
 			"status" : 1,
 		"category":$scope.title
-		}
+		};
 		console.log(payload);
 		$http.post(resturl+"/getTodaysDeals"+"?"+"pageNumber=1&pageSize=15",payload).then(function(resp) {
 		console.log(resp);
@@ -138,7 +138,7 @@
 		$scope.deal=resp.data.todaysDealsData;
 		$scope.totalCount=resp.data.paginationData.totalCount;
 	});
-	}
+	};
 		$scope.todaycat = function(position,menuitem,x){
 		//console.log(x.title);
 		$scope.title = x.title;
@@ -151,7 +151,7 @@
 	var payload = {
 			"status" : 0,
 		"category":$scope.title
-		}
+		};
 		console.log(payload);
 		$http.post(resturl+"/getTodaysDeals"+"?"+"pageNumber=1&pageSize=15",payload).then(function(resp) {
 		console.log(resp);
@@ -159,15 +159,15 @@
 		$scope.totalCount=resp.data.paginationData.totalCount;
 	});
 		
-	}
+	};
 	
-	}
+	};
 	//Expired
 	$scope.Expired=function(){
 		var payload = {
 			"status" : 0,
 		"category":$scope.title
-		}
+		};
 		console.log(payload);
 		$http.post(resturl+"/getTodaysDeals"+"?"+"pageNumber=1&pageSize=15",payload).then(function(resp) {
 		console.log(resp);
@@ -181,7 +181,7 @@
 		$scope.deal=resp.data.todaysDealsData;
 		$scope.totalCount=resp.data.paginationData.totalCount;
 	});
-	}
+	};
 		$scope.todaycat = function(position,menuitem,x){
 		//console.log(x.title);
 		$scope.title = x.title;
@@ -194,7 +194,7 @@
 	var payload = {
 			"status" : 0,
 		"categoryCode":$scope.title
-		}
+		};
 		console.log(payload);
 		$http.post(resturl+"/getTodaysDealsForCat"+"?"+"pageNumber=1&pageSize=15",payload).then(function(resp) {
 		console.log(resp);
@@ -209,20 +209,20 @@
 		$scope.deal=resp.data.todaysDealsData;
 		$scope.totalCount=resp.data.paginationData.totalCount;
 	});
-	}
+	};
 		
 	});
 		
-	}
+	};
 	
-	}
+	};
 	//Upcoming
 	$scope.Upcoming=function(x){
 		// console.log($scope.title);
 		var payload = {
 			"status" : 2
 			//"category":$scope.title
-		}
+		};
 		console.log(payload);
 		$http.post(resturl+"/getTodaysDeals"+"?"+"pageNumber=1&pageSize=15",payload).then(function(resp) {
 		console.log(resp);
@@ -236,7 +236,7 @@
 		$scope.deal=resp.data.todaysDealsData;
 		$scope.totalCount=resp.data.paginationData.totalCount;
 	});
-	}
+	};
 	$scope.todaycat = function(position,menuitem,x){
 		//console.log(x.title);
 		$scope.title = x.title;
@@ -249,7 +249,7 @@
 	var payload = {
 			"status" : 2,
 		"categoryCode":$scope.title
-		}
+		};
 		console.log(payload);
 		$http.post(resturl+"/getTodaysDealsForCat"+"?"+"pageNumber=1&pageSize=15",payload).then(function(resp) {
 		console.log(resp);
@@ -264,12 +264,12 @@
 		$scope.deal=resp.data.todaysDealsData;
 		$scope.totalCount=resp.data.paginationData.totalCount;
 	});
-	}
+	};
 		
 	});
 		
-	}
-	}
+	};
+	};
 	$http.get(resturl+"/getRecentBought").then(function(resp) {
 		console.log(resp);
 		$scope.recently=resp.data.recentlyBought;		
@@ -339,5 +339,5 @@
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-});
+}]);
  

@@ -6,6 +6,11 @@ angular.module('newapp')
 		{ name: 'All', status: 'ALL' }
 	];
 	
+	$scope.wallpaperSearch = [
+		{type: 'Wallpaper Name', value: 'USER_NAME'},
+		{type: 'Wallpaper Id', value: 'USER_ID'},
+	];
+	
 	// Retrieval, Approve, Decline Functionality Starts //
 	// Default API Calling Starts //
 	var payload = {
@@ -27,6 +32,39 @@ angular.module('newapp')
 	}
 	
 	// Default API Calling Ends //
+	
+	// Search Wallpaper Portfolio Starts //
+	$scope.getPortfolioBySearch = function(searchType){
+		if(searchType.type == "Wallpaper Name"){
+			var string = searchType.name;
+		}
+		else{
+			var string = searchType.id;
+		}
+		var request = {
+			searchFor : "WALLPAPER_PF",
+			searchBy : searchType.value,
+			searchString : string
+		};
+		console.log(request);
+		$http.post(resturl+"/getPortfoliosBySearch?pageNumber=1&pageSize=10", request).then(function(resp){
+			console.log(resp);
+			if(resp.data.responseData != null){
+				$scope.noResults = false;
+				$scope.wallpaperApprovalsGrid.data = resp.data.responseData;
+				$scope.wallpaperCount = resp.data.paginationData.totalCount;
+			}
+			else{
+				$scope.noResults = true;
+				$scope.message = resp.data.errorMsg;
+				$scope.wallpaperApprovalsGrid.data = [];
+				$scope.wallpaperCount = 0;
+			}
+		});
+	}
+	
+	// Search Wallpaper Portfolio Ends //
+	
 	
 	// Grid Data Retrieval Starts //
 	$scope.wallpaperApprovalsGrid = {};

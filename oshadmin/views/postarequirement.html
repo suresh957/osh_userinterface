@@ -3,120 +3,178 @@
       <div class="row-fluid">
          <div class="content-box add-product">
             <h2 class="main-title"><span>Post A Requirement</span></h2>
-            <div class="col-md-12">
-               <div class="gridStyle"
-                  ui-grid="postRequirementGrid"  ui-grid-edit ui-grid-cellnav  ui-grid-auto-resize></div>
+            <form name="historyForm" novalidate="">
+               <div class="selectDropdown col-md-4 sm-dropdown pad0">
+                  <div class="selectedValueClass">
+                     <select ng-init="selectedValue = options[0]" 
+                        ng-model="selectedValue" 
+                        ng-options="option.name for option in options">
+                     </select>
+                  </div>
+               </div>
+               <div class="col-md-3 pad0">
+                  <div class="form-group" ng-class="{ 'has-error' : historyForm.startDate.$invalid &amp;&amp; !historyForm.startDate.$pristine }">
+                     <input type="text" id="startDate" name="startDate" class="form-control sm-input ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="requirementDates.startDate" placeholder="From Date" required="">
+                     <p ng-show="historyForm.startDate.$touched && historyForm.startDate.$invalid" class="help-block">From Date is required</p>
+                  </div>
+               </div>
+               <div class="col-md-3 pad0">
+                  <div class="form-group" ng-class="{ 'has-error' : historyForm.endDate.$invalid &amp;&amp; !historyForm.endDate.$pristine }">
+                     <input type="text" id="endDate" name="endDate" class="form-control sm-input ng-pristine ng-untouched ng-not-empty ng-valid ng-valid-required" ng-model="requirementDates.endDate" placeholder="To Date" required="">
+                     <p ng-show="historyForm.endDate.$touched &amp;&amp; historyForm.endDate.$invalid" class="help-block ng-hide">To Date is required</p>
+                  </div>
+               </div>
+               <div class="col-md-3 pad0">
+                  <div class="form-group">
+                     <div class="button-login acrbook">
+                        <button id="submit" type="submit" class="btn orderBtn" ng-disabled="historyForm.$invalid" ng-click="getRequirements(selectedValue.status, requirementDates)">View Requirements</button>
+                     </div>
+                  </div>
+               </div>
+            </form>
+            <div class="clearfix"></div>
+            <p class="ar-para" ng-show="opened">Showing all <b>Opened</b> Bookings</p>
+            <p class="ar-para" ng-show="closed"> Showing all <b>Closed</b> Bookings</p>
+            <p class="ar-para" ng-show="allBookings">Showing <b>All </b> Bookings</p>
+         </div>
+		 <!-- Search Vendor Inputs -->
+			   <div class="vm-top col-xs-12">
+                  <div class="selectDropdown col-sm-6">
+                     <div class="selectedValueClass">
+                        <select ng-init="customerType = custRequireSearch[0]"
+                           ng-model="customerType"
+                           ng-options="option.type for option in custRequireSearch">
+                        </select>
+                     </div>
+                  </div>
+                  <div class="form-group col-sm-3" ng-if="customerType.type == 'Customer Name'">
+					<input type="text" name="nameString" class="form-control" ng-model="customerType.name" ng-pattern-restrict="^[A-Za-z ]*$" placeholder="Enter Customer Name" required>
+				  </div>
+				  <div class="form-group col-sm-3" ng-if="customerType.type == 'Customer Id'">
+					<input type="text" name="idString" class="form-control" ng-model="customerType.id" ng-pattern-restrict="^[0-9]*$" placeholder="Enter Customer Id" required>
+				  </div>
+                  <div class="button-login col-sm-3">
+                     <button type="button" class="btn btn-primary" ng-click="getCustomerBySearch(customerType)">Search Customer(s)</button>
+                  </div>
+				  <!--<div class="col-md-10 text-right Deals">
+                     <label><input type="checkbox" class="avProd" ng-model="vendorProd" ng-click="getRequestedVendors(vendorProd)">Requested Vendors</label>
+                  </div>-->
+               </div>
+			   <p style="text-align:center; color:#f00" ng-show="noResults">No results found for '<b>{{message}}</b>'</p>
+			   <div class="clearfix"></div>
+      </div>
+   </div>
+</div>
+<div class="col-md-12">
+   <div class="gridStyle"
+      ui-grid="postRequirementGrid"  ui-grid-edit ui-grid-cellnav  ui-grid-auto-resize></div>
+   <div class="clearfix"></div>
+   <div class="text-center">
+      <div paging
+         page="1" 
+         page-size="10" 
+         total=postRequireCount
+         paging-action="postRequirePaging(page, pageSize, total, selectedValue.status, requirementDates)">
+      </div>
+   </div>
+</div>
+<!-- Post A Requirement Detail Popup -->
+<div class="modal fade" id="postRequirementModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-1" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content postrequire-view">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            <h4 class="text-left modal-title">Post A Requirement Id : {{requirementDetails.postRequirementId}}</h4>
+         </div>
+         <div class="modal-body">
+            <form name="postRequirementForm" novalidate>
+               <div class="row">
+                  <div class="form-group">
+                     <p class="testmonialForm">{{requirementDetails.query}}</p>
+                  </div>
+               </div>
+               <hr>
+               <div class="col-xs-12 col-sm-6 pull-left">
+                  <!-- Customer Name -->
+                  <div class="form-group" ng-class="{ 'has-error' : postRequirementForm.customerName.$invalid &amp;&amp; !postRequirementForm.customerName.$pristine }">
+                     <label>Customer Name</label>
+                     <input type="text" name="customerName" class="form-control" ng-model="requirementDetails.customerName" placeholder="Customer Name" required="" ng-readonly="true" readonly="readonly">
+                     <p ng-show="postRequirementForm.customerName.$touched &amp;&amp; postRequirementForm.customerName.$invalid" class="help-block ng-hide">Customer Name is required</p>
+                  </div>
+                  <!-- Customer Id -->
+                  <div class="form-group" ng-class="{ 'has-error' : postRequirementForm.customerId.$invalid &amp;&amp; !postRequirementForm.customerId.$pristine }">
+                     <label>Customer Id</label>
+                     <input type="text" name="customerId" class="form-control" ng-model="requirementDetails.customerId" placeholder="Customer Id" required="" ng-readonly="true" readonly="readonly">
+                     <p ng-show="postRequirementForm.customerId.$touched &amp;&amp; postRequirementForm.customerId.$invalid" class="help-block ng-hide">Customer Id is required</p>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-6 pull-right">
+                  <!-- Customer Id -->
+                  <div class="form-group" ng-class="{ 'has-error' : postRequirementForm.responseMessage.$invalid &amp;&amp; !postRequirementForm.responseMessage.$pristine }">
+                     <label>Response Message</label>
+                     <textarea class="form-control" ng-model="requirementDetails.responseMessage" placeholder="Response Message" required=""></textarea>
+                     <p ng-show="postRequirementForm.responseMessage.$touched &amp;&amp; postRequirementForm.responseMessage.$invalid" class="help-block ng-hide">Response Message is required</p>
+                  </div>
+               </div>
                <div class="clearfix"></div>
-               <div class="text-center">
-                  <div paging
-                     page="1" 
-                     page-size="10" 
-                     total=postRequireCount
-                     paging-action="postRequirePaging(page, pageSize, total)">
-                  </div>
-               </div>
-            </div>
-			<!-- Post A Requirement Detail Popup -->
-            <div class="modal fade" id="postRequirementModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel-1" aria-hidden="true">
-               <div class="modal-dialog" role="document">
-                  <div class="modal-content postrequire-view">
-                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="text-left modal-title">Post A Requirement Id : {{requirementDetails.postRequirementId}}</h4>
-                     </div>
-                     <div class="modal-body">
-                        <form name="postRequirementForm" novalidate>
-                           <div class="row">
-                              <div class="form-group">
-                                 <p class="testmonialForm">{{requirementDetails.query}}</p>
-                              </div>
-                           </div>
-                           <hr>
-                           <div class="col-xs-12 col-sm-6 pull-left">
-                              <!-- Customer Name -->
-                              <div class="form-group" ng-class="{ 'has-error' : postRequirementForm.customerName.$invalid &amp;&amp; !postRequirementForm.customerName.$pristine }">
-                                 <label>Customer Name</label>
-                                 <input type="text" name="customerName" class="form-control" ng-model="requirementDetails.customerName" placeholder="Customer Name" required="" ng-readonly="true" readonly="readonly">
-                                 <p ng-show="postRequirementForm.customerName.$touched &amp;&amp; postRequirementForm.customerName.$invalid" class="help-block ng-hide">Customer Name is required</p>
-                              </div>
-							  <!-- Customer Id -->
-                              <div class="form-group" ng-class="{ 'has-error' : postRequirementForm.customerId.$invalid &amp;&amp; !postRequirementForm.customerId.$pristine }">
-                                 <label>Customer Id</label>
-                                 <input type="text" name="customerId" class="form-control" ng-model="requirementDetails.customerId" placeholder="Customer Id" required="" ng-readonly="true" readonly="readonly">
-                                 <p ng-show="postRequirementForm.customerId.$touched &amp;&amp; postRequirementForm.customerId.$invalid" class="help-block ng-hide">Customer Id is required</p>
-                              </div>
-						   </div>
-                           <div class="col-xs-12 col-sm-6 pull-right">
-                              <!-- Customer Id -->
-                              <div class="form-group" ng-class="{ 'has-error' : postRequirementForm.responseMessage.$invalid &amp;&amp; !postRequirementForm.responseMessage.$pristine }">
-                                 <label>Response Message</label>
-                                 <textarea class="form-control" ng-model="requirementDetails.responseMessage" placeholder="Response Message" required=""></textarea>
-                                 <p ng-show="postRequirementForm.responseMessage.$touched &amp;&amp; postRequirementForm.responseMessage.$invalid" class="help-block ng-hide">Response Message is required</p>
-                              </div>
-                           </div>
-                           <div class="clearfix"></div>
-                        </form>
-                     </div>
-                     <div class="modal-footer">
-                       <button type="button" title="Respond" class="btn btn-danger" data-target=".confirmPopup" ng-click="postReqRespond(requirementDetails)" ng-disabled="postRequirementForm.$invalid">Respond</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     </div>
-                  </div>
-                  <!-- /.modal-content -->
-               </div>
-            </div>
-            <!-- Success Message Popup -->
-            <div class="modal fade successPopup" id="SuccessModal" tabindex="-1" role="dialog">
-               <div class="modal-dialog  modal-sm" role="document">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Success</h4>
-                     </div>
-                     <div class="modal-body">
-                        <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
-                     </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <!-- Error Message Popup -->
-            <div class="modal fade" id="ErrdealModal" tabindex="-1" role="dialog">
-               <div class="modal-dialog  modal-sm" role="document">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Error</h4>
-                     </div>
-                     <div class="modal-body">
-                        <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
-                     </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            
-            <div class="modal fade confirmPopup" tabindex="-1" role="dialog">
-               <div class="modal-dialog  modal-sm" role="document">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Delete Sub Category</h4>
-                     </div>
-                     <div class="modal-body">
-                        Do you want to Delete Sub Category?
-                     </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" ng-click="deleteSubCat(subCatData)">Delete</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     </div>
-                  </div>
-               </div>
-            </div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" title="Respond" class="btn btn-danger" data-target=".confirmPopup" ng-click="postReqRespond(requirementDetails, selectedValue.status, requirementDates)" ng-disabled="postRequirementForm.$invalid">Respond</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+      <!-- /.modal-content -->
+   </div>
+</div>
+<!-- Success Message Popup -->
+<div class="modal fade successPopup" id="SuccessModal" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Success</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-check fa-3x"></i><span>{{success}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Error Message Popup -->
+<div class="modal fade" id="ErrdealModal" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Error</h4>
+         </div>
+         <div class="modal-body">
+            <p><i class="fa fa-warning fa-3x"></i><span>{{failure}}</span></p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Delete Confirmation Popup -->
+<div class="modal fade confirmPopup" tabindex="-1" role="dialog">
+   <div class="modal-dialog  modal-sm" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Delete Sub Category</h4>
+         </div>
+         <div class="modal-body">
+            Do you want to Delete Sub Category?
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-danger" ng-click="deleteSubCat(subCatData)">Delete</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
          </div>
       </div>
    </div>

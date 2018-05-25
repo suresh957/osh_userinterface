@@ -13,6 +13,8 @@ angular.module('newapp')
         value: "Product"
       }
     ];
+	$scope.page=1;
+	$scope.pagingincrement=false;
 	$window.scrollTo(0, 0);
     /**** Get Search Response ****/
     var shresponse = sharedList.getList();
@@ -37,15 +39,44 @@ angular.module('newapp')
 				var request = {code: "Civil"};
 				$http.post(resturl+"/getVendorsList?pageNumber=1&pageSize=5",request).then(function(resp){
 					console.log(resp);
+					$scope.pagingincrement=false;
+				$scope.pagingnormal=true;
 					$scope.vendorCategoryData = resp.data.responseData;
 					$scope.vendorcatCount = resp.data.paginationData.totalCount;
+					 $scope.totalCount = $scope.vendorcatCount ;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}
 				});
 				$scope.page = 1;
 				$scope.vendorByCategoryPaging = function(page, pageSize, total){
 					$http.post(resturl+"/getVendorsList?pageNumber="+page+"&pageSize=5",request).then(function(resp){
 						console.log(resp);
+							$scope.pagingincrement=true;
+				$scope.pagingnormal=false;
 						$scope.vendorCategoryData = resp.data.responseData;
 						$scope.vendorcatCount = resp.data.paginationData.totalCount;
+						 $scope.totalCount = $scope.vendorcatCount;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					$scope.pagedropSize=$scope.pageSize*$scope.currentPage;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}
+					if($scope.currentPage == 2){
+					$scope.currentdropPage =$scope.pageSize+1;
+					}else if($scope.currentPage == 1){
+						$scope.currentdropPage = $scope.currentPage;
+					}else{
+					$scope.currentdropPage = ($scope.pagedropSize+1) - $scope.pageSize;
+					}
+					if($scope.totalCount<$scope.pagedropSize){
+						$scope.pagedropSize=$scope.totalCount;	
+					}
 					});
 					$window.scrollTo(0, 0);
 				};
@@ -59,15 +90,44 @@ angular.module('newapp')
 				var request = {code: subCatTitle};
 				$http.post(resturl+"/getVendorsList?pageNumber=1&pageSize=5",request).then(function(resp){
 					console.log(resp);
+						$scope.pagingincrement=false;
+				        $scope.pagingnormal=true;
 					$scope.vendorCategoryData = resp.data.responseData;
 					$scope.vendorcatCount = resp.data.paginationData.totalCount;
+					 $scope.totalCount = $scope.vendorcatCount ;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}
 				});
 				$scope.page = 1;
 				$scope.vendorByCategoryPaging = function(page, pageSize, total){
 					$http.post(resturl+"/getVendorsList?pageNumber="+page+"&pageSize=5",request).then(function(resp){
 						console.log(resp);
+						$scope.pagingincrement=true;
+				        $scope.pagingnormal=false;
 						$scope.vendorCategoryData = resp.data.responseData;
 						$scope.vendorcatCount = resp.data.paginationData.totalCount;
+						 $scope.totalCount = $scope.vendorcatCount;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					$scope.pagedropSize=$scope.pageSize*$scope.currentPage;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}
+					if($scope.currentPage == 2){
+					$scope.currentdropPage =$scope.pageSize+1;
+					}else if($scope.currentPage == 1){
+						$scope.currentdropPage = $scope.currentPage;
+					}else{
+					$scope.currentdropPage = ($scope.pagedropSize+1) - $scope.pageSize;
+					}
+					if($scope.totalCount<$scope.pagedropSize){
+						$scope.pagedropSize=$scope.totalCount;	
+					}
 					});
 					$window.scrollTo(0, 0);
 				};
@@ -190,9 +250,17 @@ angular.module('newapp')
 						$scope.categoryResults[0].subCategory[0].checked = true;
 						$scope.subTitle = $scope.categoryResults[0].subCategory[0].title;
 						$http.get(resturl+"/categories/"+subCatTitle+"?pageNumber=1&pageSize=15").then(function (resp) {
+							$scope.pagingincrement=false;
+				        $scope.pagingnormal=true;
 							console.log(resp);
 							$scope.productsByCategory = resp.data.responseData;
 							$scope.prodByCatCount = resp.data.paginationData.totalCount;
+							$scope.totalCount=$scope.prodByCatCount;
+							 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
 						});
 						$scope.showCategoryResponse = true;
 						$scope.showBrandResponse = false;
@@ -205,9 +273,17 @@ angular.module('newapp')
 								$scope.categoryResults[m].subCategory[j].checked = true;
 								$scope.subTitle = $scope.categoryResults[m].subCategory[j].title;
 								$http.get(resturl+"/categories/"+subCatTitle+"?pageNumber=1&pageSize=15").then(function (resp) {
+									$scope.pagingincrement=false;
+				                   $scope.pagingnormal=true;
 									console.log(resp);
 									$scope.productsByCategory = resp.data.responseData;
 									$scope.prodByCatCount = resp.data.paginationData.totalCount;
+									$scope.totalCount=$scope.prodByCatCount;
+									 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
 								});
 								$scope.showCategoryResponse = true;
 								$scope.showBrandResponse = false;
@@ -218,12 +294,33 @@ angular.module('newapp')
 						$scope.page=1;
 						$scope.prodByCategoryPaging = function(page, pageSize, total) {
 							$http.get(resturl+"/categories/"+subCatTitle+"?pageNumber="+page+"&pageSize=15").then(function (resp) {
+									$scope.pagingincrement=true;
+				                   $scope.pagingnormal=false;
 								console.log(resp);
 								$scope.productsByCategory = resp.data.responseData;
 								$scope.prodByCatCount = resp.data.paginationData.totalCount;
+								$scope.totalCount=$scope.prodByCatCount;
+								$scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					$scope.pagedropSize=$scope.pageSize*$scope.currentPage;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}
+					if($scope.currentPage == 2){
+					$scope.currentdropPage =$scope.pageSize+1;
+					}else if($scope.currentPage == 1){
+						$scope.currentdropPage = $scope.currentPage;
+					}else{
+					$scope.currentdropPage = ($scope.pagedropSize+1) - $scope.pageSize;
+					}
+					if($scope.totalCount<$scope.currentdropPage){
+						$scope.currentdropPage=$scope.totalCount;	
+					}
 							});
 							$window.scrollTo(0, 0);
-						}
+						};
 					}
 				}
 			}
@@ -233,6 +330,8 @@ angular.module('newapp')
 		else {
           $scope.noResults = shresponse[0].searchparamSelected;
           $scope.noReultsMessage = true;
+		  $scope.pagingincrement=false;
+				        $scope.pagingnormal=false;
         }
       }
 	  // Brand Search Response Buinding //
@@ -260,10 +359,18 @@ angular.module('newapp')
               filterIds : $scope.filterIds
             };
             console.log(request);
-            $http.post(resturl+"/getProductsByFilters?pageNumber=1&pageSize=1",request).then(function (resp) {
+            $http.post(resturl+"/getProductsByFilters?pageNumber=1&pageSize=15",request).then(function (resp) {
+				$scope.pagingincrement=false;
+				        $scope.pagingnormal=true;
               console.log(resp);
               $scope.productsRespByFilters = resp.data.filteredProducts;
               $scope.filterProdCount = resp.data.paginationData.totalCount;
+			   $scope.totalCount=$scope.filterProdCount;
+			   $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
             });
           }
 		  else {
@@ -274,10 +381,18 @@ angular.module('newapp')
               filterIds : $scope.filterIds
             };
             console.log(request);
-            $http.post(resturl + "/getProductsByFilters?pageNumber=1&pageSize=1", request).then(function (resp) {
+            $http.post(resturl + "/getProductsByFilters?pageNumber=1&pageSize=15", request).then(function (resp) {
+				$scope.pagingincrement=false;
+				        $scope.pagingnormal=true;
               console.log(resp);
               $scope.productsRespByFilters = resp.data.filteredProducts;
               $scope.filterProdCount = resp.data.paginationData.totalCount;
+			  $scope.totalCount=$scope.filterProdCount;
+			   $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
             });
           }
         }
@@ -285,22 +400,72 @@ angular.module('newapp')
 		else {
           $scope.noResults = shresponse[0].searchparamSelected;
           $scope.noReultsMessage = true;
+		  $scope.pagingincrement=false;
+				        $scope.pagingnormal=false;
         }
       }
 	  // Product Search Response Buinding //
 	  else {
 		// Products Data Available //
         if (shresponse[0].filteredProducts[0] != undefined) {
+			console.log(shresponse[0].searchparamSelected);
           $scope.getsearchResults = shresponse[0].filteredProducts;
+		  console.log($scope.getsearchResults);
+		  $scope.pagingincrement=false;
+		  $scope.pagingnormal=true;
+		  $scope.totalCount = shresponse[0].paginationData.totalCount;
+		                //  $scope.totalCount = $scope.totalCount;
+		   $scope.currentPage = shresponse[0].paginationData.currentPage;
+                    $scope.pageSize = shresponse[0].paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
           $scope.showCategoryResponse = false;
           $scope.showBrandResponse = false;
           $scope.showProductResponse = true;
           $scope.showvendorResponse = false;
-        }
+		  
+		  $scope.page=1;
+		  $scope.prodBySearchPaging=function(page, pageSize, total){
+			var searchRequest = {
+				searchString : shresponse[0].searchparamSelected
+			};
+			$http.post(resturl+"/getProductsBySearch" + "?" + "pageNumber=" + page + "&pageSize=15", searchRequest).then(function(response){
+				 $scope.pagingincrement=true;
+		  $scope.pagingnormal=false;
+			$scope.getsearchResults=response.data.filteredProducts;
+			$scope.totalCount = response.data.paginationData.totalCount;
+			//$scope.totalCount=$scope.searchProdCount;
+								$scope.currentPage = response.data.paginationData.currentPage;
+                    $scope.pageSize = response.data.paginationData.pageSize;
+					$scope.pagedropSize=$scope.pageSize*$scope.currentPage;
+					 $scope.currentPage = response.data.paginationData.currentPage;
+                   // $scope.pageSize = response.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}
+					if($scope.currentPage == 2){
+					$scope.currentdropPage =$scope.pageSize+1;
+					}else if($scope.currentPage == 1){
+						$scope.currentdropPage = $scope.currentPage;
+					}else{
+					$scope.currentdropPage = ($scope.pagedropSize+1) - $scope.pageSize;
+					}
+					if($scope.totalCount<$scope.pagedropSize){
+						$scope.pagedropSize=$scope.totalCount;	
+					}
+			});
+		  };
+		  
+		  
+		  
+		}
 		// Products Data Not Available //
 		else {
           $scope.noResults = shresponse[0].searchparamSelected;
           $scope.noReultsMessage = true;
+		  $scope.pagingincrement=false;
+		 $scope.pagingnormal=false;
         }
       }
     }
@@ -308,6 +473,9 @@ angular.module('newapp')
 	else {
       $scope.noResults = shresponse[0].searchparamSelected;
       $scope.noReultsMessage = true;
+	  $scope.pagingincrement=false;
+	$scope.pagingnormal=false;
+	  
       console.log($scope.noResults);
       console.log("Else Block");
       $scope.getsearchResults = "";
@@ -335,8 +503,8 @@ angular.module('newapp')
         return {
           "background-image": "url(/clients/onesevenhome/img/" + $scope.bgimg + ".jpg)"
         };
-      }
-    }
+      };
+    };
     $scope.searchProducts = function (searchSelected, searchType) {
       console.log(searchSelected);
       if (searchType == "Category") {
@@ -373,8 +541,15 @@ angular.module('newapp')
 				}
 				else{
 					$http.get(resturl+"/categories/"+$scope.subCategoryTitle + "?pageNumber=1&pageSize=15").then(function (resp) {
+						$scope.pagingincrement=false;
+				        $scope.pagingnormal=true;
 						$scope.productsByCategory = resp.data.responseData;
 						$scope.prodByCatCount = resp.data.paginationData.totalCount;
+						 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.prodByCatCount<$scope.pageSize){
+						$scope.pageSize=$scope.prodByCatCount;
+					}
 						console.log($scope.productsByCategory);
 						$(".menu-search input").val("");
 						// cat pagination
@@ -387,7 +562,7 @@ angular.module('newapp')
 								$(".menu-search input").val("");
 							});
 							$window.scrollTo(0, 0);
-						}
+						};
 					});
 					$scope.showCategoryResponse = false;
 					$scope.showBrandResponse = false;
@@ -398,6 +573,8 @@ angular.module('newapp')
 			else{
 				$scope.noResults = searchSelected;
 				$scope.noReultsMessage = true;
+				$scope.pagingincrement=false;
+				        $scope.pagingnormal=false;
 				$scope.categoryResults = "";
 				$scope.productsByCategory = "";
 				$scope.prodByCatCount = 0;
@@ -424,14 +601,25 @@ angular.module('newapp')
 				console.log(request);
 				$http.post(resturl + "/getProductsByFilters?pageNumber=1&pageSize=15", request).then(function (resp) {
 					console.log(resp);
+					$scope.pagingincrement=false;
+				        $scope.pagingnormal=true;
 					$scope.productsRespByFilters = resp.data.filteredProducts;
 					$scope.filterProdCount = resp.data.paginationData.totalCount;
+					          $scope.totalCount = $scope.filterProdCount;
+						 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
+					
 					$(".menu-search input").val("");
 				});
 			}
 			else{
 				$scope.noResults = searchSelected;
 				$scope.noReultsMessage = true;
+				$scope.pagingincrement=false;
+				        $scope.pagingnormal=false;
 				$scope.brandResults = "";
 				$scope.productsRespByFilters = "";
 				$scope.filterProdCount = 0;
@@ -462,12 +650,14 @@ angular.module('newapp')
 				else{
 					$scope.noResults = searchSelected;
 					$scope.noReultsMessage = true;
+					$scope.pagingincrement=false;
+				        $scope.pagingnormal=false;
 					$scope.getsearchResults = "";
 					$(".menu-search input").val("");
 				}
 			});
         }
-    }
+    };
 
     $scope.searchitems = function (searchSelected, keyEvent, searchType) {
       if (keyEvent.which === 13) {
@@ -494,8 +684,16 @@ angular.module('newapp')
 					var request = {code : $scope.subCategoryTitle};
 					$http.post(resturl+"/getVendorsList?pageNumber=1&pageSize=5",request).then(function(resp){
 						console.log(resp);
+						$scope.pagingincrement=false;
+				$scope.pagingnormal=true;
 						$scope.vendorCategoryData = resp.data.responseData;
-						$scope.vendorcatCount = resp.data.paginationData.totalCount;	
+						$scope.vendorcatCount = resp.data.paginationData.totalCount;
+                        $scope.totalCount = $scope.vendorcatCount ;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}						
 						for(a=0; a<$scope.categoryResults.length; a++){
 							for(b=0; b<$scope.categoryResults[a].subCategory.length; b++){
 								if($scope.categoryResults[a].subCategory[b].title == $scope.subCategoryTitle){
@@ -507,8 +705,15 @@ angular.module('newapp')
 				}
 				else{
 					$http.get(resturl+"/categories/"+$scope.subCategoryTitle+"?pageNumber=1&pageSize=15").then(function (resp) {
+						$scope.pagingincrement=false;
+				        $scope.pagingnormal=true;
 						$scope.productsByCategory = resp.data.responseData;
 						$scope.prodByCatCount = resp.data.paginationData.totalCount;
+						 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.prodByCatCount<$scope.pageSize){
+						$scope.pageSize=$scope.prodByCatCount;
+					}
 						console.log($scope.productsByCategory);
 						$(".menu-search input").val("");
 						$scope.categoryResults[0].subCategory[0].checked = true;
@@ -523,6 +728,8 @@ angular.module('newapp')
 			else{
 				$scope.noResults = searchSelected;
 				$scope.noReultsMessage = true;
+				$scope.pagingincrement=false;
+				        $scope.pagingnormal=false;
 				$scope.categoryResults = "";
 				$scope.productsByCategory = "";
 				$scope.prodByCatCount = 0;
@@ -548,14 +755,25 @@ angular.module('newapp')
 				console.log(request);
 				$http.post(resturl + "/getProductsByFilters?pageNumber=1&pageSize=15", request).then(function (resp) {
 					console.log(resp);
+					$scope.pagingincrement=false;
+		       $scope.pagingnormal=true;
 					$scope.productsRespByFilters = resp.data.filteredProducts;
 					$scope.filterProdCount = resp.data.paginationData.totalCount;
+			$scope.totalCount = $scope.filterProdCount;
+			 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
+					
 					$(".menu-search input").val("");
 				});
 			}
 			else{
 				$scope.noResults = searchSelected;
 				$scope.noReultsMessage = true;
+				$scope.pagingincrement=false;
+		       $scope.pagingnormal=false;
 				$scope.brandResults = "";
 				$scope.productsRespByFilters = "";
 				$scope.filterProdCount = 0;
@@ -577,22 +795,81 @@ angular.module('newapp')
 			var searchRequest = {
 				searchString: searchSelected
 			};
-			$http.post(resturl + "/getProductsBySearch", searchRequest).then(function (response) {
+			$http.post(resturl + "/getProductsBySearch" + "?" + "pageNumber=1&pageSize=15", searchRequest).then(function (response) {
 				if(response.data.filteredProducts[0] != undefined){
 					$scope.noReultsMessage = false;
+					$scope.pagingincrement=false;
+		       $scope.pagingnormal=true;
 					$scope.getsearchResults = response.data.filteredProducts;
+					 if (response.data.paginationData == null) {
+                    $scope.totalCount = 0;
+                    $scope.getsearchResults = "";
+                }
+							$scope.totalCount = response.data.paginationData.totalCount;
+			//$scope.totalCount = $scope.filterProdCount;
+			 $scope.currentPage = response.data.paginationData.currentPage;
+                    $scope.pageSize = response.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
 					$(".menu-search input").val("");
 				}
 				else{
 					$scope.noResults = searchSelected;
 					$scope.noReultsMessage = true;
+					$scope.pagingincrement=false;
+				        $scope.pagingnormal=false;
 					$scope.getsearchResults = "";
 					$(".menu-search input").val("");
 				}
 			});
+			
+			
+			$scope.page = 1;
+			$scope.prodBySearchPaging = function(page, pageSize, total){
+				var searchRequest = {
+				searchString: searchSelected
+			};
+			$http.post(resturl + "/getProductsBySearch" + "?" + "pageNumber="+page+"&pageSize=15", searchRequest).then(function (response) {
+				if(response.data.filteredProducts[0] != undefined){
+					$scope.noReultsMessage = false;
+					$scope.pagingincrement=true;
+		       $scope.pagingnormal=false;
+					$scope.getsearchResults = response.data.filteredProducts;
+					 if (response.data.paginationData == null) {
+                    $scope.totalCount = 0;
+                    $scope.getsearchResults = "";
+                }
+				$scope.totalCount = response.data.paginationData.totalCount;
+				$scope.pageSize = response.data.paginationData.pageSize;
+                    $scope.currentPage = response.data.paginationData.currentPage;
+					$scope.pagedropSize=$scope.pageSize*$scope.currentPage;
+					if($scope.currentPage == 2){
+					$scope.currentdropPage =$scope.pageSize+1;
+					}else if($scope.currentPage == 1){
+						$scope.currentdropPage = $scope.currentPage;
+					}else{
+					$scope.currentdropPage = ($scope.pagedropSize+1) - $scope.pageSize;
+					}
+					if($scope.totalCount<$scope.pagedropSize){
+						$scope.pagedropSize=$scope.totalCount;	
+					}
+					$(".menu-search input").val("");
+				}
+				else{
+					$scope.noResults = searchSelected;
+					$scope.noReultsMessage = true;
+					$scope.pagingincrement=false;
+				        $scope.pagingnormal=false;
+					$scope.getsearchResults = "";
+					$(".menu-search input").val("");
+				}
+			});
+		};
+			
         }
       }
-    }
+    };
 
     if (localStorage.loggedInuserId == undefined) {
       $scope.lengthofcart = 0;
@@ -627,8 +904,16 @@ angular.module('newapp')
 		  console.log(request);
 		  $http.post(resturl+"/getVendorsList?pageNumber=1&pageSize=5",request).then(function(resp){
 			console.log(resp);
+			$scope.pagingincrement=false;
+				$scope.pagingnormal=true;
 			$scope.vendorCategoryData = resp.data.responseData;
 			$scope.vendorcatCount = resp.data.paginationData.totalCount;
+			  $scope.totalCount = $scope.vendorcatCount;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}
 		  });
 		  $scope.showCategoryResponse = false;
 		  $scope.showBrandResponse = false;
@@ -637,9 +922,18 @@ angular.module('newapp')
 	  }
 	  else {
 		$http.get(resturl+"/categories/"+$scope.subCatTitle+"?pageNumber=1&pageSize=15").then(function (resp) {
+			$scope.pagingincrement=false;
+				        $scope.pagingnormal=true;
 			console.log(resp);
 			$scope.productsByCategory = resp.data.responseData;
 			$scope.prodByCatCount = resp.data.paginationData.totalCount;
+			$scope.totalCount = $scope.prodByCatCount;
+			 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
+			
 		});
 		  $scope.subCategoryTitle = $scope.subCatTitle;
 		  $scope.showCategoryResponse = true;
@@ -647,24 +941,45 @@ angular.module('newapp')
 		  $scope.showProductResponse = false;
 		  $scope.showVendorResponse = false;
 	  }
-	}
+	};
     $scope.prodByCategoryPaging = function (page, pageSize, total) {
 		console.log($scope.subCategoryTitle);
-		$http.get(resturl + "/categories/"+$scope.subCategoryTitle + "?pageNumber=" + page + "&pageSize=15").then(function (resp) {
+		$http.get(resturl + "/categories/"+$scope.subCategoryTitle + "?pageNumber=" + page + "&pageSize=15").then(function (resp){ 
+		    $scope.pagingincrement=true;
+				$scope.pagingnormal=false;
 			console.log(resp);
 			$scope.productsByCategory = resp.data.responseData;
 			$scope.prodByCatCount = resp.data.paginationData.totalCount;
+			$scope.totalCount = $scope.prodByCatCount;
+			$scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					$scope.pagedropSize=$scope.pageSize*$scope.currentPage;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    //$scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}
+					if($scope.currentPage == 2){
+					$scope.currentdropPage =$scope.pageSize+1;
+					}else if($scope.currentPage == 1){
+						$scope.currentdropPage = $scope.currentPage;
+					}else{
+					$scope.currentdropPage = ($scope.pagedropSize+1) - $scope.pageSize;
+					}
+					if($scope.totalCount<$scope.pagedropSize){
+						$scope.pagedropSize=$scope.totalCount;	
+					}
 		});
 		$scope.showCategoryResponse = true;
 		$scope.showBrandResponse = false;
 		$scope.showProductResponse = false;
 		$scope.showVendorResponse = false;
 		$window.scrollTo(0, 0);
-	}
+	};
     $scope.filterCheck = function (filparam, paramval) {
-      console.log(filparam, paramval)
+      console.log(filparam, paramval);
       if (paramval == true)
-        $scope.filterIds.push(filparam)
+        $scope.filterIds.push(filparam);
       else {
         $scope.filterIds = jQuery.grep($scope.filterIds, function (a) {
           return a !== filparam;
@@ -676,8 +991,17 @@ angular.module('newapp')
       console.log(request);
       $http.post(resturl+"/getProductsByFilters?pageNumber=1&pageSize=15", request).then(function (resp) {
         console.log(resp);
+		  $scope.pagingincrement=false;
+				$scope.pagingnormal=true;
         $scope.productsRespByFilters = resp.data.filteredProducts;
         $scope.filterProdCount = resp.data.paginationData.totalCount;
+		$scope.totalCount = $scope.filterProdCount;
+			 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
+		
       });
     };
     $scope.prodByFilterPaging = function (page, pageSize, total) {
@@ -686,10 +1010,187 @@ angular.module('newapp')
       };
       $http.post(resturl+"/getProductsByFilters?pageNumber="+page+"&pageSize=15", request).then(function (resp) {
         console.log(resp);
+		  $scope.pagingincrement=true;
+				$scope.pagingnormal=false;
         $scope.productsRespByFilters = resp.data.filteredProducts;
         $scope.filterProdCount = resp.data.paginationData.totalCount;
+       $scope.totalCount = $scope.filterProdCount;
+		$scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					$scope.pagedropSize=$scope.pageSize*$scope.currentPage;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    //$scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}
+					if($scope.currentPage == 2){
+					$scope.currentdropPage =$scope.pageSize+1;
+					}else if($scope.currentPage == 1){
+						$scope.currentdropPage = $scope.currentPage;
+					}else{
+					$scope.currentdropPage = ($scope.pagedropSize+1) - $scope.pageSize;
+					}
+					if($scope.totalCount<$scope.pagedropSize){
+						$scope.pagedropSize=$scope.totalCount;	
+					}
       });
-    }
+    };
+	
+	// On Seearch Select Method //
+	$scope.onSelect = function(searchSelected, $item, $model, $label, $event, searchType){
+		console.log(searchSelected, $item, $model, $label, $event, searchType);
+		$(".menu-search input").val("");
+        $(".menu-search .input > .fa").trigger("click");
+		if (searchType == "Category") {
+          var request = {
+            searchString: searchSelected
+          };
+          $http.post(resturl+"/getProductByCategorySelection", request).then(function (resp) {
+            console.log(resp);
+			if(resp.data.categoryData != null ){
+				$scope.noReultsMessage = false;
+				$scope.categoryResults = resp.data.categoryData;
+				$scope.categoryTitle = resp.data.categoryData[0].title.replace(/ /g, "_");
+				$scope.subCategoryTitle = resp.data.categoryData[0].subCategory[0].title.replace(/ /g, "_");
+				if($scope.categoryTitle == "Architects" || $scope.categoryTitle == "Machinery_&_Equipment" || $scope.categoryTitle == "Wall_Paper"){
+					$scope.categoryResults[0].subCategory[0].checked = true;
+					$scope.showVendorResponse = true;
+					$scope.showCategoryResponse = false;
+					$scope.showBrandResponse = false;
+					$scope.showProductResponse = false;
+					var request = {code : $scope.subCategoryTitle};
+					$http.post(resturl+"/getVendorsList?pageNumber=1&pageSize=5",request).then(function(resp){
+						console.log(resp);
+						$scope.pagingincrement=false;
+				$scope.pagingnormal=true;
+						$scope.vendorCategoryData = resp.data.responseData;
+						$scope.vendorcatCount = resp.data.paginationData.totalCount;
+						
+						 $scope.totalCount = $scope.vendorcatCount;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize = $scope.totalCount;
+					}
+						for(a=0; a<$scope.categoryResults.length; a++){
+							for(b=0; b<$scope.categoryResults[a].subCategory.length; b++){
+								if($scope.categoryResults[a].subCategory[b].title == $scope.subCategoryTitle){
+									$scope.categoryResults[a].subCategory[b].checked = true;
+								}
+							}
+						}
+					});
+				}
+				else{
+					$http.get(resturl+"/categories/"+$scope.subCategoryTitle+"?pageNumber=1&pageSize=15").then(function (resp) {
+						$scope.pagingincrement=false;
+				        $scope.pagingnormal=true;
+						$scope.productsByCategory = resp.data.responseData;
+						$scope.prodByCatCount = resp.data.paginationData.totalCount;
+					 $scope.currentPage = resp.data.paginationData.currentPage;
+                    $scope.pageSize = resp.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
+						console.log($scope.productsByCategory);
+						$(".menu-search input").val("");
+						$scope.categoryResults[0].subCategory[0].checked = true;
+						$scope.showCategoryResponse = true;
+						$scope.showBrandResponse = false;
+						$scope.showProductResponse = false;
+						$scope.showVendorResponse = false;
+					});
+				}
+				// $location.path('/searchresults/'+$scope.categoryTitle+"/"+$scope.subCategoryTitle);
+			}
+			else{
+				$scope.noResults = searchSelected;
+				$scope.noReultsMessage = true;
+				$scope.pagingincrement=false;
+				        $scope.pagingnormal=false;
+				$scope.categoryResults = "";
+				$scope.productsByCategory = "";
+				$scope.prodByCatCount = 0;
+				$(".menu-search input").val("");
+			}
+          });
+        }
+		
+		// Brand Search From Search Results Page //
+		else if (searchType == "Brand") {
+          var request = {
+            searchFilterString: searchSelected
+          };
+          $http.post(resturl + "/getFiltersBySearch", request).then(function (resp) {
+            console.log(resp);
+			if(resp.data.filteredData[0] != undefined){
+				$scope.noReultsMessage = false;
+				$scope.brandResults = resp.data.filteredData;
+				$scope.brandResults[0].filterTypes[0].checked = true;
+				var request = {
+					"filterIds": [$scope.brandResults[0].filterTypes[0].filterTypeId]
+				};
+				console.log(request);
+				$http.post(resturl + "/getProductsByFilters?pageNumber=1&pageSize=15", request).then(function (resp) {
+					console.log(resp);
+					$scope.productsRespByFilters = resp.data.filteredProducts;
+					$scope.filterProdCount = resp.data.paginationData.totalCount;
+					$(".menu-search input").val("");
+				});
+			}
+			else{
+				$scope.noResults = searchSelected;
+				$scope.noReultsMessage = true;
+				$scope.pagingincrement=false;
+				        $scope.pagingnormal=false;
+				$scope.brandResults = "";
+				$scope.productsRespByFilters = "";
+				$scope.filterProdCount = 0;
+				$(".menu-search input").val("");
+			}
+          });
+          $scope.showCategoryResponse = false;
+          $scope.showBrandResponse = true;
+          $scope.showProductResponse = false;
+		  $scope.showvendorResponse = false;
+        }
+		// Products Search From Search Page //
+		else {
+			$scope.showCategoryResponse = false;
+			$scope.showBrandResponse = false;
+			$scope.showProductResponse = true;
+			$scope.showvendorResponse = false;
+			console.log(searchSelected);
+			var searchRequest = {
+				searchString: searchSelected
+			};
+			$http.post(resturl + "/getProductsBySearch", searchRequest).then(function (response) {
+				if(response.data.filteredProducts[0] != undefined){
+					$scope.noReultsMessage = false;
+					$scope.pagingincrement=false;
+		       $scope.pagingnormal=true;
+					$scope.getsearchResults = response.data.filteredProducts;
+					
+		  $scope.totalCount = response.data.paginationData.totalCount;
+		                //  $scope.totalCount = $scope.totalCount;
+		   $scope.currentPage = response.data.paginationData.currentPage;
+                    $scope.pageSize = response.data.paginationData.pageSize;
+					if($scope.totalCount<$scope.pageSize){
+						$scope.pageSize=$scope.totalCount;
+					}
+					$(".menu-search input").val("");
+				}
+				else{
+					$scope.noResults = searchSelected;
+					$scope.noReultsMessage = true;
+					$scope.pagingincrement=false;
+		       $scope.pagingnormal=false;
+					$scope.getsearchResults = "";
+					$(".menu-search input").val("");
+				}
+			});
+        }
+	};
 	
 	$http.get(resturl+"/getRecommendedProduct").then(function(resp) {
 		console.log(resp);
@@ -779,6 +1280,4 @@ angular.module('newapp')
 			}
 		}]};
 	});
-	
-	
 });

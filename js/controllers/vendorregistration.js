@@ -1,9 +1,10 @@
 angular.module('newapp')
-	.controller('vendorregCtrl', function ($scope, $http, $location, $route, resturl,$rootScope) {
+	.controller('vendorregCtrl',['$scope', '$http', '$location', '$route', 'resturl','$rootScope', function ($scope, $http, $location, $route, resturl,$rootScope) {
 		$http.get(resturl + "/getAllCategories").then(function (resp) {
 			console.log(resp);
 			$scope.menuitem = resp.data.categoryData;
 		});
+		$scope.isDisabled = false;
 		$scope.typeOfSearch = [{
 				name: "Category",
 				value: "Category"
@@ -23,11 +24,11 @@ angular.module('newapp')
 				return {
 					"background-image": "url(/clients/onesevenhome/img/" + $scope.bgimg + ".jpg)"
 				};
-			}
-		}
+			};
+		};
 		$scope.alerthide = function () {
 			$scope.errmsg = false;
-		}
+		};
 		
 		$http.get(resturl+"/cart/displayCart?userId="+localStorage.loggedInuserId).then(function(resp){
 			console.log(resp);
@@ -58,15 +59,15 @@ angular.module('newapp')
 				$http.get(resturl + "/services").then(function (resp) {
 					var resparr = resp.data.services;
 					for (var i = 0; i < resparr.length; i++) {
-						delete resparr[i]['imageURL1'];
-						delete resparr[i]['imageURL2'];
-						delete resparr[i]['description'];
-						delete resparr[i]['new'];
-						resparr[i].label = resparr[i]['serviceType']
-						delete resparr[i]['serviceType'];
+						delete resparr[i].imageURL1;
+						delete resparr[i].imageURL2;
+						delete resparr[i].description;
+						delete resparr[i].new;
+						resparr[i].label = resparr[i].serviceType;
+						delete resparr[i].serviceType;
 					}
 					$scope.example8data = resparr;
-					$scope.example8model = [$scope.example8data[0]]
+					$scope.example8model = [$scope.example8data[0]];
 				});
 			}
 			else if (param == "Architects") {
@@ -78,67 +79,67 @@ angular.module('newapp')
 					var resparr = $scope.menuitems[0].subCategory;
 					console.log(resparr);
 					for (var i = 0; i < resparr.length; i++) {
-						delete resparr[i]['type'];
-						resparr[i].label = resparr[i]['title']
-						delete resparr[i]['title'];
+						delete resparr[i].type;
+						resparr[i].label = resparr[i].title;
+						delete resparr[i].title;
 						$scope.example8data = resparr;
-						$scope.example8model = [$scope.example8data[0]]
+						$scope.example8model = [$scope.example8data[0]];
 						console.log($scope.example8data);
 					}
 				});
 			}
 			else if (param == "Machinery") {
-				var catpayload = {
+				$scope.catpayload = {
 					"searchString": "MACHINERY & EQUIPMENT"
 				};
-				$http.post(resturl + "/getCategoriesForCat", catpayload).then(function (resp) {
+				$http.post(resturl + "/getCategoriesForCat", $scope.catpayload).then(function (resp) {
 					$scope.menuitems = angular.copy(resp.data.categoryData);
 					var resparr = $scope.menuitems[0].subCategory;
 					console.log(resparr);
 					for (var i = 0; i < resparr.length; i++) {
-						delete resparr[i]['type'];
-						resparr[i].label = resparr[i]['title']
-						delete resparr[i]['title'];
+						delete resparr[i].type;
+						resparr[i].label = resparr[i].title;
+						delete resparr[i].title;
 						$scope.example8data = resparr;
-						$scope.example8model = [$scope.example8data[0]]
+						$scope.example8model = [$scope.example8data[0]];
 						console.log($scope.example8data);
 					}
 				});
 			}
 			else if (param == "Wallpaper") {
-				var catpayload = {
+				$scope.catpayload = {
 					"searchString": "WALL PAPER"
 				};
-				$http.post(resturl + "/getCategoriesForCat", catpayload).then(function (resp) {
+				$http.post(resturl + "/getCategoriesForCat", $scope.catpayload).then(function (resp) {
 					$scope.menuitems = angular.copy(resp.data.categoryData);
 					var resparr = $scope.menuitems[0].subCategory;
 					console.log(resparr);
 					for (var i = 0; i < resparr.length; i++) {
-						delete resparr[i]['type'];
-						resparr[i].label = resparr[i]['title']
-						delete resparr[i]['title'];
+						delete resparr[i].type;
+						resparr[i].label = resparr[i].title;
+						delete resparr[i].title;
 						$scope.example8data = resparr;
-						$scope.example8model = [$scope.example8data[0]]
+						$scope.example8model = [$scope.example8data[0]];
 						console.log($scope.example8data);
 					}
 				});
 			}
-		}
+		};
 		$scope.regvendor = function (vendor) {
 			vendor.userType = "VENDOR";
 			$scope.vendor.country = "India";
 			vendor.constFirm = vendor.vendorConstFirm;
 			delete vendor.vendorConstFirm;
-			console.log(vendor)
+			console.log(vendor);
 			registerapi(vendor);
-		}
+		};
 
 		$scope.Arcvendor = function (Architects) {
 			Architects.userType = "ARCHITECTS";
 			$scope.vendor.country = "India";
 			Architects.constFirm = Architects.vendorConstFirm;
 			delete Architects.vendorConstFirm;
-			console.log(Architects)
+			console.log(Architects);
 			var temparr = [];
 			for (i = 0; i < $scope.example8model.length; i++) {
 				temparr.push($scope.example8model[i].id);
@@ -147,14 +148,14 @@ angular.module('newapp')
 			console.log($scope.example8model);
 			console.log(Architects);
 			registerapi(Architects);
-		}
+		};
 
 		$scope.Machineryvendor = function (Machinery) {
 			Machinery.userType = "MACHINERY & EQUIPMENT";
 			$scope.vendor.country = "India";
 			Machinery.constFirm = Machinery.vendorConstFirm;
 			delete Machinery.vendorConstFirm;
-			console.log(Machinery)
+			console.log(Machinery);
 			var temparr = [];
 			for (i = 0; i < $scope.example8model.length; i++) {
 				temparr.push($scope.example8model[i].id);
@@ -163,13 +164,13 @@ angular.module('newapp')
 			console.log($scope.example8model);
 			console.log(Machinery);
 			registerapi(Machinery);
-		}
+		};
 		$scope.wallpapervendor = function (Wallpaper) {
 			Wallpaper.userType = "WALL PAPER";
 			$scope.vendor.country = "India";
 			Wallpaper.constFirm = Wallpaper.vendorConstFirm;
 			delete Wallpaper.vendorConstFirm;
-			console.log(Wallpaper)
+			console.log(Wallpaper);
 			var temparr = [];
 			for (i = 0; i < $scope.example8model.length; i++) {
 				temparr.push($scope.example8model[i].id);
@@ -177,12 +178,12 @@ angular.module('newapp')
 			Wallpaper.architectIds = temparr;
 			console.log($scope.example8model);
 			registerapi(Wallpaper);
-		}
+		};
 		$scope.regservices = function (services) {
 			services.userType = "SERVICE";
 			$scope.vendor.country = "India";
 			services.constFirm = services.vendorConstFirm;
-			delete services['vendorConstFirm'];
+			delete services['.vendorConstFirm'];
 			var temparr = [];
 			for (i = 0; i < $scope.example8model.length; i++) {
 				temparr.push($scope.example8model[i].id);
@@ -191,9 +192,10 @@ angular.module('newapp')
 			console.log($scope.example8model);
 			console.log(services);
 			registerapi(services);
-		}
+		};
 		/***** Register API Call ***/
 		function registerapi(vendor) {
+			$scope.isDisabled = true;
 			console.log(vendor);
 			$rootScope.vendorName = vendor.companyName;
 			$rootScope.usertype = vendor.userType;
@@ -231,13 +233,14 @@ angular.module('newapp')
 					$location.path('/conform');
 				} else {
 					$scope.errmsg = true;
+					$scope.isDisabled = false;
 					$location.path('/vendorreg');
 					$scope.errmessage = resp.errorMessage;
 				}
 			}).error(function (data, status, headers, config) {
 				$location.path('/vendorreg');
 			});
-		};
+		}
 			// Page Navigation To Top Functionality //
 	jQuery(window).scroll(function() {
 		if (jQuery(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
@@ -251,7 +254,7 @@ angular.module('newapp')
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-	});
+	}]);
 newapp.directive('uploadFiles', function () {
 	return {
 		//create a new scope

@@ -1,5 +1,5 @@
 angular.module('newapp') 
-  .controller('ContactCtrl', function ($scope,$http, $location,resturl) {
+  .controller('ContactCtrl',['$scope','http', '$location','resturl', function ($scope,$http, $location,resturl) {
 	  $scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
@@ -16,7 +16,7 @@ angular.module('newapp')
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -52,4 +52,4 @@ angular.module('newapp')
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-});
+}]);

@@ -1,5 +1,5 @@
 angular.module('newapp') 
-  .controller('conformCtrl', function ($scope,$http, $location,$window,resturl,$rootScope) {
+  .controller('conformCtrl',['$scope','$http', '$location','$window','resturl','$rootScope', function ($scope,$http, $location,$window,resturl,$rootScope) {
 	 if ($rootScope.usertype == undefined){
 		 $scope.custmor = true;
 		 $scope.vendor = false;
@@ -28,7 +28,7 @@ angular.module('newapp')
 	$scope.logout = function (){
 		localStorage.clear();
 		$location.path('/login');
-	}
+	};
 	$scope.myProfile = function () {
 		$location.path('/myaccount');
 	};
@@ -52,4 +52,4 @@ angular.module('newapp')
 		}
 	});
 
-});
+}]);
