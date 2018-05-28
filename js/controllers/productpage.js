@@ -48,8 +48,8 @@ angular.module('newapp')
 			for (var i = 0; i < numbers1.length; i++) {
 				var obj = {};
 				var split = numbers1[i].split('*');
-				obj['title'] = split[0];
-				obj['value'] = split[1];
+				obj['.title'] = split[0];
+				obj['.value'] = split[1];
 				$scope.array.push(obj);
 			}
 			console.log($scope.array);
@@ -127,7 +127,7 @@ angular.module('newapp')
 				$scope.totalreview=resp.data.totalRatingCount;
 				$scope.ratings = [{number:$scope.averagereview}];
 			});
-			if(resp.data.status = true){
+			if(resp.data.status == true){
 				$scope.successMsg = resp.data.message;
 				$('.successPopup').modal('show');
 			}
@@ -213,7 +213,7 @@ angular.module('newapp')
 		if ($(".vendorCheck").is(':checked')) {
 		var id = $("#del_event").removeAttr('disabled');
 		}else{
-			var id =  $('#del_event').attr('disabled', 'disabled');
+			  $('#del_event').attr('disabled', 'disabled');
 		}
 		angular.forEach(pagep, function(pagedesc, index) {
 		if (position != index)

@@ -1,5 +1,5 @@
 angular.module('newapp') 
-  .controller('postrequirectrl', function ($scope,$http, $location,resturl) {
+  .controller('postrequirectrl',['$scope', '$http','$location','$routeParams','$filter','resturl', function ($scope,$http, $location,resturl) {
 	$(".login-btn").click(function(){
 		$(".myprofile-block").toggle();
 	});
@@ -118,4 +118,4 @@ angular.module('newapp')
 			scrollTop : 0                       // Scroll to top of body
 		}, 500);
 	});
-});
+}]);

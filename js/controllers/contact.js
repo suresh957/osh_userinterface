@@ -1,5 +1,5 @@
 angular.module('newapp') 
-  .controller('ContactCtrl',['$scope','http', '$location','resturl', function ($scope,$http, $location,resturl) {
+  .controller('ContactCtrl',['$scope','$http', '$location','resturl', function ($scope,$http, $location,resturl) {
 	  $scope.typeOfSearch = [
 		{name : "Category", value : "Category"},
 		{name : "Brand", value : "Brand"},
